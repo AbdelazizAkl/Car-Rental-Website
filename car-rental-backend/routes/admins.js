@@ -53,7 +53,6 @@ router.delete('/:id', async (req, res) => {
     }
   } catch (error) {
     // Handle errors appropriately
-    console.log(error);
     res.status(400).json({ error: 'Failed to delete admin' });
   }
 });

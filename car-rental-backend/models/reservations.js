@@ -16,6 +16,10 @@ const reservations = {
     status: '',
     paymentDetails: '',
 
+    create(data) {
+        return pool.query('INSERT INTO reservations SET ?', data);
+    },
+
 
     findAll(options = {}) {
         return pool.query('SELECT * FROM reservations WHERE ?', options);

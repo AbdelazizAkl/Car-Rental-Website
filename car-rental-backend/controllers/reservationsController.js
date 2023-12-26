@@ -15,14 +15,14 @@ router.get('/', async (req, res) => {
 
 // Create a reservation
 router.post('/', async (req, res) => {
-  try {
-    const newReservation = new Reservations(req.body);
-    await newReservation.create();
-    res.status(201).json(newReservation);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+    try {
+      const newReservation = new Reservations(req.body);
+      await newReservation.create();
+      res.status(201).json(newReservation);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 
 // Get a reservation by ID
 router.get('/:id', async (req, res) => {
@@ -48,9 +48,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete a reservation
-router.delete('/:id', async (req, res) => {
-  try {
-    await Reservations.delete(req.params.id);
-    res.json({ message: 'Reservation deleted successfully' });
-  }
+module.exports = router;
+
+

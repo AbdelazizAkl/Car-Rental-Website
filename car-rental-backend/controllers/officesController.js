@@ -5,13 +5,13 @@ const Offices = require('../models/offices');
 
 // Get all offices
 router.get('/', async (req, res) => {
-  try {
-    const offices = await Offices.findAll();
-    res.json(offices);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    try {
+      const offices = await Offices.findAll();
+      res.json(offices);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
 
 // Create an office
 router.post('/', async (req, res) => {

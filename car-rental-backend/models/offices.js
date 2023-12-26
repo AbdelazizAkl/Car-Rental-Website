@@ -6,7 +6,7 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME
 });
 
-const office = {
+const offices = {
     officeId: 0,
     name: '',
     city: '',
@@ -37,4 +37,4 @@ const office = {
   
 };
 
-module.exports = Office;
+module.exports = offices;

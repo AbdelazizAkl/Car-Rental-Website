@@ -36,7 +36,6 @@ router.post('/', async (req, res) => {
     res.status(201).json(admin);
   } catch (error) {
     // Handle errors appropriately
-    console.log(error);
     res.status(400).json({ error: 'Failed to create admin' });
   }
 });

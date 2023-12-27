@@ -1,16 +1,25 @@
+import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
-  children: string;
+  children: ReactNode;
   color: string;
-  onClick: () => void;
+  to?: string; // Make to optional
+  onClick?: () => void; // Add onClick
 }
 
-const Button = ({ children, onClick, color }: Props) => {
+const Button = ({ children, color, to, onClick }: Props) => {
   return (
-    <button className={"btn btn-" + color} onClick={onClick}>
-      {children}
-    </button>
+    // Conditionally render Link or button based on to prop
+    to ? (
+      <Link to={to} className={"btn btn-" + color}>
+        {children}
+      </Link>
+    ) : (
+      <button className={"btn btn-" + color} onClick={onClick}>
+        {children}
+      </button>
+    )
   );
 };
 

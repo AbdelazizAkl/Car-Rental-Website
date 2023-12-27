@@ -11,7 +11,7 @@ function App() {
   return (
     <div>
       <TextFields
-        label={"Email"}
+        label={"Emaill"}
         type="email"
         placeholder="Enter your email"
         value={email}

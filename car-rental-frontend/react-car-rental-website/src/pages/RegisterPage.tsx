@@ -68,7 +68,7 @@ function App() {
       <TextFields
         label="Confirm Password"
         type="password"
-        placeholder="Renter your password"
+        placeholder="Re-enter your password"
         value={confirmPassword}
         onChange={(event) => setConfirmedPassword(event.target.value)} // Corrected onChange handler
       />

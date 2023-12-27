@@ -1,0 +1,39 @@
+/* Center and align content within the viewport */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  /* Container for form elements */
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Adjust width as needed */
+    padding: 20px;
+  }
+  
+  /* Align text fields and buttons horizontally */
+  .form-container > * {
+    margin-bottom: 10px;
+  }
+  
+  /* Position label above input and align them */
+  .TextFields {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .TextFields label {
+    margin-bottom: 5px;
+    text-align: left; /* Align label to the left */
+  }
+  
+  /* Center buttons horizontally */
+  .form-container .buttons {
+    display: flex;
+    justify-content: center; /* Center buttons within their container */
+  }
+  

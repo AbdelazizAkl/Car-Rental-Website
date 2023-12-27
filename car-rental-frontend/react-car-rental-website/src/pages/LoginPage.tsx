@@ -2,39 +2,69 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
 import TextFields from "../components/TextFields";
+import "./LoginPage.css";
 
-function App() {
+const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
-  const [email, setEmail] = useState(""); // State for email
-  const [password, setPassword] = useState(""); // State for password
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function validateForm() {
+    if (!email || !password) {
+      setAlertVisibility(true);
+      return false;
+    }
+    return true;
+  }
 
   return (
-    <div>
-      <TextFields
-        label={"Emaill"}
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)} // Corrected onChange handler
-      />
-      <TextFields
-        label="Password"
-        type="password"
-        placeholder="Enter your password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)} // Corrected onChange handler
-      />
-      {alertVisible && (
-        <Alert onClose={() => setAlertVisibility(false)}>my alert</Alert>
-      )}
-      <Button color="primary" onClick={() => console.log("logged in")}>
-        admin
-      </Button>
-      <Button color="secondary" onClick={() => console.log("logged in")}>
-        user
-      </Button>
+    <div className="form-container">
+      <div>
+        <TextFields
+          label={"Email"}
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)} // Corrected onChange handler
+        />
+        <TextFields
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)} // Corrected onChange handler
+        />
+        {alertVisible && (
+          <Alert onClose={() => setAlertVisibility(false)}>
+            {" "}
+            Please fill in both email and password fields
+          </Alert>
+        )}
+        <Button
+          color="primary"
+          onClick={() => {
+            if (validateForm()) {
+              console.log("logged in as admin");
+            }
+          }}
+        >
+          admin
+        </Button>
+
+        <Button
+          color="secondary"
+          onClick={() => {
+            if (validateForm()) {
+              console.log("logged in as user");
+            }
+          }}
+        >
+          user
+        </Button>
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+export default Login;

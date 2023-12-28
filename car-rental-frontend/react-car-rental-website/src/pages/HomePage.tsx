@@ -1,57 +1,46 @@
+import "../css/navBar.css";
 const home = () => {
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
-    >
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#ftco-nav"
-        aria-controls="ftco-nav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="oi oi-menu"></span> Menu
-      </button>
-
-      <div className="collapse navbar-collapse" id="ftco-nav">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item active">
-            <a href="index.html" className="nav-link">
+    <div className="homePageParent">
+      <nav className="top-nav navbar navbar-expand-lg navbar-light">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className="collapse navbar-collapse justify-content-center"
+          id="navbarNavAltMarkup"
+        >
+          <div className="navbar-nav">
+            <a className="nav-link active" href="/home">
               Home
             </a>
-          </li>
-          <li className="nav-item">
-            <a href="/searchPage" className="nav-link">
+            <a className="nav-link" href="/searchPage">
               Search
             </a>
-          </li>
-
-          <li className="nav-item">
-            <a href="/pricingPage" className="nav-link">
+            <a className="nav-link" href="/pricingPage">
               Pricing
             </a>
-          </li>
-          <li className="nav-item">
-            <a href="/carsPage" className="nav-link">
+            <a className="nav-link" href="/carsPage">
               Cars
             </a>
-          </li>
-          <li className="nav-item">
-            <a href="/contactPage" className="nav-link">
+            <a className="nav-link" href="/contactPage">
               Contact
             </a>
-          </li>
-          <li className="nav-item">
-            <a href="/aboutPage" className="nav-link">
+            <a className="nav-link" href="/aboutPage">
               About
             </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+          </div>
+        </div>
+      </nav>
+    </div>
   );
 };
 export default home;

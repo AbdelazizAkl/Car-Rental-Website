@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "../css/navBar.css";
 
-interface NavbarProps {} // Define props if needed in the future
+interface NavbarProps {
+  home?: boolean;
+} // Define props if needed in the future
 
-const Navbar: React.FC<NavbarProps> = () => {
+const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
   return (
     <div className="topnav">
-      <a className="nav-link active" href="/">
+      <a className="nav-link" href="/">
         Home
       </a>
       <a className="nav-link" href="/searchPage">
@@ -18,12 +20,16 @@ const Navbar: React.FC<NavbarProps> = () => {
       <a className="nav-link" href="/carsPage">
         Cars
       </a>
-      <a className="nav-link" href="/contactPage">
-        Contact
-      </a>
-      <a className="nav-link" href="/aboutPage">
-        About
-      </a>
+      {home && (
+        <a className="nav-link" href="#about-section">
+          Contact
+        </a>
+      )}
+      {home && (
+        <a className="nav-link" href="#about-section">
+          About
+        </a>
+      )}
       <div className="topnav-right">
         <a className="nav-link" href="/login">
           Login

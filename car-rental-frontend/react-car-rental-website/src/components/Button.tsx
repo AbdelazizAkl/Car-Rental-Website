@@ -1,27 +1,19 @@
 import React, { ReactNode } from "react";
-import { Link } from "react-router-dom";
-
-// ... inside your component
+//import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 
 interface Props {
   children: ReactNode;
   color: string;
-  to?: string; // Make to optional
   onClick?: () => void; // Add onClick
 }
 
-const Button = ({ children, color, to, onClick }: Props) => {
+const Button = ({ children, color, onClick }: Props) => {
   return (
-    // Conditionally render Link or button based on to prop
-    to ? (
-      <Link to={to} className={"btn btn-" + color}>
-        {children}
-      </Link>
-    ) : (
-      <button className={"btn btn-" + color} onClick={onClick}>
-        {children}
-      </button>
-    )
+    <button className={"btn btn-" + color} onClick={onClick}>
+      {children}
+    </button>
   );
 };
 

@@ -1,0 +1,7 @@
+.homePageParent {
+    background-image: url("..\images\homeBackground.jpg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 1200px;
+}

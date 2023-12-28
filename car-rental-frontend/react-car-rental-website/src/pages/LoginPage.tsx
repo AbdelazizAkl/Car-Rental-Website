@@ -61,7 +61,6 @@ const Login = () => {
                   </Button>
                 </div>
               </form>
-
               <hr />
             </div>
           </div>

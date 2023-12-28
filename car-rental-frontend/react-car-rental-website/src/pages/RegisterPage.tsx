@@ -3,7 +3,9 @@ import Button from "../components/Button";
 import Alert from "../components/Alert";
 import TextFields from "../components/TextFields";
 
-function App() {
+// Now you can use the 'history' object as needed in your component
+
+const Register = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +15,16 @@ function App() {
   const [address, setAddress] = useState("");
   const [license, setLicense] = useState("");
   const [confirmPassword, setConfirmedPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  const handlePasswordValidation = () => {
+    if (password !== confirmPassword) {
+      setPasswordsMatch(false);
+      setAlertVisibility(true);
+    } else {
+      setPasswordsMatch(true);
+    }
+  };
 
   return (
     <div>
@@ -63,23 +75,30 @@ function App() {
         type="password"
         placeholder="Enter your password"
         value={password}
-        onChange={(event) => setPassword(event.target.value)} // Corrected onChange handler
+        onChange={(event) => {
+          setPassword(event.target.value);
+        }}
       />
       <TextFields
         label="Confirm Password"
         type="password"
-        placeholder="Re-enter your password"
+        placeholder="Renter your password"
         value={confirmPassword}
-        onChange={(event) => setConfirmedPassword(event.target.value)} // Corrected onChange handler
+        onChange={(event) => {
+          setConfirmedPassword(event.target.value);
+        }}
       />
-      {alertVisible && (
-        <Alert onClose={() => setAlertVisibility(false)}>my alert</Alert>
+
+      {!passwordsMatch && alertVisible && (
+        <Alert onClose={() => setAlertVisibility(false)}>
+          passwords don't match{" "}
+        </Alert>
       )}
-      <Button color="primary" to="/login">
+      <Button color="primary" onClick={handlePasswordValidation}>
         Register
       </Button>
     </div>
   );
-}
+};
 
-export default App;
+export default Register;

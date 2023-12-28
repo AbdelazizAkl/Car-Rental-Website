@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
 import "../css/Login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
@@ -12,11 +13,16 @@ const Login = () => {
   const [danger, setdanger] = useState(true);
   const [eye, seteye] = useState(true);
 
-  function loginHandler() {}
+function loginHandler() {}
+
+const nav = useNavigate();
+const goHome = () =>{
+  nav("/");
+}
 
   return (
     <div className="homePage">
-      <h1>KWAIZO'S CARS RENTAL</h1>
+      <h1 onClick={goHome}>KWAIZO'S CARS RENTAL</h1>
       <div className="container">
         <div className="LoginCard">
           <div className="form">

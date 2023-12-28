@@ -22,8 +22,8 @@ const home = () => {
                 <h2 className="mb-4">Welcome to Kwaizo's car rental</h2>
 
                 <p>KwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizo</p>
-                <p>KwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizo</p>
-                <p><a href="#" className="btn btn-primary py-3 px-4">Search Vehicle</a></p>
+                <p>KwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizoKwaizo</p>
+                <p><a href="#" className="btn btn-primary py-3 px-4">Social Media</a></p>
               </div>
                     </div>
                 </div>

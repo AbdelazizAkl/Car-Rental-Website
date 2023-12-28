@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
-import "../css/LoginRegister.css";
+import "../css/Login.css";
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
@@ -18,7 +18,7 @@ const Login = () => {
     <div className="homePage">
       <h1>KWAIZO'S CARS RENTAL</h1>
       <div className="container">
-        <div className="card">
+        <div className="LoginCard">
           <div className="form">
             <div className="left-side">
               <img src="https://mphclub.com/wp-content/uploads/2021/07/mercedes-benz-lineup-exotic-car-rental-mph-club.jpg" />

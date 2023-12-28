@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
-import "../css/LoginRegister.css";
+import "../css/Register.css";
 
 // Now you can use the 'history' object as needed in your component
 
@@ -22,7 +22,7 @@ const Register = () => {
     <>
       <div className="homePage">
         <div className="container">
-          <div className="card">
+          <div className="RegisterCard">
             <div className="form">
               <div className="left-side">
                 <img src="https://mphclub.com/wp-content/uploads/2021/07/mercedes-benz-lineup-exotic-car-rental-mph-club.jpg" />

@@ -3,24 +3,15 @@ import Button from "../components/Button";
 import Alert from "../components/Alert";
 import TextFields from "../components/TextFields";
 import "./LoginPage.css";
-import axios from "axios";
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  function validateForm() {
-    if (!email || !password) {
-      return false;
-    }
-    return true;
-  }
-
-  const [inputs, setinputs] = useState({
-    email: "",
-    password: "",
-  });
+  // const [inputs, setinputs] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
   const [warnemail, setwarnemail] = useState(false);
   const [warnpass, setwarnpass] = useState(false);
@@ -28,6 +19,12 @@ const Login = () => {
 
   const [eye, seteye] = useState(true);
   const [pass, setpass] = useState("password");
+  function validateForm() {
+    if (!email || !password) {
+      return false;
+    }
+    return true;
+  }
 
   return (
     <>
@@ -69,19 +66,15 @@ const Login = () => {
                   <div className="input_text">
                     <input
                       className={` ${warnpass ? "warning" : ""}`}
-                      type={pass}
+                      type="password"
                       placeholder="Enter Password"
                       name="password"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
                     />
-                    <i className={`fa ${eye ? "fa-eye-slash" : "fa-eye"}`}></i>
                   </div>
-
-                  <div className="button">
-                    <Button color="primary" onClick={validateForm}>
-                      Sign in
-                    </Button>
+                  <div>
+                    <Button color="primary">Sign in</Button>
                   </div>
                 </form>
 
@@ -94,5 +87,4 @@ const Login = () => {
     </>
   );
 };
-
 export default Login;

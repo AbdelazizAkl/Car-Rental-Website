@@ -30,7 +30,7 @@ const Register = () => {
               <div className="right-side">
                 <div className="register">
                   <p>
-                    Already a member? <a href="/">Login Now</a>
+                    Already a member? <a href="/login">Login Now</a>
                   </p>
                 </div>
                 <form>

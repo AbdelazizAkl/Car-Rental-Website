@@ -2,9 +2,46 @@
   color: white !important;
 }
 .homePageParent {
-  background-image: url("C:\Users\youssef\Documents\GitHub\Car-Rental-Website\car-rental-frontend\react-car-rental-website\src\images\homeBackground.jpg");
+  background-image: url("..\images\homeBackground.jpg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
-  height: 800px;
+  height: 1200px;
+}
+.topnav {
+  background-color: transparent;
+  overflow: hidden;
+  width: 100%;
+  top: 0px;
+  position: fixed;
+}
+.topnav a{
+  color: white !important;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+float: left;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+background-color: #ddd;
+color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+background-color: #04AA6D;
+color: white;
+}
+
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+float: right;
 }

@@ -104,7 +104,6 @@ async function remove(id) {
   );
   return rowsDeleted.affectedRows === 1; // Check if deletion occurred
 }
-
 module.exports = {
   getAll,
   getById,

@@ -2,6 +2,18 @@ const express = require("express");
 const router = express.Router();
 const customersService = require("../services/customers");
 
+
+router.post("/login", async (req, res) => {
+  try {
+    const { token } = await customersService.login(req.body); // Pass request body to login function
+    res.json({ token }); // Return the generated token upon successful login
+  } catch (error) {
+    // Handle authentication errors appropriately
+    console.error("Login error:", error);
+    res.status(401).json({ error: "Invalid email or password" });
+  }
+});
+
 // GET all cars (with pagination)
 router.get("/", async (req, res) => {
   try {

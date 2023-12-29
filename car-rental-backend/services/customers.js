@@ -107,4 +107,7 @@ module.exports = {
   getById,
   create,
   remove,
+  login,
 };
+
+

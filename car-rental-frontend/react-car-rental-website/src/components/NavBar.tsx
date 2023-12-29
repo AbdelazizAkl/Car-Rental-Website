@@ -8,9 +8,16 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
   return (
     <div className="topnav">
-      <a className="nav-link" href="/">
-        Home
-      </a>
+      {home && (
+        <a className="nav-link" href="#home-section">
+          Home
+        </a>
+      )}
+      {!home && (
+        <a className="nav-link" href="/">
+          Home
+        </a>
+      )}
       <a className="nav-link" href="/searchPage">
         Search
       </a>

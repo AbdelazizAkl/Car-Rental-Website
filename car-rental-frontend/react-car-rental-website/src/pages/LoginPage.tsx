@@ -13,12 +13,12 @@ const Login = () => {
   const [danger, setdanger] = useState(true);
   const [eye, seteye] = useState(true);
 
-function loginHandler() {}
+  function loginHandler() {}
 
-const nav = useNavigate();
-const goHome = () =>{
-  nav("/");
-}
+  const nav = useNavigate();
+  const goHome = () => {
+    nav("/");
+  };
 
   return (
     <div className="homePage">

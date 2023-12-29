@@ -5,7 +5,7 @@ import myImage from "../images/about.jpg";
 const home = () => {
   return (
     <>
-      <div className="homePageParent">
+      <div className="homePageParent" id="home-section">
         <Navbar home={true} />
       </div>
       <div>

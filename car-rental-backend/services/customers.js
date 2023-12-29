@@ -111,5 +111,6 @@ module.exports = {
   getAll,
   getById,
   create,
+  login,
   remove,
 };

@@ -1,6 +1,6 @@
 import "../css/Home.css";
 import Navbar from "../components/NavBar";
-import myImage from "../images/about.jpg";
+import myImage from "../images/founders.png";
 
 const home = () => {
   return (

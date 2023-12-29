@@ -2,6 +2,16 @@ const express = require("express");
 const router = express.Router();
 const adminsService = require("../services/admins");
 
+
+router.post("/login", async (req, res) => {
+  try {
+    console.log("sending request to services");
+    await adminsService.login(req, res); // Call the login function
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // GET all admins (with pagination)
 router.get("/", async (req, res) => {
   try {

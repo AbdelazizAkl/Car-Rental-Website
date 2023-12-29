@@ -27,13 +27,13 @@ async function login(req, res) {
         .status(400)
         .json({ message: "Email and password are required" });
     }
-
+    console.log("before");
     // Query database
     const row = await db.query(
       `SELECT * FROM customers WHERE email,password = ?`,
       [email, password]
     );
-
+    console.log("after");
     // Check if user exists
     if (!row.length) {
       return res.status(401).json({ message: "Invalid email or password" });

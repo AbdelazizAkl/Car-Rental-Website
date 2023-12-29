@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import "../css/navBar.css";
+import { connect } from 'react-redux';
+import { setSignedIn } from '../store/actions';
 
 interface NavbarProps {
   home?: boolean;
+  isSignedIn: boolean;
+  setSignedIn: (isSignedIn: boolean) => void;
 } // Define props if needed in the future
 
-const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
+const Navbar: React.FC<NavbarProps> = ({ home,isSignedIn, setSignedIn }) => {
   return (
     <div className="topnav">
       {home && (
@@ -36,7 +40,12 @@ const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
         <a className="nav-link" href="#about-section">
           About
         </a>
-      )}
+      )}{isSignedIn?
+      <div className="topnav-right">
+      <p>
+        Welcome
+      </p>
+      </div>:
       <div className="topnav-right">
         <a className="nav-link" href="/login">
           Login
@@ -44,9 +53,17 @@ const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
         <a className="nav-link" href="/register">
           Sign up
         </a>
-      </div>
+      </div>}
     </div>
-  );
+)};
+
+
+const mapStateToProps = (state: any) => ({
+  isSignedIn: state.isSignedIn,
+});
+
+const mapDispatchToProps = {
+  setSignedIn,
 };
 
-export default Navbar;
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -77,27 +77,47 @@ async function getById(id) {
   };
 }
 
-async function create(
-  model,
-  year,
-  plateId,
-  status,
-  office_id,
-  images,
-  dailyPrice,
-  weeklyPrice,
-  mileage,
-  features
-) {
+async function create(req,res) {
+  const {fName, lName, email, password, confirmPassword, address, phone, license} = req.body;
+  if (fName === '' || lName === '' || email === '' || password === '' || address === '' || phone === '' || license === ''){
+    return res.json({
+      success: false,
+      message: "Please enter all fields",
+    });
+  }
+  if (!emailValidator.validate(email)) {
+    return res.json({
+      success: false,
+      message: "Please enter a valid email",
+    });
+  }
+  if(!(password === confirmPassword)){
+    return res.json({
+      success: false,
+      message: "Passwords do not match",
+    });
+  }
+  const row = await db.query(
+    "SELECT password FROM customers WHERE email = ?",
+    [email]
+  );
+
+  if (row.length)
+    return res.json({ success: false, message: "Email already in use!" });
+
   // Hash the password before storing
   //   const hashedPassword = await bcrypt.hash(password, 10);
+  const hash = await bcrypt.hash(password,10);
+  console.log(hash);
   const rows = await db.query(
-    `INSERT INTO customers (fName, lName, email, password, address, phone, driversLiscense) VALUES
-     ("${fName}", "${lName}", "${email}", "${password}",
-     "${address}", "${phone}", "${driversLiscense}")`
+    `INSERT INTO customers (fName, lName, email, password, address, phone, driversLicense) VALUES
+     ("${fName}", "${lName}", "${email}", "${hash}",
+     "${address}", "${phone}", "${license}")`
   );
-  const data = helper.emptyOrRows(rows);
-  return data[0];
+  return res.json({
+    success:true,
+    message:"Signed up successfully!",
+  });
 }
 
 async function remove(id) {

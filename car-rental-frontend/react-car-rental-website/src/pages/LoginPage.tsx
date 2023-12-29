@@ -4,6 +4,9 @@ import Alert from "../components/Alert";
 import "../css/Login.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { connect } from "react-redux";
+import { setSignedIn } from "../store/actions";
+
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
@@ -21,7 +24,7 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       };
-      const loginResponse = await axios
+      await axios
         .post(
           "http://localhost:3000/customers/login",
           {
@@ -32,6 +35,7 @@ const Login = () => {
         )
         .then((response) => {
           if (response.data.success) {
+            setSignedIn(true);
             goHome();
           } else {
             setAlertVisibility(true);
@@ -113,4 +117,8 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+const mapDispatchToProps = {
+  setSignedIn,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

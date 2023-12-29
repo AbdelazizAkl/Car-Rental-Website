@@ -3,6 +3,7 @@ import Navbar from "../components/NavBar";
 import myImage from "../images/founders.png";
 import backgroundImage from "../images/homeBackground.jpg";
 const home = () => {
+  
   return (
     <>
       <div className="homePageParent" id="home-section">

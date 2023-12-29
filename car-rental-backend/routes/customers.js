@@ -1,18 +1,8 @@
 const express = require("express");
 const router = express.Router();
-var cors = require("cors");
 const customersService = require("../services/customers");
 
-
-var app = express();
-
-
-app.use(cors({
-  origin: 'http://localhost:5173/',
-  methods: ["GET","POST"],
-  credentials: true,
-}))
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const loginResponse = await customersService.login(req, res); // Call the login function
     res.json(loginResponse); // Send the response from the login function
@@ -21,7 +11,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 // GET all cars (with pagination)
 router.get("/", async (req, res) => {

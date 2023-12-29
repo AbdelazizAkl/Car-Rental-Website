@@ -1,6 +1,8 @@
 const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
+const bcrypt = require("bcrypt");
+var emailValidator = require("email-validator");
 
 
 async function getAll(page = 1) {

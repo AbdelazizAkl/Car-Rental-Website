@@ -1,6 +1,8 @@
 const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
+const bcrypt = require("bcrypt");
+var emailValidator = require("email-validator");
 
 async function getAll(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
@@ -21,26 +23,44 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
 
-    // Validate input
     if (email === "" || password === "") {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+      return res.json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+    if (!emailValidator.validate(email)) {
+      return res.json({
+        success: false,
+        message: "Please enter a valid email",
+      });
     }
 
-    // Query database
     const row = await db.query(
-      "SELECT * FROM customers WHERE email = ? AND password = ?",
-      [email, password]
+      "SELECT password FROM customers WHERE email = ?",
+      [email]
     );
 
-    // Check if user exists
     if (!row.length)
-      return res.status(401).json({ message: "Invalid email or password" });
-    else res.status(200).json({ message: "Login successful" });
+      return res.json({ success: false, message: "Invalid email!" });
+    const hashedPassword = row[0].password;
+
+    bcrypt.compare(password, hashedPassword, (error, passwordMatch) => {
+      if (error) {
+        return res.json({
+          success: false,
+          message: "An error occurred while processing your request.",
+        });
+      } else if (!passwordMatch) {
+        return res.json({
+          success: false,
+          message: "Invalid password.",
+        });
+      }
+      return res.json({ success: true, message: "successs" });
+    });
   } catch (error) {
-    // console.error("Login error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.log(error);
   }
 }
 
@@ -68,11 +88,10 @@ async function create(
   mileage,
   features
 ) {
-  // Hash the password before storing
-  //   const hashedPassword = await bcrypt.hash(password, 10);
+  const hash = bcrypt.hash(password, saltRounds, function (err, hash) {});
   const rows = await db.query(
     `INSERT INTO customers (fName, lName, email, password, address, phone, driversLiscense) VALUES
-     ("${fName}", "${lName}", "${email}", "${password}",
+     ("${fName}", "${lName}", "${email}", "${hash}",
      "${address}", "${phone}", "${driversLiscense}")`
   );
   const data = helper.emptyOrRows(rows);

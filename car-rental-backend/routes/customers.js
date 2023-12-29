@@ -3,15 +3,15 @@ const router = express.Router();
 const customersService = require("../services/customers");
 
 // GET all cars (with pagination)
-router.get("/", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const { data, meta } = await customersService.getAll(req.query.page);
-    res.json({ data, meta });
+    console.log("sending request to services");
+    await customersService.login(req, res); // Call the login function
   } catch (error) {
-    // Handle errors appropriately
-    res.status(500).json({ error: "Failed to retrieve customers" });
+    console.log(error);
   }
 });
+
 
 // GET a single car by ID
 router.get("/:id", async (req, res) => {

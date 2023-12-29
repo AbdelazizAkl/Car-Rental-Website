@@ -29,7 +29,6 @@ const Login = () => {
         },
         config
       );
-
       if (loginResponse.status === 200) {
         goHome();
       }

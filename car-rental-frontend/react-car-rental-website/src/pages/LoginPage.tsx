@@ -72,7 +72,12 @@ const Login = () => {
                 <h4>Welcome back you have been missed! </h4>
               </div>
 
-              <form>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  loginHandler();
+                }}
+              >
                 <div className="input_text">
                   <input
                     type="text"
@@ -92,9 +97,12 @@ const Login = () => {
                   />
                 </div>
                 <div className="button">
-                  <Button color="primary" onClick={loginHandler}>
-                    Sign in
-                  </Button>
+                  <Button color="primary">Sign in</Button>
+                  {alertVisible && (
+                    <Alert onClose={() => setAlertVisibility(false)}>
+                      {alertMessage}
+                    </Alert>
+                  )}
                 </div>
               </form>
               <hr />

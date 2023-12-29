@@ -1,6 +1,14 @@
 const express = require("express");
 const app = express();
+var cors = require("cors");
 const port = 3000;
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 const adminsRouter = require("./routes/admins");
 const officesRouter = require("./routes/offices");
 const carsRouter = require("./routes/cars");

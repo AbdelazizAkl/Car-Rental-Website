@@ -48,7 +48,7 @@ const Admin=() => {
     }
     return (
         <div className="homePage">
-          <h1 className="circle" >
+          <h1 className="circle" onClick={goHome}>
             KWAIZO'S CARS RENTAL
           </h1>
           <div className="LoginContainer">

@@ -3,19 +3,26 @@ const helper = require("../helper");
 const config = require("../config");
 
 async function getAll(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
-    `SELECT *
-    FROM cars LIMIT ${offset},${config.listPerPage}`
-  );
-  const data = helper.emptyOrRows(rows);
-  const meta = { page };
+  try {
+    const offset = helper.getOffset(page, config.listPerPage);
+    const rows = await db.query(
+      `SELECT * FROM cars LIMIT ${offset},${config.listPerPage}`
+    );
 
-  return {
-    data,
-    meta,
-  };
+    const data = helper.emptyOrRows(rows);
+    const totalRows = await db.query(`SELECT COUNT(*) FROM cars`); // Get total rows
+    const meta = {
+      page,
+      totalPages: Math.ceil(totalRows[0].count / config.listPerPage),
+    };
+
+    return { data, meta };
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    throw error; // Re-throw for proper error handling in frontend
+  }
 }
+
 async function getById(id) {
   const row = await db.query(
     `SELECT *
@@ -61,5 +68,5 @@ module.exports = {
   getAll,
   getById,
   create,
-  remove
+  remove,
 };

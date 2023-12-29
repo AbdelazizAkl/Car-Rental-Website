@@ -21,34 +21,25 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       };
-      const loginResponse = await axios.post(
-        "http://localhost:3000/customers/login",
-        {
-          email,
-          password,
-        },
-        config
-      );
-      if (loginResponse.status === 200) {
-        goHome();
-      }
+      const loginResponse = await axios
+        .post(
+          "http://localhost:3000/customers/login",
+          {
+            email,
+            password,
+          },
+          config
+        )
+        .then((response) => {
+          if (response.data.success) {
+            goHome();
+          } else {
+            setAlertVisibility(true);
+            setAlertMessage(response.data.message);
+          }
+        });
     } catch (error) {
       console.error("Login error:", error);
-      const accumulatedErrors = [];
-
-      if (axios.isAxiosError(error) && error.response) {
-        // The request was made, but the server responded with a status code
-        // other than 2xx (e.g., 404, 500, etc.)
-        accumulatedErrors.push(error.response.data.message);
-      } else if (axios.isAxiosError(error) && error.request) {
-        // The request was made, but no response was received
-        accumulatedErrors.push("No response from the server");
-      } else {
-        // Something else happened during the request
-        accumulatedErrors.push("An unexpected error occurred");
-      }
-      setAlertVisibility(true);
-      setAlertMessage(accumulatedErrors.join("\n"));
     }
   }
 

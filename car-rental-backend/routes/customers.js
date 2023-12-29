@@ -5,11 +5,9 @@ const customersService = require("../services/customers");
 router.post("/login", async (req, res) => {
   try {
     console.log("sending request to services");
-    const loginResponse = await customersService.login(req, res); // Call the login function
-    if (res) res.json(loginResponse);
+    await customersService.login(req, res); // Call the login function
   } catch (error) {
-    // console.error("Login error:", error);
-    // res.status(500).json({ message: "Internal server error" });
+    console.log(error);
   }
 });
 

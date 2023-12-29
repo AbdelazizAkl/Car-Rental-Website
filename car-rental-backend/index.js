@@ -8,7 +8,11 @@ const carsRouter = require("./routes/cars");
 const reservationsRouter = require("./routes/reservations");
 const customersRouter = require("./routes/customers");
 const paymentsRouter = require("./routes/payments");
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173/',
+  methods: ["GET","POST"],
+  credentials: true,
+}))
 
 app.use(express.json());
 app.use(

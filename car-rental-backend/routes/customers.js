@@ -3,9 +3,26 @@ const router = express.Router();
 var cors = require("cors");
 const customersService = require("../services/customers");
 
+
 var app = express();
 
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:5173/',
+  methods: ["GET","POST"],
+  credentials: true,
+}))
+router.post('/login', async (req, res) => {
+  try {
+    const loginResponse = await customersService.login(req, res); // Call the login function
+    res.json(loginResponse); // Send the response from the login function
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 // GET all cars (with pagination)
 router.get("/", async (req, res) => {
   try {
@@ -22,7 +39,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const customer = await customersService.getById(req.params.id);
-    if (car) {
+    if (customer) {
       res.json(customer);
     } else {
       res.status(404).json({ error: "customer not found" });

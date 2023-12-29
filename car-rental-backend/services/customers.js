@@ -2,6 +2,7 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
+
 async function getAll(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
@@ -21,42 +22,44 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
 
-    // Validate input
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
+    if (email === "" || password === "") {
+      return res.json({
+        success: false,
+        message: "Email and password are required",
+      });
     }
-    console.log("before");
-    // Query database
+    if (!emailValidator.validate(email)) {
+      return res.json({
+        success: false,
+        message: "Please enter a valid email",
+      });
+    }
+
     const row = await db.query(
-      `SELECT * FROM customers WHERE email,password = ?`,
-      [email, password]
+      "SELECT password FROM customers WHERE email = ?",
+      [email]
     );
-    console.log("after");
-    // Check if user exists
-    if (!row.length) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, row[0].password);
-    const isValidEmail = await bcrypt.compare(email, row[0].email); // Assuming password is hashed
-    if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-    if (!isValidEmail) {
-      return res.status(401).json({ message: "Invalid email" });
-    }
+    if (!row.length)
+      return res.json({ success: false, message: "Invalid email!" });
+    const hashedPassword = row[0].password;
 
-    // Generate authentication token (example using jsonwebtoken)
-    const token = jwt.sign({ userId: row[0].id }, "your-secret-key");
-
-    // Return success response with token
-    res.json({ message: "Login successful", token });
+    bcrypt.compare(password, hashedPassword, (error, passwordMatch) => {
+      if (error) {
+        return res.json({
+          success: false,
+          message: "An error occurred while processing your request.",
+        });
+      } else if (!passwordMatch) {
+        return res.json({
+          success: false,
+          message: "Invalid password.",
+        });
+      }
+      return res.json({ success: true, message: "successs" });
+    });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.log(error);
   }
 }
 

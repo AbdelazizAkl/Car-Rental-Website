@@ -22,8 +22,10 @@ const Login = () => {
 
   return (
     <div className="homePage">
-      <h1 onClick={goHome}>KWAIZO'S CARS RENTAL</h1>
-      <div className="container">
+      <h1 className="circle" onClick={goHome}>
+        KWAIZO'S CARS RENTAL
+      </h1>
+      <div className="LoginContainer">
         <div className="LoginCard">
           <div className="form">
             <div className="left-side">

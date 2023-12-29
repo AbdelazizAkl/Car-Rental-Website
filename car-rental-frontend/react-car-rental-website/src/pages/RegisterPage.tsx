@@ -21,7 +21,7 @@ const Register = () => {
   return (
     <>
       <div className="homePage">
-        <div className="container">
+        <div className="RegisterContainer">
           <div className="RegisterCard">
             <div className="form">
               <div className="left-side">

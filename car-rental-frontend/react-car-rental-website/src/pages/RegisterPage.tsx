@@ -21,7 +21,7 @@ const Register = () => {
   return (
     <>
       <div className="homePage">
-        <div className="RegisterContainer">
+        <div className="container">
           <div className="RegisterCard">
             <div className="form">
               <div className="left-side">
@@ -30,7 +30,7 @@ const Register = () => {
               <div className="right-side">
                 <div className="register">
                   <p>
-                    Already a member? <a href="/login">Login Now</a>
+                    Already a member? <a href="/">Login Now</a>
                   </p>
                 </div>
                 <form>

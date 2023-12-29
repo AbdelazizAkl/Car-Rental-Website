@@ -1,14 +1,6 @@
 const express = require("express");
 const app = express();
-var cors = require("cors");
 const port = 3000;
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
 const adminsRouter = require("./routes/admins");
 const officesRouter = require("./routes/offices");
 const carsRouter = require("./routes/cars");
@@ -22,8 +14,6 @@ app.use(
     extended: true,
   })
 );
-app.options("*", cors());
-
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
@@ -42,6 +32,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ message: err.message });
   return;
 });
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

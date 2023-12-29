@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+var cors = require("cors");
 const port = 3000;
 const adminsRouter = require("./routes/admins");
 const officesRouter = require("./routes/offices");
@@ -7,6 +8,7 @@ const carsRouter = require("./routes/cars");
 const reservationsRouter = require("./routes/reservations");
 const customersRouter = require("./routes/customers");
 const paymentsRouter = require("./routes/payments");
+app.use(cors());
 
 app.use(express.json());
 app.use(
@@ -32,7 +34,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ message: err.message });
   return;
 });
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

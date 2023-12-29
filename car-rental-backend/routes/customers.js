@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
+var cors = require("cors");
 const customersService = require("../services/customers");
 
+var app = express();
+
+app.use(cors());
 // GET all cars (with pagination)
 router.get("/", async (req, res) => {
   try {
     const { data, meta } = await customersService.getAll(req.query.page);
+
     res.json({ data, meta });
   } catch (error) {
     // Handle errors appropriately

@@ -1,19 +1,47 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
 import "../css/Login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [warnemail, setwarnemail] = useState(false);
-  const [warnpass, setwarnpass] = useState(false);
-  const [danger, setdanger] = useState(true);
-  const [eye, seteye] = useState(true);
+  // const [warnemail, setwarnemail] = useState(false);
+  // const [warnpass, setwarnpass] = useState(false);
+  // const [danger, setdanger] = useState(true);
+  // const [eye, seteye] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  function loginHandler() {}
+  async function loginHandler() {
+    try {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      };
+      const loginResponse = await axios
+        .post(
+          "http://localhost:3000/customers/login",
+          {
+            email,
+            password,
+          },
+          config
+        )
+        .then((response) => {
+          if (response.data.success) {
+            goHome();
+          } else {
+            setAlertVisibility(true);
+            setAlertMessage(response.data.message);
+          }
+        });
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  }
 
   const nav = useNavigate();
   const goHome = () => {

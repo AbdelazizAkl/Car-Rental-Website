@@ -35,14 +35,12 @@ async function login(req, res) {
     );
 
     // Check if user exists
-    if (!row.length) {
+    if (!row.length)
       return res.status(401).json({ message: "Invalid email or password" });
-    }
-
-    res.json({ message: "Login successful" });
+    else res.status(200).json({ message: "Login successful" });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    // console.error("Login error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
 

@@ -4,7 +4,6 @@ import Alert from "../components/Alert";
 import "../css/Login.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
-//khod ya zizo;
 
 const Login = () => {
   const [alertVisible, setAlertVisibility] = useState(false);
@@ -33,15 +32,24 @@ const Login = () => {
 
       if (loginResponse.status === 200) {
         goHome();
-      } else {
-        const errorData = loginResponse.data;
-        setAlertVisibility(true);
-        setAlertMessage(errorData.message || "Invalid email or password.");
       }
     } catch (error) {
       console.error("Login error:", error);
+      const accumulatedErrors = [];
+
+      if (axios.isAxiosError(error) && error.response) {
+        // The request was made, but the server responded with a status code
+        // other than 2xx (e.g., 404, 500, etc.)
+        accumulatedErrors.push(error.response.data.message);
+      } else if (axios.isAxiosError(error) && error.request) {
+        // The request was made, but no response was received
+        accumulatedErrors.push("No response from the server");
+      } else {
+        // Something else happened during the request
+        accumulatedErrors.push("An unexpected error occurred");
+      }
       setAlertVisibility(true);
-      setAlertMessage("An error occurred while logging in. Please try again.");
+      setAlertMessage(accumulatedErrors.join("\n"));
     }
   }
 
@@ -97,14 +105,12 @@ const Login = () => {
                   />
                 </div>
                 <div className="button">
+                  <Button color="primary">Sign in</Button>
                   {alertVisible && (
                     <Alert onClose={() => setAlertVisibility(false)}>
                       {alertMessage}
                     </Alert>
                   )}
-                  <Button color="primary" onClick={loginHandler}>
-                    Sign in
-                  </Button>
                 </div>
               </form>
               <hr />

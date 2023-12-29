@@ -1,0 +1,18 @@
+.homePageParent {
+  background-image: url("../images/homeBackground.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top -100px;
+  height: 600px;
+}
+.container {
+  margin-top: -3%;
+  color: white !important;
+  background-color: #333;
+}
+body {
+  scroll-behavior: smooth;
+}
+.svghj {
+  transform: translate(1000, 0) !important;
+}

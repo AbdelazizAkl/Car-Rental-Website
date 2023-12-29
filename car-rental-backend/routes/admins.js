@@ -1,58 +1,58 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const adminsService = require('../services/admins');
+const adminsService = require("../services/admins");
 
 // GET all admins (with pagination)
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { data, meta } = await adminsService.getAll(req.query.page);
     res.json({ data, meta });
   } catch (error) {
     // Handle errors appropriately
-    res.status(500).json({ error: 'Failed to retrieve admins' });
+    res.status(500).json({ error: "Failed to retrieve admins" });
   }
 });
 
 // GET a single admin by ID
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const admin = await adminsService.getById(req.params.id);
     if (admin) {
       res.json(admin);
     } else {
-      res.status(404).json({ error: 'Admin not found' });
+      res.status(404).json({ error: "Admin not found" });
     }
   } catch (error) {
     // Handle errors appropriately
     console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve admin' });
+    res.status(500).json({ error: "Failed to retrieve admin" });
   }
 });
 
 // POST a new admin
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const admin = await adminsService.create(req.body.email, req.body.password);
     res.status(201).json(admin);
   } catch (error) {
     // Handle errors appropriately
-    res.status(400).json({ error: 'Failed to create admin' });
+    res.status(400).json({ error: "Failed to create admin" });
   }
 });
 
 // DELETE an admin
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const success = await adminsService.remove(req.params.id);
     console.log(success);
     if (success) {
-      res.json({ message: 'Admin deleted' });
+      res.json({ message: "Admin deleted" });
     } else {
-      res.status(404).json({ error: 'Admin not found' });
+      res.status(404).json({ error: "Admin not found" });
     }
   } catch (error) {
     // Handle errors appropriately
-    res.status(400).json({ error: 'Failed to delete admin' });
+    res.status(400).json({ error: "Failed to delete admin" });
   }
 });
 

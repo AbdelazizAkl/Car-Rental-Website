@@ -16,17 +16,14 @@ async function getAll(page = 1) {
   };
 }
 async function getById(id) {
-  const row = await db.query(
-    `SELECT * FROM admins WHERE id = ?`,
-    [id]
-  );
+  const row = await db.query(`SELECT * FROM admins WHERE id = ?`, [id]);
   const data = helper.emptyOrRows(row);
   return {
     data,
   };
 }
 
-async function create(name, city,address,phone,hoursOperation) {
+async function create(name, city, address, phone, hoursOperation) {
   // Hash the password before storing
   //   const hashedPassword = await bcrypt.hash(password, 10);
   const rows = await db.query(

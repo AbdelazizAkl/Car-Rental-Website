@@ -2,10 +2,22 @@ const express = require("express");
 const router = express.Router();
 const customersService = require("../services/customers");
 
+router.post("/login", async (req, res) => {
+  try {
+    console.log("sending request to services");
+    const loginResponse = await customersService.login(req, res); // Call the login function
+    if (res) res.json(loginResponse);
+  } catch (error) {
+    // console.error("Login error:", error);
+    // res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // GET all cars (with pagination)
 router.get("/", async (req, res) => {
   try {
     const { data, meta } = await customersService.getAll(req.query.page);
+
     res.json({ data, meta });
   } catch (error) {
     // Handle errors appropriately
@@ -17,7 +29,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const customer = await customersService.getById(req.params.id);
-    if (car) {
+    if (customer) {
       res.json(customer);
     } else {
       res.status(404).json({ error: "customer not found" });

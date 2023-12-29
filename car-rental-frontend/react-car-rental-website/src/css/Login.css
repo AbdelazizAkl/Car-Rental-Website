@@ -115,9 +115,9 @@ input[type="password"] {
 .homePage {
   background-color: #81e2cd;
 }
-
 .button {
   margin-top: 15px;
+  align-items: center;
 }
 .button:hover,
 .button:focus {

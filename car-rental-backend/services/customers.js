@@ -22,7 +22,7 @@ async function login(req, res) {
     const { email, password } = req.body;
 
     // Validate input
-    if (!email || !password) {
+    if (email === "" || password === "") {
       return res
         .status(400)
         .json({ message: "Email and password are required" });
@@ -30,33 +30,17 @@ async function login(req, res) {
 
     // Query database
     const row = await db.query(
-      `SELECT * FROM customers WHERE email,password = ?`,
+      "SELECT * FROM customers WHERE email = ? AND password = ?",
       [email, password]
     );
 
     // Check if user exists
-    if (!row.length) {
+    if (!row.length)
       return res.status(401).json({ message: "Invalid email or password" });
-    }
-
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, row[0].password);
-    const isValidEmail = await bcrypt.compare(email, row[0].email); // Assuming password is hashed
-    if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-    if (!isValidEmail) {
-      return res.status(401).json({ message: "Invalid email" });
-    }
-
-    // Generate authentication token (example using jsonwebtoken)
-    const token = jwt.sign({ userId: row[0].id }, "your-secret-key");
-
-    // Return success response with token
-    res.json({ message: "Login successful", token });
+    else res.status(200).json({ message: "Login successful" });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    // console.error("Login error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -107,4 +91,5 @@ module.exports = {
   getById,
   create,
   remove,
+  login,
 };

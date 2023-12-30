@@ -10,8 +10,8 @@ interface CarDetailsModalProps {
     status: string;
     office_id: number;
     images: string;
-    dailyPrice: string;
-    weeklyPrice: string;
+    dailyPrice: number;
+    weeklyPrice: number;
     mileage: number;
     features: string;
   };

@@ -5,6 +5,7 @@ import Navbar from "../components/NavBar";
 import CarCard from "../components/CarsCard";
 import CarDetailsModal from "../components/CarsDetailsModal";
 import "../css/Car.css";
+import ReserveCarModal from "../components/ReserveCarModal";
 
 const Search = () => {
   interface Car {
@@ -15,11 +16,12 @@ const Search = () => {
     status: string;
     office_id: number;
     images: string;
-    dailyPrice: string;
-    weeklyPrice: string;
+    dailyPrice: number;
+    weeklyPrice: number;
     mileage: number;
     features: string;
-    onClick: () => void;
+    onClickDetails: () => void;
+    onClickReserve: () => void;
   }
 
   const [filters, setFilters] = useState({
@@ -29,7 +31,8 @@ const Search = () => {
 
   const [cars, setCarsData] = useState<Car[]>([]);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -120,14 +123,18 @@ const Search = () => {
             {cars.map((car) => (
               <div className="col-md-4" key={car.id}>
                 <CarCard
+                  key={car.id}
                   myImage={car.images}
                   name={car.model}
                   brand={car.year}
                   price={car.dailyPrice}
-                  linkToDetails={""}
-                  onClick={() => {
+                  onClickDetails={() => {
                     setSelectedCar(car);
-                    setIsModalOpen(true);
+                    setIsDetailsModalOpen(true);
+                  }}
+                  onClickReserve={() => {
+                    setSelectedCar(car);
+                    setIsReserveModalOpen(true);
                   }}
                 />
               </div>
@@ -136,10 +143,16 @@ const Search = () => {
         </div>
       </section>
 
-      {selectedCar && isModalOpen && (
+      {selectedCar && isDetailsModalOpen && (
         <CarDetailsModal
           car={selectedCar}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
+      )}
+      {selectedCar && isReserveModalOpen && (
+        <ReserveCarModal
+          car={selectedCar}
+          onClose={() => setIsReserveModalOpen(false)}
         />
       )}
     </>

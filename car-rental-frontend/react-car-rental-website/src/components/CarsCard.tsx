@@ -2,7 +2,7 @@ interface Props {
   myImage: string;
   name: string;
   brand: string;
-  price: string;
+  price: number;
   onClickDetails: () => void;
   onClickReserve: () => void;
 }
@@ -37,9 +37,12 @@ const CarCard = ({
             </p>
           </div>
           <p className="d-flex mb-0 d-block">
-            <a onClick={() => {
+            <a
+              onClick={() => {
                 onClickReserve();
-              }} className="btn btn-primary py-2 mr-1">
+              }}
+              className="btn btn-primary py-2 mr-1"
+            >
               Book now
             </a>
             <div className="offset-0.5"></div>

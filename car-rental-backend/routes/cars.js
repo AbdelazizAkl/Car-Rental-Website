@@ -3,6 +3,15 @@ const router = express.Router();
 const carsService = require("../services/cars");
 
 // GET all cars (with pagination)
+router.post("/search", async (req, res) => {
+  try {
+    await carsService.getByFilters(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const { data, meta } = await carsService.getAll(req.query.page);
@@ -17,6 +26,18 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     await carsService.getById(req, res);
+  } catch (error) {
+    // Handle errors appropriately
+    console.error("Error in route handler:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.get("/:year", async (req, res) => {
+  try {
+    await carsService.getByYear(req, res);
   } catch (error) {
     // Handle errors appropriately
     console.error("Error in route handler:", error);

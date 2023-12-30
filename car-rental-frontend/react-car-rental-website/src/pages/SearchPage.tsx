@@ -2,101 +2,147 @@ import { useState } from "react";
 import axios from "axios";
 import "../css/Search.css";
 import Navbar from "../components/NavBar";
+import CarCard from "../components/CarsCard";
+import CarDetailsModal from "../components/CarsDetailsModal";
+import "../css/Car.css";
 
 const Search = () => {
-  interface car {
+  interface Car {
     id: string;
-    images: string; // Adjust type if images are an array or object
     model: string;
     year: string;
+    plateId: string;
+    status: string;
+    office_id: number;
+    images: string;
     dailyPrice: string;
-    linkToDetails: string;
+    weeklyPrice: string;
+    mileage: number;
+    features: string;
+    onClick: () => void;
   }
-  const [selectedId, setSelectedId] = useState("");
-  const [cars, setCarsData] = useState<car[]>([]);
 
-  const handleIdChange = async (id: string) => {
-    setSelectedId(id);
+  const [filters, setFilters] = useState({
+    year: "",
+    model: "",
+  });
 
-    if (id) {
-      // Make a request to the backend to fetch cars based on the selected ID
-      try {
-        const config = {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        };
+  const [cars, setCarsData] = useState<Car[]>([]);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-        const response = await axios.get(
-          `http://localhost:3000/cars/${id}`,
-          config
-        );
+  const handleSearch = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/cars/search",
+        filters
+      );
 
-        if (response.data.success) {
-          setCarsData(response.data.data); // Store fetched cars in state
-          console.log("Cars fetched successfully!");
-          console.log(response.data.data[0].model);
-        } else {
-          console.error("Error fetching cars:", response.data.message);
-          // Handle the error appropriately, e.g., display an error message
-        }
-      } catch (error) {
-        console.error("Error fetching cars:", error);
-        // Handle the error appropriately, e.g., display an error message
+      if (response.data.success) {
+        setCarsData(response.data.data);
+        console.log(response.data.data);
+      } else {
+        setCarsData([]);
+        console.error("Failed to retrieve cars:", response.data.message);
       }
-    } else {
-      setCarsData([]); // Clear cars when no ID is selected
+    } catch (error) {
+      console.log("Error during search:", error);
+      // Handle network or unexpected errors
     }
   };
 
+  const handleFilterChange = (filterName: string, value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [filterName]: value }));
+  };
+
   return (
-    <div className="searchParent">
-      <div>
-        <Navbar home={false} />
-      </div>
-      <section className="col-lg-12">
-        <div className="searchContainer">
-          <form action="#" method="post">
-            <div>
+    <>
+      <div className="searchParent">
+        <div>
+          <Navbar home={false} />
+        </div>
+        <section className="col-lg-12">
+          <div className="searchContainer">
+            <form action="#" method="post">
               <div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <select
-                      className="form-control search-slt"
-                      id="exampleFormControlSelect1"
-                      onChange={(e) => handleIdChange(e.target.value)}
-                    >
-                      <option value="">Select ID</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      {/* Add other ID options here */}
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <select
-                      className="form-control search-slt"
-                      id="exampleFormControlSelect2"
-                    >
-                      <option>Select Car</option>
-                      {cars.map((car) => (
-                        <option key={car.id} value={car.id}>
-                          {car.model}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <button type="button" className="btn btn-danger wrn-btn">
-                      Search
-                    </button>
+                <div>
+                  <div className="row">
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="yearSelection"
+                        onChange={(e) =>
+                          handleFilterChange("year", e.target.value)
+                        }
+                      >
+                        <option value="">Select Year</option>
+                        <option value="2012">2012</option>
+                        <option value="2020">2020</option>
+                        {/* Add other year options here */}
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="modelSelection"
+                        onChange={(e) =>
+                          handleFilterChange("model", e.target.value)
+                        }
+                      >
+                        <option value="">Select Model</option>
+                        <option value="Peugeot 2008">Peugeot</option>
+                        <option value="Rebecca">Rebecca</option>
+                        {/* Add other model options here */}
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <button
+                        onClick={handleSearch}
+                        type="button"
+                        className="btn btn-danger wrn-btn"
+                      >
+                        Search
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <section>
+        <div className="cardContainer  px-4">
+          <div className="row d-flex justify-content-center">
+            {cars.map((car) => (
+              <div className="col-md-4" key={car.id}>
+                <CarCard
+                  myImage={car.images}
+                  name={car.model}
+                  brand={car.year}
+                  price={car.dailyPrice}
+                  linkToDetails={""}
+                  onClick={() => {
+                    setSelectedCar(car);
+                    setIsModalOpen(true);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-    </div>
+
+      {selectedCar && isModalOpen && (
+        <CarDetailsModal
+          car={selectedCar}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
 

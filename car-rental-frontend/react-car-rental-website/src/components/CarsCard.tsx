@@ -2,9 +2,9 @@ interface Props {
   myImage: string;
   name: string;
   brand: string;
-  linkToDetails: string;
   price: string;
-  onClick: () => void;
+  onClickDetails: () => void;
+  onClickReserve: () => void;
 }
 
 const CarCard = ({
@@ -12,8 +12,8 @@ const CarCard = ({
   name,
   brand,
   price,
-  linkToDetails,
-  onClick,
+  onClickDetails,
+  onClickReserve,
 }: Props) => {
   return (
     <div>
@@ -37,13 +37,15 @@ const CarCard = ({
             </p>
           </div>
           <p className="d-flex mb-0 d-block">
-            <a href="#" className="btn btn-primary py-2 mr-1">
+            <a onClick={() => {
+                onClickReserve();
+              }} className="btn btn-primary py-2 mr-1">
               Book now
             </a>
             <div className="offset-0.5"></div>
             <a
               onClick={() => {
-                onClick();
+                onClickDetails();
               }}
               className="btn btn-secondary py-2 ml-1"
             >

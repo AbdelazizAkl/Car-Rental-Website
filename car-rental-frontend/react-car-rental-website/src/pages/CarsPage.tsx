@@ -4,10 +4,12 @@ import CarCard from "../components/CarsCard";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import CarDetailsModal from "../components/CarsDetailsModal";
+import ReserveCarModal from "../components/ReserveCarModal";
 
 const cars = () => {
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   interface Car {
     id: string;
@@ -21,7 +23,8 @@ const cars = () => {
     weeklyPrice: string;
     mileage: number;
     features: string;
-    onClick: () => void;
+    onClickDetails: () => void;
+    onClickReserve: () => void;
   }
 
   const [carsData, setCarsData] = useState<Car[]>([]);
@@ -88,10 +91,13 @@ const cars = () => {
                   name={car.model}
                   brand={car.year}
                   price={car.dailyPrice}
-                  linkToDetails={""}
-                  onClick={() => {
+                  onClickDetails={() => {
                     setSelectedCar(car);
-                    setIsModalOpen(true);
+                    setIsDetailsModalOpen(true);
+                  }}
+                  onClickReserve={() => {
+                    setSelectedCar(car);
+                    setIsReserveModalOpen(true);
                   }}
                 />
               </div>
@@ -99,10 +105,16 @@ const cars = () => {
           </div>
         </div>
       </section>
-      {selectedCar && isModalOpen && (
+      {selectedCar && isDetailsModalOpen && (
         <CarDetailsModal
           car={selectedCar}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
+      )}
+      {selectedCar && isReserveModalOpen && (
+        <ReserveCarModal
+          car={selectedCar}
+          onClose={() => setIsReserveModalOpen(false)}
         />
       )}
     </>

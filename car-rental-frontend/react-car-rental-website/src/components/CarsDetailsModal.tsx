@@ -22,20 +22,18 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({ car, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-container car-details-modal">
-        {/* Add your modal content here */}
-        <h2>
+        <h1>
           {car.model} - {car.year}
-        </h2>
-        <h1>
+        </h1>
+        <h3>
           {car.plateId} - {car.status}
-        </h1>
-        <h1>
+        </h3>
+        <h3>
           Pricing: Daily {car.dailyPrice} - Weekly {car.weeklyPrice}
-        </h1>
-        <h1>Mileage: {car.mileage}</h1>
-        <h1>{car.features}</h1>
-        {/* Display other car details */}
-        <button onClick={onClose} className="modal-close">
+        </h3>
+        <h3>Mileage: {car.mileage}</h3>
+        <h4>{car.features}</h4>
+        <button onClick={onClose} className="btn btn-primary">
           Close
         </button>
       </div>

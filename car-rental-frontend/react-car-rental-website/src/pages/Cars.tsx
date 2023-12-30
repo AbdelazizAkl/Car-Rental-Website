@@ -47,26 +47,46 @@ const cars = () => {
   // Fetch cars on component mount
 
   return (
-    <div>
-      <div className="carsParent">
+    <div className="carsParent">
+      <div>
         <Navbar home={false} />
-      </div>
-      <section className="ftco-section bg-light">
-        <div className="container">
-          <div className="row">
-            {carsData.map((car) => (
-              <CarCard
-                key={`http://localhost:3000/images/${car.images}`} // Assuming each car has a unique ID
-                myImage={car.images}
-                name={car.model}
-                brand={car.year}
-                price={car.dailyPrice}
-                linkToDetails={""} // Assuming linkToDetails exists in car data
-              />
-            ))}
+        <section
+          className="hero-wrap hero-wrap-2 js-fullheight"
+          data-stellar-background-ratio="0.5"
+        >
+          <div className="overlay"></div>
+          <div className="carsContainer">
+            <div className="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+              <div className="col-md-9 ftco-animate pb-5">
+                <p className="breadcrumbs">
+                  <span className="mr-2"></span>{" "}
+                </p>
+                <h1 className="mb-3 bread">Choose Your Car</h1>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+      <div>
+        <section className="ftco-section bg-light">
+          <div className="container  px-4">
+            <div className="row d-flex justify-content-center">
+              {carsData.map((car) => (
+                <div className="col-md-4">
+                  <CarCard
+                    key={car.id}
+                    myImage={car.images}
+                    name={car.model}
+                    brand={car.year}
+                    price={car.dailyPrice}
+                    linkToDetails={""}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

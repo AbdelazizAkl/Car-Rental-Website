@@ -8,25 +8,31 @@ interface Props {
 
 const CarCard = ({ myImage, name, brand, price, linkToDetails }: Props) => {
   return (
-    <div className="col-md-4">
-      <div className="car-wrap rounded ftco-animate">
-        <div className="img rounded d-flex align-items-end">
+    <div>
+      <div>
+        <div
+          className="img rounded"
+          style={{ width: "400px", height: "200px" }}
+        >
           <img src={myImage} className="img-fluid" />
         </div>
+
         <div className="text">
           <h2 className="mb-0">
-            <a href={linkToDetails}>{name}</a>
+            <a>{name}</a>
           </h2>
           <div className="d-flex mb-3">
-            <span className="cat">{brand}</span>
-            <p className="price ml-auto">
-              ${price} <span>/day</span>
+            <span className="cat">Model: {brand}</span>
+            <div className="offset-1"></div>
+            <p>
+              Price: {price} <span>LE</span> <span>/day</span>
             </p>
           </div>
           <p className="d-flex mb-0 d-block">
             <a href="#" className="btn btn-primary py-2 mr-1">
               Book now
-            </a>{" "}
+            </a>
+            <div className="offset-0.5"></div>
             <a href={linkToDetails} className="btn btn-secondary py-2 ml-1">
               Details
             </a>

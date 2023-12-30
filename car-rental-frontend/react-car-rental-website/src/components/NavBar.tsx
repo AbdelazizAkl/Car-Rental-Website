@@ -3,9 +3,10 @@ import "../css/navBar.css";
 
 interface NavbarProps {
   home?: boolean;
+  cars?: boolean;
 } // Define props if needed in the future
 
-const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
+const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
   return (
     <div className="topnav">
       {home && (
@@ -18,15 +19,25 @@ const Navbar: React.FC<NavbarProps> = ({ home }: NavbarProps) => {
           Home
         </a>
       )}
-      <a className="nav-link" href="/searchPage">
-        Search
-      </a>
+      {home && (
+        <a className="nav-link" href="/search">
+          Search
+        </a>
+      )}
+
       <a className="nav-link" href="/pricingPage">
         Pricing
       </a>
-      <a className="nav-link" href="/car">
-        Cars
-      </a>
+      {cars && (
+        <a className="nav-link" href="#cars-section">
+          Cars
+        </a>
+      )}
+      {!cars && (
+        <a className="nav-link" href="/car">
+          Cars
+        </a>
+      )}
       {home && (
         <a className="nav-link" href="#about-section">
           Contact

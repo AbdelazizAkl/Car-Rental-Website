@@ -3,7 +3,6 @@ import Navbar from "../components/NavBar";
 import CarCard from "../components/CarsCard";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import myCar from "../images/cars/car-1.jpg";
 
 const cars = () => {
   interface Car {
@@ -47,9 +46,9 @@ const cars = () => {
   // Fetch cars on component mount
 
   return (
-    <div className="carsParent">
-      <div>
-        <Navbar home={false} />
+    <>
+      <div className="carsParent">
+        <Navbar cars={true} />
         <section
           className="hero-wrap hero-wrap-2 js-fullheight"
           data-stellar-background-ratio="0.5"
@@ -67,27 +66,26 @@ const cars = () => {
           </div>
         </section>
       </div>
-      <div>
-        <section className="ftco-section bg-light">
-          <div className="container  px-4">
-            <div className="row d-flex justify-content-center">
-              {carsData.map((car) => (
-                <div className="col-md-4">
-                  <CarCard
-                    key={car.id}
-                    myImage={car.images}
-                    name={car.model}
-                    brand={car.year}
-                    price={car.dailyPrice}
-                    linkToDetails={""}
-                  />
-                </div>
-              ))}
-            </div>
+
+      <section className="ftco-section bg-light" id="cars-section">
+        <div className="cardContainer  px-4">
+          <div className="row d-flex justify-content-center">
+            {carsData.map((car) => (
+              <div className="col-md-4">
+                <CarCard
+                  key={car.id}
+                  myImage={car.images}
+                  name={car.model}
+                  brand={car.year}
+                  price={car.dailyPrice}
+                  linkToDetails={""}
+                />
+              </div>
+            ))}
           </div>
-        </section>
-      </div>
-    </div>
+        </div>
+      </section>
+    </>
   );
 };
 

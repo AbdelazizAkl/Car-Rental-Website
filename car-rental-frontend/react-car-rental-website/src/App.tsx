@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
-import CarsPage from "./pages/Cars";
+import CarsPage from "./pages/CarsPage";
 import AdminLogin from "./pages/AdminLoginPage";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/car" element={<CarsPage />} />
         <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,27 +1,23 @@
-.carsParent {
+.searchParent {
   background-image: url("../images/carsPageBackground.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   /* background-position: center top -50px; */
-  height: 900px;
+  height: 1000px;
   color: white;
+  display: flex;
 }
 
-.carsContainer {
+.searchContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 50vh;
   background-color: transparent;
   color: white;
-}
-
-.cardContainer {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  color: white;
-  background-color: #333;
   margin-left: 10%;
   margin-right: 10%;
+  left: 0 !important;
+  right: 0 !important;
+  flex-grow: 1;
 }

@@ -3,7 +3,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top -100px;
-  height: 600px;
+  height: 830px;
 }
 .container {
   margin-top: -3%;
@@ -12,7 +12,4 @@
 }
 body {
   scroll-behavior: smooth;
-}
-.svghj {
-  transform: translate(1000, 0) !important;
 }

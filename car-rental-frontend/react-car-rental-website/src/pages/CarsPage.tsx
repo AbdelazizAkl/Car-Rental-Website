@@ -3,15 +3,25 @@ import Navbar from "../components/NavBar";
 import CarCard from "../components/CarsCard";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import CarDetailsModal from "../components/CarsDetailsModal";
 
 const cars = () => {
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   interface Car {
     id: string;
-    images: string; // Adjust type if images are an array or object
     model: string;
     year: string;
+    plateId: string;
+    status: string;
+    office_id: number;
+    images: string;
     dailyPrice: string;
-    linkToDetails: string;
+    weeklyPrice: string;
+    mileage: number;
+    features: string;
+    onClick: () => void;
   }
 
   const [carsData, setCarsData] = useState<Car[]>([]);
@@ -79,12 +89,22 @@ const cars = () => {
                   brand={car.year}
                   price={car.dailyPrice}
                   linkToDetails={""}
+                  onClick={() => {
+                    setSelectedCar(car);
+                    setIsModalOpen(true);
+                  }}
                 />
               </div>
             ))}
           </div>
         </div>
       </section>
+      {selectedCar && isModalOpen && (
+        <CarDetailsModal
+          car={selectedCar}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 };

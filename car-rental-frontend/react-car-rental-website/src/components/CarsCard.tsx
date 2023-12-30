@@ -4,15 +4,23 @@ interface Props {
   brand: string;
   linkToDetails: string;
   price: string;
+  onClick: () => void;
 }
 
-const CarCard = ({ myImage, name, brand, price, linkToDetails }: Props) => {
+const CarCard = ({
+  myImage,
+  name,
+  brand,
+  price,
+  linkToDetails,
+  onClick,
+}: Props) => {
   return (
     <div>
       <div>
         <div
           className="img rounded"
-          style={{ width: "400px", height: "200px" }}
+          style={{ width: "300px", height: "200px" }}
         >
           <img src={myImage} className="img-fluid" />
         </div>
@@ -33,7 +41,12 @@ const CarCard = ({ myImage, name, brand, price, linkToDetails }: Props) => {
               Book now
             </a>
             <div className="offset-0.5"></div>
-            <a href={linkToDetails} className="btn btn-secondary py-2 ml-1">
+            <a
+              onClick={() => {
+                onClick();
+              }}
+              className="btn btn-secondary py-2 ml-1"
+            >
               Details
             </a>
           </p>

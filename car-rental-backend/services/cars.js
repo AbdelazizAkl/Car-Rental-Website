@@ -23,16 +23,25 @@ async function getAll(page = 1) {
   }
 }
 
-async function getById(id) {
-  const row = await db.query(
-    `SELECT *
-    FROM cars WHERE id = ?`,
-    [id]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+async function getById(req, res) {
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE id = ?`,
+      [req.params.id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
 }
 
 async function create(

@@ -9,15 +9,13 @@
 }
 
 .searchContainer {
-  display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50vh;
+  min-height: 20vh !important;
   background-color: transparent;
   color: white;
-  margin-left: 10%;
+  margin-left: 20% !important;
   margin-right: 10%;
-  left: 0 !important;
-  right: 0 !important;
-  flex-grow: 1;
+  margin-top: 20%;
+  flex-grow: 1 !important;
 }

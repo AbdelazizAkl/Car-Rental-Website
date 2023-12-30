@@ -16,16 +16,13 @@ router.get("/", async (req, res) => {
 // GET a single car by ID
 router.get("/:id", async (req, res) => {
   try {
-    const car = await carsService.getById(req.params.id);
-    if (car) {
-      res.json(car);
-    } else {
-      res.status(404).json({ error: "car not found" });
-    }
+    await carsService.getById(req, res);
   } catch (error) {
     // Handle errors appropriately
-    console.error(error);
-    res.status(500).json({ error: "Failed to retrieve car" });
+    console.error("Error in route handler:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve cars" });
   }
 });
 

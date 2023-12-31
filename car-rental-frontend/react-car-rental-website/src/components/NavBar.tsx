@@ -7,6 +7,21 @@ interface NavbarProps {
 } // Define props if needed in the future
 
 const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
+  const userString = localStorage.getItem("UserData");
+
+  let userInfo;
+
+  if (userString !== null) {
+    userInfo = JSON.parse(userString);
+  } else {
+    console.error("userInfoString is null. Unable to parse.");
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("UserData");
+    window.location.reload();
+  };
+
   return (
     <div className="topnav">
       {home && (
@@ -48,14 +63,23 @@ const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
           About
         </a>
       )}
-      <div className="topnav-right">
-        <a className="nav-link" href="/login">
-          Login
-        </a>
-        <a className="nav-link" href="/register">
-          Sign up
-        </a>
-      </div>
+      {userInfo ? (
+        <div className="topnav-right">
+          <a className="nav-link user-welcome">Welcome {userInfo.fName}!</a>
+          <a className="nav-link" href="#" onClick={handleLogout}>
+            Logout
+          </a>
+        </div>
+      ) : (
+        <div className="topnav-right">
+          <a className="nav-link" href="/login">
+            Login
+          </a>
+          <a className="nav-link" href="/register">
+            Sign up
+          </a>
+        </div>
+      )}
     </div>
   );
 };

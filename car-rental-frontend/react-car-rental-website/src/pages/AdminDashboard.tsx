@@ -8,9 +8,15 @@ import {
 } from "mdb-react-ui-kit";
 
 import "../css/AdminPage.css";
+
+import { useState } from "react";
 interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
+  const [carStatus, setCarStatus] = useState(false);
+  const handleCarStatusClick = () => {
+    setCarStatus(true);
+  };
   return (
     // <MDBTable align="middle">
     //   <MDBTableHead>

@@ -3,6 +3,15 @@ const router = express.Router();
 const carsService = require("../services/cars");
 
 // GET all cars (with pagination)
+router.post("/search", async (req, res) => {
+  try {
+    await carsService.getByFilters(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const { data, meta } = await carsService.getAll(req.query.page);
@@ -16,16 +25,25 @@ router.get("/", async (req, res) => {
 // GET a single car by ID
 router.get("/:id", async (req, res) => {
   try {
-    const car = await carsService.getById(req.params.id);
-    if (car) {
-      res.json(car);
-    } else {
-      res.status(404).json({ error: "car not found" });
-    }
+    await carsService.getById(req, res);
   } catch (error) {
     // Handle errors appropriately
-    console.error(error);
-    res.status(500).json({ error: "Failed to retrieve car" });
+    console.error("Error in route handler:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.get("/:year", async (req, res) => {
+  try {
+    await carsService.getByYear(req, res);
+  } catch (error) {
+    // Handle errors appropriately
+    console.error("Error in route handler:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve cars" });
   }
 });
 

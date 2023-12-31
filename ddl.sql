@@ -1,18 +1,30 @@
-CREATE DATABASE carrental_db;
+-- CREATE DATABASE carrental_db;
 
-USE carrental_db;
+-- USE carrental_db;
 
 CREATE TABLE
     Cars (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        brand VARCHAR(50) NOT NULL,
         model VARCHAR(50) NOT NULL,
         year INT NOT NULL,
+        color VARCHAR(10) NOT NULL check (
+            color in (
+                'Blue',
+                'Green',
+                'Black',
+                'White',
+                'Red',
+                'Silver',
+                'Grey',
+                'Bronze'
+            )
+        ),
         plateId VARCHAR(10) UNIQUE NOT NULL,
         status ENUM(
             'active',
             'outOfService',
-            'rented',
-            'maintenance'
+            'rented'
         ) NOT NULL,
         office_id int NOT NULL,
         images TEXT,
@@ -31,7 +43,7 @@ CREATE TABLE
         password VARCHAR(60) NOT NULL,
         address VARCHAR(255),
         phone VARCHAR(20),
-        driversLicense VARCHAR(20)
+        PassportNumber VARCHAR(20) UNIQUE
     );
 
 CREATE TABLE
@@ -43,12 +55,11 @@ CREATE TABLE
         endDate DATE NOT NULL,
         totalPrice DECIMAL(10, 2) NOT NULL,
         status ENUM(
-            'pending',
+            'reserved',
             'confirmed',
             'completed',
             'canceled'
-        ) NOT NULL,
-        paymentDetails TEXT
+        ) NOT NULL
     );
 
 CREATE TABLE
@@ -56,19 +67,18 @@ CREATE TABLE
         id INT AUTO_INCREMENT PRIMARY KEY,
         reservationId INT NOT NULL,
         amount DECIMAL(10, 2) NOT NULL,
-        paymentMethod VARCHAR(20) NOT NULL,
-        transactionId VARCHAR(50),
-        date DATETIME NOT NULL
+        cvc CHAR(3) NOT NULL,
+        cardNumber CHAR(16) NOT NULL,
+        cardOwner VARCHAR(20) NOT NULL
     );
 
 CREATE TABLE
     Offices (
         office_id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(50) NOT NULL,
+        country VARCHAR(50) NOT NULL,
         city VARCHAR(255) NOT NULL,
-        address VARCHAR(255) NOT NULL,
-        phone VARCHAR(20) NOT NULL,
-        hoursOperation VARCHAR(50)
+        location VARCHAR(255) NOT NULL,
+        phone VARCHAR(20) NOT NULL
     );
 
 CREATE TABLE

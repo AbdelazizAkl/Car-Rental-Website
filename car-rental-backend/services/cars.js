@@ -23,16 +23,63 @@ async function getAll(page = 1) {
   }
 }
 
-async function getById(id) {
-  const row = await db.query(
-    `SELECT *
-    FROM cars WHERE id = ?`,
-    [id]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+async function getByFilters(req, res) {
+  const filterConditions = Object.entries(req.body)
+    .filter(([key, value]) => value !== "") // Ignore empty filters
+    .map(([key, value]) => `${key} = "${value}"`)
+    .join(" AND ");
+  var string = "";
+  if (filterConditions) {
+    string = "Where " + filterConditions;
+  }
+  console.log(string);
+
+  const query = `SELECT * FROM cars  ${string}`;
+  const rows = await db.query(query);
+  console.log(query);
+  return res.json({ success: true, data: rows });
+}
+
+async function getByYear(req, res) {
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE year = ?`,
+      [req.params.year]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+
+async function getById(req, res) {
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE id = ?`,
+      [req.params.id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
 }
 
 async function create(
@@ -67,6 +114,8 @@ async function remove(id) {
 module.exports = {
   getAll,
   getById,
+  getByYear,
+  getByFilters,
   create,
   remove,
 };

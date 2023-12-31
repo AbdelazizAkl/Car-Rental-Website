@@ -107,9 +107,9 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
     <div className="modal-overlay">
       <div className="d-flex">
         <div className="offset-1">
-          <div className="container">
+          <div className="paymentContainer">
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-md-offset-4">
+              <div>
                 <div className="modal-container car-details-modal">
                   <label>
                     Start Date:
@@ -134,7 +134,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                   <p>Total Price: {totalPrice}LE</p>
                 </div>
               </div>
-              <div className="col-xs-12 col-md-6 col-md-offset-4">
+              <div>
                 <div className="panel panel-default">
                   <div className="panel-heading">
                     <div className="row">
@@ -181,13 +181,13 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-xs-5 col-md-5 pull-right">
                           <div className="form-group">
                             <label>CARD OWNER</label>
                             <input
-                              type="text"
+                              type="tel"
                               className="form-control"
-                              placeholder="Card Owner Names"
+                              placeholder="Card Owner Name"
                               onChange={(event) =>
                                 setCardOwner(event.target.value)
                               }
@@ -197,6 +197,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                       </div>
                     </form>
                   </div>
+                  <div className="offset-1"></div>
                   <div className="panel-footer">
                     <div className="row">
                       <div className="col-xs-12">

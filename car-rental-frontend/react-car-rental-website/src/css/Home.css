@@ -5,10 +5,16 @@
   background-position: center top -100px;
   height: 830px;
 }
-.container {
-  margin-top: -3%;
+.aboutContainer {
+  margin-top: -18%;
   color: white !important;
   background-color: #333 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 body {
   scroll-behavior: smooth;

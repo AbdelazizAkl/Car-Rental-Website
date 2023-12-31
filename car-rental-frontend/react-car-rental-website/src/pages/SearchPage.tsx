@@ -29,6 +29,7 @@ const Search = () => {
     model: "",
     dailyPrice: "",
     weeklyPrice: "",
+    office_id: "",
   });
 
   const [cars, setCarsData] = useState<Car[]>([]);
@@ -127,6 +128,21 @@ const Search = () => {
                         <option value="6000">6000 LE</option>
                         <option value="6500">6500 LE</option>
                         <option value="8000">8000 LE</option>
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="officeSelection"
+                        onChange={(e) =>
+                          handleFilterChange("office_id", e.target.value)
+                        }
+                      >
+                        <option value="">Select Office</option>
+                        <option value="1">Smouha</option>
+                        <option value="2">Roushdy</option>
+                        <option value="3">Paris</option>
                       </select>
                     </div>
 

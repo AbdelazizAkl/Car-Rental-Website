@@ -94,7 +94,7 @@ async function create(req, res) {
         message: `Car is Reserved from ${formattedStartDate} to ${formattedEndDate}`,
       });
   }
-  await db.query(
+  const result = await db.query(
     `INSERT INTO reservations (customerId,
       carId,
       startDate,
@@ -117,22 +117,6 @@ async function create(req, res) {
     success: true,
     message: "Car Successfully Reserved",
   });
-
-  // if (row[0].status === "rented" || row[0].status === "outOfService" ) {
-  //   const reservedDates = await db.query(`Select startDate, endDate
-  //   From reservations where carId = ${carId} AND (status = reserved OR status = confirmed)`);
-  //   for (i=0; i<reservedDates.length;i++){
-  //     if(reservedDates[i].startDate>endDate || reservedDates[i].endDate<startDate){
-  //       return res.json({success: false, message:"car is unavailable"});
-  //     }
-  //   }
-  //   return res.json({ success: false, message: "car is unavailable" });
-  // }
-
-  // return res.json({
-  //   success: true,
-  //   message: "Car Successfully Reserved",
-  // });
 }
 
 async function remove(id) {
@@ -140,6 +124,27 @@ async function remove(id) {
     `DELETE FROM reservations WHERE id = "${id}"`
   );
   return rowsDeleted.affectedRows === 1; // Check if deletion occurred
+}
+
+async function cancelReservation(req, res) {
+  const {
+    customerId,
+    carId,
+    id, //reservation id
+  } = req.body;
+  const q1 = await db.query(
+    `Select * From Reservations Where customerId = ${customerId} And carId = ${carId} And id = ${id} `
+  );
+  if (q1) {
+    const row = await db.query(`UPDATE Reservations
+    SET status = 'canceled'
+    WHERE id = ${id};`);
+    return res.json({
+      success: true,
+      message: "Reservation Canceled successfully",
+    });
+  }
+  return res.json({ success: false, message: "Reservation Doesn't Exist" });
 }
 
 module.exports = {

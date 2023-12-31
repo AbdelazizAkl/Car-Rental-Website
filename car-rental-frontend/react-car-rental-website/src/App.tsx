@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import CarsPage from "./pages/CarsPage";
 import AdminLogin from "./pages/AdminLoginPage";
+import AdminBoard from "./pages/AdminDashboard";
 import SearchPage from "./pages/SearchPage";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/car" element={<CarsPage />} />
         <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/adminpage" element={<AdminBoard />} />
         <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>

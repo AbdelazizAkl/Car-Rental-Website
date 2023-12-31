@@ -28,6 +28,10 @@ const Admin = () => {
         )
         .then((response) => {
           if (response.data.success) {
+            localStorage.setItem(
+              "AdminData",
+              JSON.stringify(response.data.adminData)
+            );
             goHome();
           } else {
             setAlertVisibility(true);

@@ -36,10 +36,9 @@ async function login(req, res) {
       });
     }
 
-    const row = await db.query(
-      "SELECT password FROM admins WHERE email = ?",
-      [email]
-    );
+    const row = await db.query("SELECT password FROM admins WHERE email = ?", [
+      email,
+    ]);
 
     if (!row.length)
       return res.json({ success: false, message: "Invalid email!" });
@@ -57,7 +56,12 @@ async function login(req, res) {
           message: "Invalid password.",
         });
       }
-      return res.json({ success: true, message: "successs" });
+      row[0].password = undefined;
+      return res.json({
+        success: true,
+        message: "successs",
+        adminData: row[0],
+      });
     });
   } catch (error) {
     console.log(error);

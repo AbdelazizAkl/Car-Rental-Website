@@ -73,7 +73,7 @@ async function create(req, res) {
     confirmPassword,
     address,
     phone,
-    license,
+    PassportNumber,
   } = req.body;
   if (
     fName === "" ||
@@ -82,7 +82,7 @@ async function create(req, res) {
     password === "" ||
     address === "" ||
     phone === "" ||
-    license === ""
+    PassportNumber === ""
   ) {
     return res.json({
       success: false,
@@ -113,9 +113,9 @@ async function create(req, res) {
   const hash = await bcrypt.hash(password, 10);
   console.log(hash);
   const rows = await db.query(
-    `INSERT INTO customers (fName, lName, email, password, address, phone, driversLicense) VALUES
+    `INSERT INTO customers (fName, lName, email, password, address, phone, PassportNumber) VALUES
      ("${fName}", "${lName}", "${email}", "${hash}",
-     "${address}", "${phone}", "${license}")`
+     "${address}", "${phone}", "${PassportNumber}")`
   );
   return res.json({
     success: true,

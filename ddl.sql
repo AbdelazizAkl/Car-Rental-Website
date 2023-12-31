@@ -1,6 +1,6 @@
--- CREATE DATABASE carrental_db;
+CREATE DATABASE carrental_db;
 
--- USE carrental_db;
+USE carrental_db;
 
 CREATE TABLE
     Cars (
@@ -102,4 +102,4 @@ add
 
 Alter table Reservations add FOREIGN KEY (carId) REFERENCES Cars(id);
 
---DROP DATABASE carrental_db;
+-- DROP DATABASE carrental_db;

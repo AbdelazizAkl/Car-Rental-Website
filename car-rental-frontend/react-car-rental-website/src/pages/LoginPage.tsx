@@ -21,7 +21,7 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       };
-      const loginResponse = await axios
+      await axios
         .post(
           "http://localhost:3000/customers/login",
           {
@@ -32,6 +32,10 @@ const Login = () => {
         )
         .then((response) => {
           if (response.data.success) {
+            localStorage.setItem(
+              "UserData",
+              JSON.stringify(response.data.userData)
+            );
             goHome();
           } else {
             setAlertVisibility(true);

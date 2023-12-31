@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 interface Props {
   myImage: string;
   name: string;
@@ -15,6 +17,15 @@ const CarCard = ({
   onClickDetails,
   onClickReserve,
 }: Props) => {
+  const userString = localStorage.getItem("UserData");
+
+  let userInfo;
+
+  if (userString !== null) {
+    userInfo = JSON.parse(userString);
+  } else {
+    console.log("userInfoString is null. Unable to parse.");
+  }
   return (
     <div>
       <div>
@@ -37,14 +48,16 @@ const CarCard = ({
             </p>
           </div>
           <p className="d-flex mb-0 d-block">
-            <a
-              onClick={() => {
-                onClickReserve();
-              }}
-              className="btn btn-primary py-2 mr-1"
-            >
-              Book now
-            </a>
+            {userInfo ? (
+              <a
+                onClick={() => {
+                  onClickReserve();
+                }}
+                className="btn btn-primary py-2 mr-1"
+              >
+                Book now
+              </a>
+            ) : null}
             <div className="offset-0.5"></div>
             <a
               onClick={() => {

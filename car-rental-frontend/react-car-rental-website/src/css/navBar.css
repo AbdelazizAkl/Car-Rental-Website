@@ -34,6 +34,9 @@ color: black;
 background-color: #333;
 color: white;
 }
+.topnav a.user-welcome {
+  pointer-events: none;
+}
 
 /* Right-aligned section inside the top navigation */
 .topnav-right {

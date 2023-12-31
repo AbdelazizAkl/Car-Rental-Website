@@ -54,11 +54,13 @@ async function create(req, res) {
     });
   }
 
-  const row = await db.query("SELECT status FROM cars WHERE id = ?", [carId]);
+  const row = await db.query("SELECT * FROM cars WHERE id = ?", [carId]);
 
-  if (row[0].status === "rented" || row[0].status === "outOfService")
+  if (row[0].status === "rented" || row[0].status === "outOfService") {
+    const reservedDates = await db.query(`Select startData, endDate
+    From reservations where carId = ${carId} AND (status = reserved OR stats = confirmed)`);
     return res.json({ success: false, message: "car is unavailable" });
-
+  }
   await db.query(
     `INSERT INTO reservations (customerId,
       carId,

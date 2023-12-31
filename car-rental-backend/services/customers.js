@@ -36,10 +36,9 @@ async function login(req, res) {
       });
     }
 
-    const row = await db.query(
-      "SELECT password FROM customers WHERE email = ?",
-      [email]
-    );
+    const row = await db.query("SELECT * FROM customers WHERE email = ?", [
+      email,
+    ]);
 
     if (!row.length)
       return res.json({ success: false, message: "Invalid email!" });
@@ -57,7 +56,8 @@ async function login(req, res) {
           message: "Invalid password.",
         });
       }
-      return res.json({ success: true, message: "successs" });
+      row[0].password = undefined;
+      return res.json({ success: true, message: "successs", userData: row[0] });
     });
   } catch (error) {
     console.log(error);
@@ -112,18 +112,20 @@ async function create(req, res) {
   //   const hashedPassword = await bcrypt.hash(password, 10);
   const hash = await bcrypt.hash(password, 10);
   console.log(hash);
-  await db.query(
+  const signup = await db.query(
     `INSERT INTO customers (fName, lName, email, password, address, phone, PassportNumber) VALUES
      ("${fName}", "${lName}", "${email}", "${hash}",
-     "${address}", "${phone}", "${PassportNumber}")`,
-    function (err, result) {
-      if (err) throw err;
-      return res.json({
-        success: false,
-        message: "Error inserting into database",
-      });
-    }
+     "${address}", "${phone}", "${PassportNumber}")`
   );
+  if (!signup)
+    return res.json({
+      success: false,
+      message: "Error inserting into database",
+    });
+  return res.json({
+    success: true,
+    message: "Registration completed successfully",
+  });
 }
 
 async function getById(id) {

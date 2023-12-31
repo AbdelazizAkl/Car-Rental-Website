@@ -9,7 +9,7 @@ const home = () => {
         <Navbar home={true} />
       </div>
       <div>
-        <section className="ftco-section ftco-about">
+        <section className="ftco-section ftco-about" id="about-section">
           <div className="aboutContainer">
             <div className="row no-gutters">
               <div className="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center">

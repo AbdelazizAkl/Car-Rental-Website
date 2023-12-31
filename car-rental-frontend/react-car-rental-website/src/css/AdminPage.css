@@ -11,12 +11,17 @@
 }
 
 .AdminContainer {
-  background-image: url("../images/adminPage.jpg");
+  background-image: url("../images/homeBackground.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background-color: #ccc;
   position: relative;
+}
+.dateContainer {
+  background-color: transparent;
+  margin-left: 50%;
 }
 
 .AdminContainer .sidebar {

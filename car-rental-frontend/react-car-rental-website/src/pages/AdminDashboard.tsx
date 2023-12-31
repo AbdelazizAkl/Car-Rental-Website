@@ -1,163 +1,165 @@
 import React from "react";
-import {
-  MDBBadge,
-  MDBBtn,
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
-} from "mdb-react-ui-kit";
-
+import CarStatusTable from "../components/CarsStatusTable";
 import "../css/AdminPage.css";
-
+import axios from "axios";
 import { useState } from "react";
 interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
+  interface Car {
+    id: string;
+    model: string;
+    year: string;
+    plateId: string;
+    status: string;
+    office_id: number;
+    images: string;
+    dailyPrice: number;
+    weeklyPrice: number;
+    mileage: number;
+    features: string;
+  }
+  const adminString = localStorage.getItem("AdminData");
   const [carStatus, setCarStatus] = useState(false);
+  const [carStatusData, setCarStatusData] = useState<Car[]>([]);
+  const [date, setDate] = useState("");
+
+  async function handleCarStatusDateClick() {
+    if (date === "") {
+      try {
+        const config = {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        };
+        await axios
+          .get("http://localhost:3000/cars/", config)
+          .then((response) => {
+            if (response.data.data) {
+              setCarStatusData(response.data.data);
+              console.log(response.data.data);
+            } else {
+              console.log("Error fetching cars :", response.data.error);
+            }
+          });
+      } catch (error) {
+        console.log("Error fetching cars status:", error);
+      }
+    } else {
+      try {
+        const config = {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        };
+        await axios
+          .post("http://localhost:3000/admins/getCarsStatus", date)
+          .then((response) => {
+            if (response.data.data) {
+              setCarStatusData(response.data.data);
+              console.log(response.data.data);
+            } else {
+              setCarStatusData([]);
+              console.log("Error fetching cars :", response.data.error);
+            }
+          });
+      } catch (error) {
+        setCarStatusData([]);
+        console.log("Error fetching cars status:", error);
+      }
+    }
+  }
+
   const handleCarStatusClick = () => {
     setCarStatus(true);
+    setDate("");
+    handleCarStatusDateClick();
+  };
+  const handleReservationsClick = () => {
+    setCarStatus(false);
+  };
+  const handleSearchClick = () => {
+    setCarStatus(false);
+  };
+  const handleRevenueClick = () => {
+    setCarStatus(false);
+  };
+
+  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(e.target.value);
+    console.log("date changed", date);
+    handleCarStatusDateClick();
+  };
+
+  let adminInfo;
+
+  if (adminString !== null) {
+    adminInfo = JSON.parse(adminString);
+  } else {
+    console.error("AdminInfoString is null. Unable to parse.");
+  }
+  const handleLogout = () => {
+    localStorage.removeItem("AdminData");
+    window.location.reload();
   };
   return (
-    // <MDBTable align="middle">
-    //   <MDBTableHead>
-    //     <tr>
-    //       <th scope="col">Name</th>
-    //       <th scope="col">Title</th>
-    //       <th scope="col">Status</th>
-    //       <th scope="col">Position</th>
-    //       <th scope="col">Actions</th>
-    //     </tr>
-    //   </MDBTableHead>
-    //   <MDBTableBody>
-    //     <tr>
-    //       <td>
-    //         <div className="d-flex align-items-center">
-    //           <img
-    //             src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-    //             alt=""
-    //             style={{ width: "45px", height: "45px" }}
-    //             className="rounded-circle"
-    //           />
-    //           <div className="ms-3">
-    //             <p className="fw-bold mb-1">John Doe</p>
-    //             <p className="text-muted mb-0">john.doe@gmail.com</p>
-    //           </div>
-    //         </div>
-    //       </td>
-    //       <td>
-    //         <p className="fw-normal mb-1">Software engineer</p>
-    //         <p className="text-muted mb-0">IT department</p>
-    //       </td>
-    //       <td>
-    //         <MDBBadge color="success" pill>
-    //           Active
-    //         </MDBBadge>
-    //       </td>
-    //       <td>Senior</td>
-    //       <td>
-    //         <MDBBtn color="link" rounded size="sm">
-    //           Edit
-    //         </MDBBtn>
-    //       </td>
-    //     </tr>
-    //     <tr>
-    //       <td>
-    //         <div className="d-flex align-items-center">
-    //           <img
-    //             src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-    //             alt=""
-    //             style={{ width: "45px", height: "45px" }}
-    //             className="rounded-circle"
-    //           />
-    //           <div className="ms-3">
-    //             <p className="fw-bold mb-1">Alex Ray</p>
-    //             <p className="text-muted mb-0">alex.ray@gmail.com</p>
-    //           </div>
-    //         </div>
-    //       </td>
-    //       <td>
-    //         <p className="fw-normal mb-1">Consultant</p>
-    //         <p className="text-muted mb-0">Finance</p>
-    //       </td>
-    //       <td>
-    //         <MDBBadge color="primary" pill>
-    //           Onboarding
-    //         </MDBBadge>
-    //       </td>
-    //       <td>Junior</td>
-    //       <td>
-    //         <MDBBtn color="link" rounded size="sm">
-    //           Edit
-    //         </MDBBtn>
-    //       </td>
-    //     </tr>
-    //     <tr>
-    //       <td>
-    //         <div className="d-flex align-items-center">
-    //           <img
-    //             src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-    //             alt=""
-    //             style={{ width: "45px", height: "45px" }}
-    //             className="rounded-circle"
-    //           />
-    //           <div className="ms-3">
-    //             <p className="fw-bold mb-1">Kate Hunington</p>
-    //             <p className="text-muted mb-0">kate.hunington@gmail.com</p>
-    //           </div>
-    //         </div>
-    //       </td>
-    //       <td>
-    //         <p className="fw-normal mb-1">Designer</p>
-    //         <p className="text-muted mb-0">UI/UX</p>
-    //       </td>
-    //       <td>
-    //         <MDBBadge color="warning" pill>
-    //           Awaiting
-    //         </MDBBadge>
-    //       </td>
-    //       <td>Senior</td>
-    //       <td>
-    //         <MDBBtn color="link" rounded size="sm">
-    //           Edit
-    //         </MDBBtn>
-    //       </td>
-    //     </tr>
-    //   </MDBTableBody>
-    // </MDBTable>
     <>
-      <div className="AdminContainer">
-        <ul className="sidebar">
-          <li>
-            <span>KWAIZO</span>
-          </li>
-          <li>
-            <span>
-              <i className="fa fa-home"></i>
-            </span>
-            <span>Reservations</span>
-          </li>
-          <li>
-            <span>
-              <i className="fa fa-dashboard"></i>
-            </span>
-            <span>Revenue</span>
-          </li>
-          <li>
-            <span>
-              <i className="fa fa-users"></i>
-            </span>
-            <span>Cars Status</span>
-          </li>
-          <li>
-            <span>
-              <i className="fa fa-shopping-cart"></i>
-            </span>
-            <span>Advanced Search</span>
-          </li>
-        </ul>
+      {adminInfo ? (
+        <>
+          <div className="AdminContainer">
+            <div className="dateContainer">
+              {carStatus && (
+                <input type="date" value={date} onChange={handleDate} />
+              )}
+              {carStatus && carStatusData && (
+                <div>
+                  <CarStatusTable
+                    carStatusData={carStatusData}
+                  ></CarStatusTable>
+                </div>
+              )}
+            </div>
+            <ul className="sidebar">
+              <li>
+                <span>KWAIZO</span>
+              </li>
+              <li onClick={handleReservationsClick}>
+                <span>
+                  <i className="fa fa-home"></i>
+                </span>
+                <span>Reservations</span>
+              </li>
+              <li onClick={handleRevenueClick}>
+                <span>
+                  <i className="fa fa-dashboard"></i>
+                </span>
+                <span>Revenue</span>
+              </li>
+              <li onClick={handleCarStatusClick}>
+                <span>
+                  <i className="fa fa-users"></i>
+                </span>
 
-        <div className="content"></div>
-      </div>
+                <span>Cars Status</span>
+              </li>
+              <li onClick={handleSearchClick}>
+                <span>
+                  <i className="fa fa-shopping-cart"></i>
+                </span>
+                <span>Advanced Search</span>
+              </li>
+              <li>
+                <span>
+                  <i className="fa fa-shopping-cart" onClick={handleLogout}>
+                    Logout
+                  </i>
+                </span>
+              </li>
+            </ul>
+            <div className="content"></div>
+          </div>
+        </>
+      ) : (
+        <h1>Access Denied You are not logged in as admin</h1>
+      )}
     </>
   );
 };

@@ -35,7 +35,6 @@ async function create(
   transactionId,
   date
 ) {
-
   const rows = await db.query(
     `INSERT INTO payments (reservationId, amount, paymentMethod, transactionId, date) VALUES
      ("${reservationId}", "${amount}", "${paymentMethod}", "${transactionId}", "${date}")`
@@ -53,5 +52,5 @@ module.exports = {
   getAll,
   getById,
   create,
-  remove
+  remove,
 };

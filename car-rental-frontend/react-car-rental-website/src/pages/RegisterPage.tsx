@@ -15,7 +15,7 @@ const Register = () => {
   const [lName, setLastName] = useState("");
   const [phone, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [license, setLicense] = useState("");
+  const [PassportNumber, setPassportNumber] = useState("");
   const [confirmPassword, setConfirmedPassword] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -36,7 +36,7 @@ const Register = () => {
             confirmPassword,
             address,
             phone,
-            license,
+            PassportNumber,
           },
           config
         )
@@ -117,10 +117,12 @@ const Register = () => {
                   <div className="input_text">
                     <input
                       type="text"
-                      placeholder="Enter License"
-                      name="license"
-                      value={license}
-                      onChange={(event) => setLicense(event.target.value)}
+                      placeholder="Enter Passport Number"
+                      name="Passport Number"
+                      value={PassportNumber}
+                      onChange={(event) =>
+                        setPassportNumber(event.target.value)
+                      }
                     />
                   </div>
                   <div className="input_text">

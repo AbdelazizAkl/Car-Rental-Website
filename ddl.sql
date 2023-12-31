@@ -41,9 +41,9 @@ CREATE TABLE
         lName VARCHAR(50) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(60) NOT NULL,
-        address VARCHAR(255),
-        phone VARCHAR(20),
-        PassportNumber VARCHAR(20) UNIQUE
+        address VARCHAR(255) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
+        PassportNumber VARCHAR(20) UNIQUE NOT NULL
     );
 
 CREATE TABLE

@@ -27,6 +27,8 @@ const Search = () => {
   const [filters, setFilters] = useState({
     year: "",
     model: "",
+    dailyPrice: "",
+    weeklyPrice: "",
   });
 
   const [cars, setCarsData] = useState<Car[]>([]);
@@ -81,7 +83,6 @@ const Search = () => {
                         <option value="">Select Year</option>
                         <option value="2012">2012</option>
                         <option value="2020">2020</option>
-                        {/* Add other year options here */}
                       </select>
                     </div>
 
@@ -96,7 +97,36 @@ const Search = () => {
                         <option value="">Select Model</option>
                         <option value="Peugeot 2008">Peugeot</option>
                         <option value="Rebecca">Rebecca</option>
-                        {/* Add other model options here */}
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="dailyPriceSelection"
+                        onChange={(e) =>
+                          handleFilterChange("dailyPrice", e.target.value)
+                        }
+                      >
+                        <option value="">Select Daily Price</option>
+                        <option value="1000">1000 LE</option>
+                        <option value="1200">1200 LE</option>
+                        <option value="1300">1300 LE</option>
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="weeklyPriceSelection"
+                        onChange={(e) =>
+                          handleFilterChange("weeklyPrice", e.target.value)
+                        }
+                      >
+                        <option value="">Select Weekly Price</option>
+                        <option value="6000">6000 LE</option>
+                        <option value="6500">6500 LE</option>
+                        <option value="8000">8000 LE</option>
                       </select>
                     </div>
 

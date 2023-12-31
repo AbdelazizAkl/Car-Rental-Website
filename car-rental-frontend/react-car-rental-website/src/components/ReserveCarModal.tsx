@@ -42,13 +42,20 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
   };
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEndDate(e.target.value);
-    calculateReservationDuration(startDate, e.target.value);
+    const selectedEndDate = e.target.value;
+
+    if (selectedEndDate < startDate) {
+      setAlertVisibility(true);
+      setAlertMessage("End date cannot be earlier than the start date");
+    } else {
+      setEndDate(selectedEndDate);
+      calculateReservationDuration(startDate, selectedEndDate);
+    }
   };
 
   const calculateReservationDuration = (start: string, end: string) => {
-    const startTimestamp = new Date(start).getTime();
-    const endTimestamp = new Date(end).getTime();
+    const startTimestamp = new Date(start + "T00:00:00").getTime();
+    const endTimestamp = new Date(end + "T00:00:00").getTime();
 
     if (!isNaN(startTimestamp) && !isNaN(endTimestamp)) {
       const durationInMilliseconds = Math.abs(endTimestamp - startTimestamp);
@@ -70,6 +77,17 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
     // Implement your logic to handle the reservation
     // This could involve sending a request to a server or updating local state
     try {
+      if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+        setAlertVisibility(true);
+        setAlertMessage("Card number must be a 16-digit number");
+        return;
+      }
+
+      if (cvc.length !== 3 || !/^\d+$/.test(cvc)) {
+        setAlertVisibility(true);
+        setAlertMessage("CVC must be a 3-digit number");
+        return;
+      }
       const config = {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -93,9 +111,11 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
         )
         .then((response) => {
           if (response.data.success) {
+            console.log(response.data.message);
             onClose();
           } else {
             setAlertVisibility(true);
+            console.log(response.data.message);
             setAlertMessage(response.data.message);
           }
         });

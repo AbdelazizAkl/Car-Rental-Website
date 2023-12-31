@@ -53,13 +53,46 @@ async function create(req, res) {
       message: "Please enter all fields",
     });
   }
+  const q1 = await db.query(`Select * from Cars where id = ${carId}`);
+  if (q1[0].status === "outOfService")
+    return res.json({ success: false, message: "Car is out of service" });
 
-  const row = await db.query("SELECT * FROM cars WHERE id = ?", [carId]);
-
-  if (row[0].status === "rented" || row[0].status === "outOfService") {
-    const reservedDates = await db.query(`Select startData, endDate
-    From reservations where carId = ${carId} AND (status = reserved OR stats = confirmed)`);
-    return res.json({ success: false, message: "car is unavailable" });
+  const row = await db.query(
+    `SELECT * FROM cars as c JOIN reservations as r on c.id = r.carId where c.id = ${carId} AND (r.status = 'reserved' OR r.status = 'confirmed')`
+  );
+  for (i = 0; i < row.length; i++) {
+    const dbStartString = row[i].startDate;
+    const dateObject1 = new Date(dbStartString);
+    const formattedStartDate = dateObject1.toLocaleDateString("en-US");
+    console.log(formattedStartDate);
+    const dbEndString = row[i].endDate;
+    const dateObject2 = new Date(dbEndString);
+    const formattedEndDate = dateObject2.toLocaleDateString("en-US");
+    console.log(formattedEndDate);
+    const inputStartString = startDate;
+    const dateObject3 = new Date(inputStartString);
+    const formattedInputStartDate = dateObject3.toLocaleDateString("en-US");
+    console.log(formattedInputStartDate);
+    const inputEndString = endDate;
+    const dateObject4 = new Date(inputEndString);
+    const formattedInputEndDate = dateObject4.toLocaleDateString("en-US");
+    console.log(formattedInputEndDate);
+    if (
+      (formattedStartDate < formattedInputEndDate &&
+        formattedEndDate > formattedInputEndDate) ||
+      (formattedStartDate > formattedInputStartDate &&
+        formattedEndDate < formattedInputEndDate) ||
+      (formattedStartDate < formattedInputStartDate &&
+        formattedEndDate > formattedInputEndDate) ||
+      (formattedStartDate < formattedInputStartDate &&
+        formattedEndDate < formattedInputEndDate) ||
+      (formattedStartDate === formattedInputStartDate &&
+        formattedEndDate === formattedInputEndDate)
+    )
+      return res.json({
+        success: false,
+        message: `Car is Reserved from ${formattedStartDate} to ${formattedEndDate}`,
+      });
   }
   await db.query(
     `INSERT INTO reservations (customerId,
@@ -84,6 +117,22 @@ async function create(req, res) {
     success: true,
     message: "Car Successfully Reserved",
   });
+
+  // if (row[0].status === "rented" || row[0].status === "outOfService" ) {
+  //   const reservedDates = await db.query(`Select startDate, endDate
+  //   From reservations where carId = ${carId} AND (status = reserved OR status = confirmed)`);
+  //   for (i=0; i<reservedDates.length;i++){
+  //     if(reservedDates[i].startDate>endDate || reservedDates[i].endDate<startDate){
+  //       return res.json({success: false, message:"car is unavailable"});
+  //     }
+  //   }
+  //   return res.json({ success: false, message: "car is unavailable" });
+  // }
+
+  // return res.json({
+  //   success: true,
+  //   message: "Car Successfully Reserved",
+  // });
 }
 
 async function remove(id) {

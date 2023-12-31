@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/CarsModal.css";
 import { useState, useEffect } from "react";
+import PaymentDetailsModal from "./PaymentDetailsModal";
 
 interface ReserveCarModalProps {
   car: {
@@ -61,37 +62,38 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
     onClose(); // Close the modal after reservation
   };
   return (
-    <div className="modal-overlay">
-      <div className="modal-container car-details-modal">
-        <label>
-          Start Date:
-          <input
-            type="date"
-            value={startDate}
-            onChange={handleStartDateChange}
-          />
-        </label>
+    // <div className="modal-overlay">
+    //   <div className="modal-container car-details-modal">
+    //     <label>
+    //       Start Date:
+    //       <input
+    //         type="date"
+    //         value={startDate}
+    //         onChange={handleStartDateChange}
+    //       />
+    //     </label>
 
-        <label>
-          End Date:
-          <input type="date" value={endDate} onChange={handleEndDateChange} />
-        </label>
+    //     <label>
+    //       End Date:
+    //       <input type="date" value={endDate} onChange={handleEndDateChange} />
+    //     </label>
 
-        <p>Reservation Duration: {reservationDuration} days</p>
+    //     <p>Reservation Duration: {reservationDuration} days</p>
 
-        {/* Display total price */}
-        <p>Total Price: {totalPrice}LE</p>
+    //     {/* Display total price */}
+    //     <p>Total Price: {totalPrice}LE</p>
 
-        <div className="button-container">
-          <button onClick={handleReserve} className="btn btn-primary">
-            Reserve
-          </button>
-          <button onClick={onClose} className="btn btn-secondary">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
+    //     <div className="button-container">
+    //       <button onClick={handleReserve} className="btn btn-primary">
+    //         Reserve
+    //       </button>
+    //       <button onClick={onClose} className="btn btn-secondary">
+    //         Cancel
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
+    <PaymentDetailsModal></PaymentDetailsModal>
   );
 };
 

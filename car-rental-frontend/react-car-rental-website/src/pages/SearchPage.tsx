@@ -131,13 +131,15 @@ const Search = () => {
                     </div>
 
                     <div className="col-lg-3 col-md-3 col-sm-12 p-0">
-                      <button
-                        onClick={handleSearch}
-                        type="button"
-                        className="btn btn-danger wrn-btn"
-                      >
-                        Search
-                      </button>
+                      <a href="#searched-cars">
+                        <button
+                          onClick={handleSearch}
+                          type="button"
+                          className="btn btn-danger wrn-btn"
+                        >
+                          Search
+                        </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -148,7 +150,7 @@ const Search = () => {
       </div>
 
       <section>
-        <div className="cardContainer  px-4">
+        <div className="cardContainer  px-4" id="searched-cars">
           <div className="row d-flex justify-content-center">
             {cars.map((car) => (
               <div className="col-md-4" key={car.id}>

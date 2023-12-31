@@ -53,20 +53,14 @@ CREATE TABLE
         carId INT NOT NULL,
         startDate DATE NOT NULL,
         endDate DATE NOT NULL,
+        amountPaid DECIMAL(10, 2) NOT NULL,
         totalPrice DECIMAL(10, 2) NOT NULL,
         status ENUM(
             'reserved',
             'confirmed',
             'completed',
             'canceled'
-        ) NOT NULL
-    );
-
-CREATE TABLE
-    Payments (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        reservationId INT NOT NULL,
-        amount DECIMAL(10, 2) NOT NULL,
+        ) NOT NULL,
         cvc CHAR(3) NOT NULL,
         cardNumber CHAR(16) NOT NULL,
         cardOwner VARCHAR(20) NOT NULL
@@ -87,10 +81,6 @@ CREATE TABLE
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(60) NOT NULL
     );
-
-Alter table payments
-ADD
-    FOREIGN KEY (reservationId) REFERENCES Reservations(id);
 
 Alter table Cars
 ADD

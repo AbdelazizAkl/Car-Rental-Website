@@ -30,22 +30,12 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST a new admin
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
-    const reservation = await reservationsService.create(
-      req.body.id,
-      req.body.customerId,
-      req.body.carId,
-      req.body.startDate,
-      req.body.endDate,
-      req.body.totalPrice,
-      req.body.status,
-      req.body.paymentDetails
-    );
-    res.status(201).json(reservation);
+    await reservationsService.create(req, res);
   } catch (error) {
     // Handle errors appropriately
-    res.status(400).json({ error: "Failed to create reservation" });
+    console.log(error);
   }
 });
 

@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST a new admin
-router.post("/signup", async (req, res) => {
+router.post("/reserve", async (req, res) => {
   try {
     await reservationsService.create(req, res);
   } catch (error) {

@@ -24,10 +24,26 @@ async function getById(id) {
 }
 
 async function create(req, res) {
-  const { reservationId, amount, cvc, cardNumber, cardOwner } = req.body;
+  const {
+    customerId,
+    carId,
+    startDate,
+    endDate,
+    amountPaid,
+    totalPrice,
+    status,
+    cvc,
+    cardNumber,
+    cardOwner,
+  } = req.body;
   if (
-    reservationId === "" ||
-    amount === "" ||
+    customerId === "" ||
+    carId === "" ||
+    startDate === "" ||
+    endDate === "" ||
+    amountPaid === "" ||
+    totalPrice === "" ||
+    status === "" ||
     cvc === "" ||
     cardNumber === "" ||
     cardOwner === ""
@@ -37,31 +53,34 @@ async function create(req, res) {
       message: "Please enter all fields",
     });
   }
-  if (!(password === confirmPassword)) {
-    return res.json({
-      success: false,
-      message: "Passwords do not match",
-    });
-  }
-  const row = await db.query("SELECT password FROM customers WHERE email = ?", [
-    email,
-  ]);
 
-  if (row.length)
-    return res.json({ success: false, message: "Email already in use!" });
+  const row = await db.query("SELECT status FROM cars WHERE id = ?", [carId]);
 
-  // Hash the password before storing
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-  const hash = await bcrypt.hash(password, 10);
-  console.log(hash);
-  const rows = await db.query(
-    `INSERT INTO customers (fName, lName, email, password, address, phone, PassportNumber) VALUES
-     ("${fName}", "${lName}", "${email}", "${hash}",
-     "${address}", "${phone}", "${PassportNumber}")`
+  if (row[0].status === "rented" || row[0].status === "outOfService")
+    return res.json({ success: false, message: "car is unavailable" });
+
+  await db.query(
+    `INSERT INTO reservations (customerId,
+      carId,
+      startDate,
+      endDate,
+      amountPaid,
+      totalPrice,
+      status,
+      cvc,
+      cardNumber,
+      cardOwner) VALUES
+     ("${customerId}", "${carId}", "${startDate}", "${endDate}",
+     "${amountPaid}", "${totalPrice}", "${status}", "${cvc}", "${cardNumber}", "${cardOwner}")`
+  );
+  await db.query(
+    `UPDATE cars
+    SET status = 'rented'
+    WHERE id = ${carId}`
   );
   return res.json({
     success: true,
-    message: "Signed up successfully!",
+    message: "Car Successfully Reserved",
   });
 }
 

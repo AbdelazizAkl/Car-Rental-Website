@@ -112,15 +112,18 @@ async function create(req, res) {
   //   const hashedPassword = await bcrypt.hash(password, 10);
   const hash = await bcrypt.hash(password, 10);
   console.log(hash);
-  const rows = await db.query(
+  await db.query(
     `INSERT INTO customers (fName, lName, email, password, address, phone, PassportNumber) VALUES
      ("${fName}", "${lName}", "${email}", "${hash}",
-     "${address}", "${phone}", "${PassportNumber}")`
+     "${address}", "${phone}", "${PassportNumber}")`,
+    function (err, result) {
+      if (err) throw err;
+      return res.json({
+        success: false,
+        message: "Error inserting into database",
+      });
+    }
   );
-  return res.json({
-    success: true,
-    message: "Signed up successfully!",
-  });
 }
 
 async function getById(id) {

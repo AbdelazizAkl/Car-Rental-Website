@@ -1,6 +1,8 @@
 import React from "react";
 import "../css/CarsModal.css";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import Alert from "../components/Alert";
 
 interface ReserveCarModalProps {
   car: {
@@ -19,11 +21,20 @@ interface ReserveCarModalProps {
   onClose: () => void;
 }
 
-const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
+const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
+  car,
+  onClose,
+}: ReserveCarModalProps) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  // const [amountPaid, setAmountPaid] = useState(0);
   const [reservationDuration, setReservationDuration] = useState(0);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertVisible, setAlertVisibility] = useState(false);
+  const [cvc, setCVC] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardOwner, setCardOwner] = useState("");
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -46,6 +57,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
       const days = durationInDays % 7;
       const newTotalPrice = car.weeklyPrice * weeks + car.dailyPrice * days;
       setTotalPrice(newTotalPrice);
+      // setAmountPaid(newTotalPrice/2);
 
       // Update the reservation duration state
       setReservationDuration(durationInDays);
@@ -54,18 +66,50 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
       setTotalPrice(0);
     }
   };
-  const handleReserve = () => {
+  async function handleReserve() {
     // Implement your logic to handle the reservation
     // This could involve sending a request to a server or updating local state
-    onClose(); // Close the modal after reservation
-  };
+    try {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      };
+      const loginResponse = await axios
+        .post(
+          "http://localhost:3000/reservations/reserve",
+          {
+            customerId: 1,
+            carId: car.id,
+            startDate,
+            endDate,
+            amountPaid: totalPrice / 2,
+            totalPrice,
+            status: "reserved",
+            cvc,
+            cardNumber,
+            cardOwner,
+          },
+          config
+        )
+        .then((response) => {
+          if (response.data.success) {
+            onClose();
+          } else {
+            setAlertVisibility(true);
+            setAlertMessage(response.data.message);
+          }
+        });
+    } catch (error) {
+      console.log("Reserve error:", error);
+    }
+  }
   return (
     <div className="modal-overlay">
       <div className="d-flex">
         <div className="offset-1">
           <div className="container">
             <div className="row">
-              <div className="col-md-6 col-md-offset-4">
+              <div className="col-xs-12 col-md-6 col-md-offset-4">
                 <div className="modal-container car-details-modal">
                   <label>
                     Start Date:
@@ -90,7 +134,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
                   <p>Total Price: {totalPrice}LE</p>
                 </div>
               </div>
-              <div className="col-md-6 col-md-offset-4">
+              <div className="col-xs-12 col-md-6 col-md-offset-4">
                 <div className="panel panel-default">
                   <div className="panel-heading">
                     <div className="row">
@@ -112,6 +156,9 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
                                 type="tel"
                                 className="form-control"
                                 placeholder="Valid Card Number"
+                                onChange={(event) =>
+                                  setCardNumber(event.target.value)
+                                }
                               />
                               <span className="input-group-addon">
                                 <span className="fa fa-credit-card"></span>
@@ -128,6 +175,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
                               type="tel"
                               className="form-control"
                               placeholder="CVC"
+                              onChange={(event) => setCVC(event.target.value)}
                             />
                           </div>
                         </div>
@@ -140,6 +188,9 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
                               type="text"
                               className="form-control"
                               placeholder="Card Owner Names"
+                              onChange={(event) =>
+                                setCardOwner(event.target.value)
+                              }
                             />
                           </div>
                         </div>
@@ -162,6 +213,11 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({ car, onClose }) => {
                         >
                           Cancel
                         </button>
+                        {alertVisible && (
+                          <Alert onClose={() => setAlertVisibility(false)}>
+                            {alertMessage}
+                          </Alert>
+                        )}
                       </div>
                     </div>
                   </div>

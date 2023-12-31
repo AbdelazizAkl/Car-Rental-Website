@@ -39,6 +39,15 @@ router.post("/reserve", async (req, res) => {
   }
 });
 
+router.post("/cancel"),
+  async (req, res) => {
+    try {
+      await reservationsService.cancelReservation(req.res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 // DELETE an admin
 router.delete("/:id", async (req, res) => {
   try {

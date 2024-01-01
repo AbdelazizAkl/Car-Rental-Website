@@ -28,7 +28,7 @@ async function getByCustomerID(req, res) {
 
   try {
     const rows = await db.query(
-      `SELECT R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
+      `SELECT R.id, R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
       [id]
     );
 
@@ -235,11 +235,6 @@ async function create(req, res) {
       cardOwner) VALUES
      ("${customerId}", "${carId}", "${startDate}", "${endDate}",
      "${amountPaid}", "${totalPrice}", "${status}", "${cvc}", "${cardNumber}", "${cardOwner}")`
-  );
-  await db.query(
-    `UPDATE cars
-    SET status = 'rented'
-    WHERE id = ${carId}`
   );
   return res.json({
     success: true,

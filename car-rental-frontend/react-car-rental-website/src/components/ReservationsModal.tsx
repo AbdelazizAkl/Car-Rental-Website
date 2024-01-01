@@ -38,6 +38,7 @@ const ReservationsModal: React.FC<ReservationsModalProps> = ({
 
         if (response.data.success) {
           setReservationData(response.data.data); // Store fetched reservations in state
+          console.log(response.data.data);
         } else {
           console.error("Error fetching :", response.data.message);
         }

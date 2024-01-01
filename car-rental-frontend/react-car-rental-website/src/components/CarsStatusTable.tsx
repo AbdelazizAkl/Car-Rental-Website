@@ -36,9 +36,21 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({ carStatusData }) => {
               <p className="text-muted mb-0">{data.model}</p>
             </td>
             <td>
-              <MDBBadge color={data.statusColor} pill>
-                {data.status}
-              </MDBBadge>
+              {data.status === "active" && (
+                <MDBBadge color="success" pill>
+                  {data.status}
+                </MDBBadge>
+              )}
+              {data.status === "rented" && (
+                <MDBBadge color="warning" pill>
+                  {data.status}
+                </MDBBadge>
+              )}
+              {data.status === "out of service" && (
+                <MDBBadge color="danger" pill>
+                  {data.status}
+                </MDBBadge>
+              )}
             </td>
           </tr>
         ))}

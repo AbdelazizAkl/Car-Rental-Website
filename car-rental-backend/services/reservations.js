@@ -22,6 +22,25 @@ async function getById(id) {
     data,
   };
 }
+async function getByCustomerID(req, res) {
+  const { id } = req.body;
+  console.log(req.body); // Get the customer ID from the request body
+
+  try {
+    const rows = await db.query(
+      `SELECT * FROM reservations WHERE customerId = ?`,
+      [id]
+    );
+    console.log(rows); // Log the rows to see the data
+
+    return res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error("Error fetching reservation data:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
+  }
+}
 
 async function create(req, res) {
   const {
@@ -152,4 +171,5 @@ module.exports = {
   getById,
   create,
   remove,
+  getByCustomerID,
 };

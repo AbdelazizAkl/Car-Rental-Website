@@ -1,10 +1,3 @@
-/* .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #81e2cd;
-} */
 * {
   padding: 0;
   margin: 0;
@@ -19,10 +12,25 @@
   background-color: #ccc;
   position: relative;
 }
-.dateContainer {
-  background-color: transparent;
-  margin-left: 50%;
+.tableContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  background-color: white;
+  width: 20%;
+  min-height: 20%; /* You can adjust this value based on your design */
+  font-size: 17px;
+  font-style: italic;
+  font-family: emoji;
+  border-radius: 10px; /* Adjust the value for the desired border radius */
 }
+/* Add any additional styling you need */
 
 .AdminContainer .sidebar {
   position: fixed;

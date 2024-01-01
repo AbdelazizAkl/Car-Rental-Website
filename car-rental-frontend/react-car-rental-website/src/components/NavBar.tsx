@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "../css/navBar.css";
-
+import ReservationsModal from "./ReservationsModal";
 interface NavbarProps {
   home?: boolean;
   cars?: boolean;
 } // Define props if needed in the future
 
 const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
+  const [isReservationsModalOpen, setReservationsModalOpen] = useState(false);
   const userString = localStorage.getItem("UserData");
 
   let userInfo;
@@ -22,6 +23,9 @@ const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
     window.location.reload();
   };
 
+  const handleReservations = () => {
+    setReservationsModalOpen(true);
+  };
   return (
     <div className="topnav">
       {home && (
@@ -69,6 +73,14 @@ const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
           <a className="nav-link" href="#" onClick={handleLogout}>
             Logout
           </a>
+          <a className="nav-link" href="#" onClick={handleReservations}>
+            Reservations
+          </a>
+          <ReservationsModal
+            isOpen={isReservationsModalOpen}
+            onClose={() => setReservationsModalOpen(false)}
+            userId={userInfo?.id}
+          />
         </div>
       ) : (
         <div className="topnav-right">

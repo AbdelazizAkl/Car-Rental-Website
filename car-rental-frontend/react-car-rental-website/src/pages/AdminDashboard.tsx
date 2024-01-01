@@ -2,7 +2,7 @@ import React from "react";
 import CarStatusTable from "../components/CarsStatusTable";
 import "../css/AdminPage.css";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -42,6 +42,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
             }
           });
       } catch (error) {
+        console.log("date", date);
         console.log("Error fetching cars status:", error);
       }
     } else {
@@ -67,10 +68,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
       }
     }
   }
+  useEffect(() => {
+    handleDate;
+  });
 
   const handleCarStatusClick = () => {
     setCarStatus(true);
-    setDate("");
     handleCarStatusDateClick();
   };
   const handleReservationsClick = () => {
@@ -86,7 +89,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
     console.log("date changed", date);
-    handleCarStatusDateClick();
   };
 
   let adminInfo;
@@ -105,18 +107,20 @@ const Dashboard: React.FC<DashboardProps> = () => {
       {adminInfo ? (
         <>
           <div className="AdminContainer">
-            <div className="dateContainer">
-              {carStatus && (
+            {carStatus && (
+              <div className="tableContainer">
                 <input type="date" value={date} onChange={handleDate} />
-              )}
-              {carStatus && carStatusData && (
-                <div>
-                  <CarStatusTable
-                    carStatusData={carStatusData}
-                  ></CarStatusTable>
-                </div>
-              )}
-            </div>
+
+                {carStatus && carStatusData && (
+                  <div>
+                    <CarStatusTable
+                      carStatusData={carStatusData}
+                    ></CarStatusTable>
+                  </div>
+                )}
+              </div>
+            )}
+
             <ul className="sidebar">
               <li>
                 <span>KWAIZO</span>

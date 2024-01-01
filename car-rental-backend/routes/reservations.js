@@ -39,6 +39,18 @@ router.post("/reserve", async (req, res) => {
   }
 });
 
+router.post("/getByCustomerId", async (req, res) => {
+  try {
+    await reservationsService.getByCustomerID(req, res);
+  } catch (error) {
+    console.log("Error in search route:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to retrieve reservations",
+    });
+  }
+});
+
 router.post("/cancel"),
   async (req, res) => {
     try {

@@ -46,7 +46,7 @@ async function getByCustomerID(req, res) {
 
     return res.json({ success: true, data: rows });
   } catch (error) {
-    console.error("Error fetching reservation data:", error);
+    console.log("Error fetching reservation data:", error);
     return res
       .status(500)
       .json({ success: false, error: "Internal Server Error" });

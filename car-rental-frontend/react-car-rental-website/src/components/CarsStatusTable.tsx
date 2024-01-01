@@ -32,7 +32,7 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({
             <td>
               <div className="d-flex align-items-center">
                 <div className="ms-3">
-                  <p className="fw-bold mb-1">{data.car_id}</p>
+                  <p className="fw-bold mb-1">{data.car_id || data.id}</p>
                 </div>
               </div>
             </td>
@@ -41,14 +41,15 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({
               <p className="text-muted mb-0">{data.model}</p>
             </td>
             <td>
-              {data.cars_status === "active" && (
+              {(data.cars_status === "active" || data.status === "active") && (
                 <MDBBadge color="success" pill>
-                  {data.cars_status}
+                  {data.cars_status || data.status}
                 </MDBBadge>
               )}
-              {data.cars_status === "out of service" && (
+              {(data.cars_status === "out of service" ||
+                data.status === "out of service") && (
                 <MDBBadge color="danger" pill>
-                  {data.cars_status}
+                  {data.cars_status || data.status}
                 </MDBBadge>
               )}
             </td>
@@ -60,8 +61,8 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({
                     Available
                   </MDBBadge>
                 )}
-                {((data.reservations_status = "reserved") ||
-                  (data.reservations_status = "confirmed")) && (
+                {(data.reservations_status === "reserved" ||
+                  data.reservations_status === "confirmed") && (
                   <MDBBadge color="warning" pill>
                     Reserved
                   </MDBBadge>

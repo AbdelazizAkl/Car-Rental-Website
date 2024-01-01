@@ -54,7 +54,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
           withCredentials: true,
         };
         await axios
-          .post("http://localhost:3000/admins/getCarsStatus", { date })
+          .post("http://localhost:3000/admins/getCarsStatus", {
+            date,
+          })
           .then((response) => {
             if (response.data.data) {
               setCarStatusData(response.data.data);

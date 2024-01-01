@@ -14,6 +14,7 @@ const cars = () => {
   interface Car {
     id: string;
     model: string;
+    brand: string;
     year: string;
     plateId: string;
     status: string;

@@ -67,7 +67,13 @@ const ReservationsModal: React.FC<ReservationsModalProps> = ({
       ) : (
         <p>Loading reservations...</p>
       )}
-      <button onClick={onClose}>Close</button>
+      <button
+        style={{ position: "absolute", bottom: 0, left: 0 }}
+        className="btn btn-secondary"
+        onClick={onClose}
+      >
+        Close
+      </button>
     </Modal>
   );
 };

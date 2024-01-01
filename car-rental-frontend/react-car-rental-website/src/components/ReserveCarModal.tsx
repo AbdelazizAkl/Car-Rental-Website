@@ -124,13 +124,13 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
     }
   }
   return (
-    <div className="modal-overlay">
+    <div className="reservationModal">
       <div className="d-flex">
         <div className="offset-1">
           <div className="paymentContainer">
             <div className="row">
               <div>
-                <div className="modal-container car-details-modal">
+                <div className="reservationContent">
                   <label>
                     Start Date:
                     <input
@@ -188,7 +188,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-xs-5 col-md-5 pull-right">
+                        <div className="col-xs-5 ">
                           <div className="form-group">
                             <label>CV CODE</label>
                             <input
@@ -201,7 +201,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                         </div>
                       </div>
                       <div className="row">
-                        <div className="col-xs-5 col-md-5 pull-right">
+                        <div className="col-xs-5 ">
                           <div className="form-group">
                             <label>CARD OWNER</label>
                             <input
@@ -217,23 +217,24 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
                       </div>
                     </form>
                   </div>
-                  <div className="offset-1"></div>
+
                   <div className="panel-footer">
                     <div className="row">
-                      <div className="col-xs-12">
+                      <div className="col-xs-12 d-flex justify-content-between">
                         <button
                           onClick={handleReserve}
-                          className="btn btn-warning btn-lg btn-block"
+                          className="btn btn-warning btn-lg"
                         >
                           Process payment
                         </button>
 
                         <button
                           onClick={onClose}
-                          className="btn btn-secondary btn-lg btn-block"
+                          className="btn btn-secondary btn-lg"
                         >
                           Cancel
                         </button>
+
                         {alertVisible && (
                           <Alert onClose={() => setAlertVisibility(false)}>
                             {alertMessage}

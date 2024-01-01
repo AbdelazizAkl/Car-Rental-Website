@@ -58,7 +58,8 @@ const CarCard = ({
                 Book now
               </a>
             ) : null}
-            <div className="offset-0.5"></div>
+            <div style={{ marginRight: "0.5rem" }}></div>{" "}
+            {/* Adjust the margin here for spacing */}
             <a
               onClick={() => {
                 onClickDetails();

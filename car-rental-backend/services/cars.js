@@ -262,13 +262,14 @@ async function getByWeeklyPrice(req, res) {
     if (!row.length) {
       return res.json({ success: false, message: "Car not found" });
     }
+    console.log(row);
 
     return res.json({ success: true, data: row });
   } catch (error) {
     console.error("Error fetching car:", error);
     return res
       .status(500)
-      .json({ success: false, message: "Failed to retrieve car" });
+      .json({ success: false, message: "Failed to retrieve car" });
   }
 }
 async function getStatus(req, res) {

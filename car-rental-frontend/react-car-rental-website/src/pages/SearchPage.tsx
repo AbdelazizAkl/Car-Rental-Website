@@ -14,6 +14,7 @@ const Search = () => {
     brand: string;
     year: string;
     plateId: string;
+    color: string;
     status: string;
     office_id: number;
     images: string;
@@ -184,14 +185,21 @@ const Search = () => {
 
       <section>
         <div className="cardContainer  px-4" id="searched-cars">
-          <div className="row d-flex justify-content-center">
-            {cars.map((car) => (
-              <div className="col-md-4" key={car.id}>
+          <div className="row d-flex">
+            {cars.map((car, index) => (
+              <div
+                key={car.id}
+                className={`col-md-4 ${
+                  index % 6 === 0 || index % 6 === 3
+                    ? "offset-md-0"
+                    : "offset-md-4"
+                }`}
+              >
                 <CarCard
-                  key={car.id}
                   myImage={car.images}
                   model={car.model}
                   brand={car.brand}
+                  color={car.color}
                   price={car.dailyPrice}
                   onClickDetails={() => {
                     setSelectedCar(car);

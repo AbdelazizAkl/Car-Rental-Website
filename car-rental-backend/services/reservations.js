@@ -24,14 +24,25 @@ async function getById(id) {
 }
 async function getByCustomerID(req, res) {
   const { id } = req.body;
-  console.log(req.body); // Get the customer ID from the request body
+  // console.log(req.body); // Get the customer ID from the request body
 
   try {
     const rows = await db.query(
-      `SELECT * FROM reservations WHERE customerId = ?`,
+      `SELECT R.id, R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
       [id]
     );
-    console.log(rows); // Log the rows to see the data
+
+    for (i = 0; i < rows.length; i++) {
+      const dbStartString = rows[i].startDate;
+      const dateObject1 = new Date(dbStartString);
+      const formattedStartDate = dateObject1.toLocaleDateString("en-US");
+      rows[i].startDate = formattedStartDate;
+      const dbEndString = rows[i].endDate;
+      const dateObject2 = new Date(dbEndString);
+      const formattedEndDate = dateObject2.toLocaleDateString("en-US");
+      rows[i].endDate = formattedEndDate;
+    }
+    // console.log(rows); // Log the rows to see the data
 
     return res.json({ success: true, data: rows });
   } catch (error) {
@@ -225,11 +236,6 @@ async function create(req, res) {
      ("${customerId}", "${carId}", "${startDate}", "${endDate}",
      "${amountPaid}", "${totalPrice}", "${status}", "${cvc}", "${cardNumber}", "${cardOwner}")`
   );
-  await db.query(
-    `UPDATE cars
-    SET status = 'rented'
-    WHERE id = ${carId}`
-  );
   return res.json({
     success: true,
     message: "Car Successfully Reserved",
@@ -244,11 +250,7 @@ async function remove(id) {
 }
 
 async function cancelReservation(req, res) {
-  const {
-    customerId,
-    carId,
-    id, //reservation id
-  } = req.body;
+  const { customerId, carId, id } = req.body;
   const q1 = await db.query(
     `Select * From Reservations Where customerId = ${customerId} And carId = ${carId} And id = ${id} `
   );
@@ -275,4 +277,5 @@ module.exports = {
   create,
   remove,
   getByCustomerID,
+  cancelReservation,
 };

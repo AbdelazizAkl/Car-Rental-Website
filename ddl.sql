@@ -21,11 +21,7 @@ CREATE TABLE
             )
         ),
         plateId VARCHAR(10) UNIQUE NOT NULL,
-        status ENUM(
-            'active',
-            'outOfService',
-            'rented'
-        ) NOT NULL,
+        status ENUM('active', 'outOfService') NOT NULL,
         office_id int NOT NULL,
         images TEXT,
         dailyPrice DECIMAL(10, 2) NOT NULL,
@@ -42,7 +38,7 @@ CREATE TABLE
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(60) NOT NULL,
         address VARCHAR(255) NOT NULL,
-        phone VARCHAR(20) NOT NULL,
+        phone VARCHAR(20) UNIQUE NOT NULL,
         PassportNumber VARCHAR(20) UNIQUE NOT NULL
     );
 
@@ -53,6 +49,7 @@ CREATE TABLE
         carId INT NOT NULL,
         startDate DATE NOT NULL,
         endDate DATE NOT NULL,
+        ReservationDate DATE NOT NULL DEFAULT CURRENT_DATE,
         amountPaid DECIMAL(10, 2) NOT NULL,
         totalPrice DECIMAL(10, 2) NOT NULL,
         status ENUM(

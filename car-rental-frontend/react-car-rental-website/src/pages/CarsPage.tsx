@@ -17,6 +17,7 @@ const cars = () => {
     brand: string;
     year: string;
     plateId: string;
+    color: string;
     status: string;
     office_id: number;
     images: string;
@@ -89,8 +90,9 @@ const cars = () => {
                 <CarCard
                   key={car.id}
                   myImage={car.images}
-                  name={car.model}
+                  model={car.model}
                   brand={car.year}
+                  color={car.color}
                   price={car.dailyPrice}
                   onClickDetails={() => {
                     setSelectedCar(car);

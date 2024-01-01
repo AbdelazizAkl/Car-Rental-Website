@@ -8,6 +8,7 @@ interface CarDetailsModalProps {
     model: string;
     brand: string;
     year: string;
+    color: string;
     plateId: string;
     status: string;
     office_id: number;
@@ -28,6 +29,7 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({ car, onClose }) => {
           {car.brand} - {car.model}
         </h1>
         <h3>plate ID: {car.plateId}</h3>
+        <h3>Color: {car.color}</h3>
         <h3>
           Current status:{" "}
           {car.status === "active" && (

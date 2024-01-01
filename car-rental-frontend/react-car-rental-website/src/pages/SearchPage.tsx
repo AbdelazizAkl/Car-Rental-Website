@@ -11,6 +11,7 @@ const Search = () => {
   interface Car {
     id: string;
     model: string;
+    brand: string;
     year: string;
     plateId: string;
     status: string;
@@ -26,7 +27,9 @@ const Search = () => {
 
   const [filters, setFilters] = useState({
     year: "",
+    brand: "",
     model: "",
+    color: "",
     dailyPrice: "",
     weeklyPrice: "",
     office_id: "",
@@ -92,12 +95,26 @@ const Search = () => {
                         className="form-control search-slt"
                         id="modelSelection"
                         onChange={(e) =>
-                          handleFilterChange("model", e.target.value)
+                          handleFilterChange("brand", e.target.value)
                         }
                       >
-                        <option value="">Select Model</option>
-                        <option value="Peugeot 2008">Peugeot</option>
-                        <option value="Rebecca">Rebecca</option>
+                        <option value="">Select Brand</option>
+                        <option value="Peugeot">Peugeot</option>
+                        <option value="Chevrolet">Chevrolet</option>
+                      </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <select
+                        className="form-control search-slt"
+                        id="colorSelection"
+                        onChange={(e) =>
+                          handleFilterChange("color", e.target.value)
+                        }
+                      >
+                        <option value="">Select Color</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Silver">Silver</option>
                       </select>
                     </div>
 
@@ -173,8 +190,8 @@ const Search = () => {
                 <CarCard
                   key={car.id}
                   myImage={car.images}
-                  name={car.model}
-                  brand={car.year}
+                  model={car.model}
+                  brand={car.brand}
                   price={car.dailyPrice}
                   onClickDetails={() => {
                     setSelectedCar(car);

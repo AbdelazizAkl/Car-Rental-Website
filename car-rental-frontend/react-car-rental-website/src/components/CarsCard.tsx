@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 interface Props {
   myImage: string;
-  name: string;
+  model: string;
   brand: string;
+  color: string;
   price: number;
   onClickDetails: () => void;
   onClickReserve: () => void;
@@ -11,7 +12,7 @@ interface Props {
 
 const CarCard = ({
   myImage,
-  name,
+  model,
   brand,
   price,
   onClickDetails,
@@ -38,11 +39,11 @@ const CarCard = ({
 
         <div className="text">
           <h2 className="mb-0">
-            <a>{name}</a>
+            <a>{brand}</a>
           </h2>
           <div className="d-flex mb-3">
-            <span className="cat">Model: {brand}</span>
-            <div className="offset-1"></div>
+            <span className="cat">Model: {model}</span>
+            <div style={{ marginRight: "0.5rem" }}></div> {}
             <p>
               Price: {price} <span>LE</span> <span>/day</span>
             </p>
@@ -58,8 +59,7 @@ const CarCard = ({
                 Book now
               </a>
             ) : null}
-            <div style={{ marginRight: "0.5rem" }}></div>{" "}
-            {/* Adjust the margin here for spacing */}
+            <div style={{ marginRight: "0.5rem" }}></div> {}
             <a
               onClick={() => {
                 onClickDetails();

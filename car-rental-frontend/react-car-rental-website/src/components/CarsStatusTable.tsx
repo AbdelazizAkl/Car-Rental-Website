@@ -55,7 +55,7 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({
             </td>
             {reservation && (
               <td>
-                {(data.reservations_status === null ||
+                {(data.reservations_status === "No Reservation" ||
                   data.reservations_status === "canceled") && (
                   <MDBBadge color="success" pill>
                     Available

@@ -87,17 +87,20 @@ async function getStatus(req, res) {
     console.log(date);
     const row = await db.query(
       `SELECT
-      cars.id AS car_id,
-      cars.model,
-      cars.brand,
-      cars.status AS cars_status,
-      reservations.status AS reservations_status
+        cars.id AS car_id,
+        cars.model,
+        cars.brand,
+        cars.status AS cars_status,
+        COALESCE(reservations.status, 'No Reservation') AS reservations_status
       FROM
-      cars
+        cars
       LEFT JOIN
-      reservations ON cars.id = reservations.carId
-                    AND ${date} >= reservations.startDate AND  ${date} <= reservations.endDate;`
+        reservations ON cars.id = reservations.carId
+                      AND ? >= reservations.startDate
+                      AND ? <= reservations.endDate;`,
+      [date, date]
     );
+
     console.log(row);
     return res.json({ success: true, data: row });
   } catch (error) {

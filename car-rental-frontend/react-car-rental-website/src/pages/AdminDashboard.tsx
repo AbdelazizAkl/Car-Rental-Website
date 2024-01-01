@@ -4,6 +4,7 @@ import RevenueTable from "../components/RevenueTable";
 import "../css/AdminPage.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import AdvancedSearchSidebar from "../components/SideBar";
 interface DashboardProps {}
 // zizo
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -33,6 +34,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [revenueStartDate, setRevenueStartDate] = useState("");
   const [revenueEndDate, setRevenueEndDate] = useState("");
   const [revenueData, setRevenueData] = useState<Revenue[]>([]);
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   function getDatesBetween(startDate: Date, endDate: Date): string[] {
     const dates = [];
@@ -151,7 +153,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const handleSearchClick = () => {
     setCarStatus(false);
     setRevenueState(false);
+    setShowAdvancedSearch(!showAdvancedSearch);
   };
+
   const handleRevenueClick = () => {
     setCarStatus(false);
     setRevenueState(true);
@@ -201,6 +205,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
       {adminInfo ? (
         <>
           <div className="AdminContainer">
+            {showAdvancedSearch && <AdvancedSearchSidebar />}
             {carStatus && (
               <div className="tableContainer">
                 <input

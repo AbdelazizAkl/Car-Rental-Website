@@ -13,13 +13,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/getCarsStatus", async (req, res) => {
+router.post("/getCarsStatus", async (req, res) => {
   try {
-    const { data, meta } = await carsService.getStatus(req.query.page);
-    res.json({ data, meta });
+    await carsService.getStatus(req, res);
   } catch (error) {
     // Handle errors appropriately
-    res.status(500).json({ error: "Failed to retrieve cars" });
   }
 });
 

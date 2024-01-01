@@ -23,6 +23,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [carStatus, setCarStatus] = useState(false);
   const [carStatusData, setCarStatusData] = useState<Car[]>([]);
   const [date, setDate] = useState("");
+  const [reservation, setReservation] = useState(false);
 
   async function handleCarStatusDateClick() {
     if (date === "") {
@@ -36,7 +37,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
           .then((response) => {
             if (response.data.data) {
               setCarStatusData(response.data.data);
-              console.log(response.data.data);
+              setReservation(false);
             } else {
               console.log("Error fetching cars :", response.data.error);
             }
@@ -47,18 +48,20 @@ const Dashboard: React.FC<DashboardProps> = () => {
       }
     } else {
       try {
+        setReservation(true);
         const config = {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         };
         await axios
-          .post("http://localhost:3000/admins/getCarsStatus", date)
+          .post("http://localhost:3000/admins/getCarsStatus", { date })
           .then((response) => {
             if (response.data.data) {
               setCarStatusData(response.data.data);
               console.log(response.data.data);
             } else {
               setCarStatusData([]);
+
               console.log("Error fetching cars :", response.data.error);
             }
           });
@@ -115,6 +118,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                 {carStatus && carStatusData && (
                   <div>
                     <CarStatusTable
+                      reservation={reservation}
                       carStatusData={carStatusData}
                     ></CarStatusTable>
                   </div>

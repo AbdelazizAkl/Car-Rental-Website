@@ -70,18 +70,6 @@ async function login(req, res) {
 
 async function getById(id) {
   const row = await db.query(
-    `SELECT *
-    FROM customers WHERE id = ?`,
-    [id]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
-}
-
-async function getById(id) {
-  const row = await db.query(
     `SELECT id, email, password FROM admins WHERE id = ?`,
     [id]
   );

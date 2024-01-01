@@ -22,7 +22,7 @@ const ReservationsTable: React.FC<ReservationsTableProps> = ({
           <th scope="col">End date</th>
           <th scope="col">Amount Paid</th>
           <th scope="col">Total Price</th>
-          <th scope="col">Status</th>
+          {<th scope="col">Status</th>}
         </tr>
       </MDBTableHead>
       <MDBTableBody>

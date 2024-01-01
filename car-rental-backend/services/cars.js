@@ -81,25 +81,32 @@ async function getById(req, res) {
       .json({ success: false, message: "Failed to retrieve car" });
   }
 }
-async function getStatus(startDate) {
-  const row = await db.query(
-    `SELECT
-  cars.id AS car_id,
-  cars.model,
-  cars.brand
-  cars.status AS car_status,
-FROM
-  cars
-LEFT JOIN
-  reservations ON cars.id = reservations.carId
-  AND reservations.startDate <= '?'
-  AND reservations.endDate >= '?';
-`[startDate]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+async function getStatus(req, res) {
+  try {
+    const { date } = req.body;
+    console.log(date);
+    const row = await db.query(
+      ` SELECT
+      cars.id AS car_id,
+      cars.model,
+      cars.brand,
+      cars.status AS cars_status,
+      reservations.status AS reservations_status
+    FROM
+      cars
+    LEFT JOIN
+      reservations ON cars.id = reservations.carId
+      WHERE ? BETWEEN reservations.startDate AND reservations.endDate;`,
+      [date]
+    );
+    console.log(row);
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.log("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
 }
 
 async function create(

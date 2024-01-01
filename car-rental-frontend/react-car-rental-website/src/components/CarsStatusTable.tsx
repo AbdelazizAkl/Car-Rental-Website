@@ -8,17 +8,22 @@ import {
 } from "mdb-react-ui-kit";
 
 interface CarStatusTableProps {
-  carStatusData: any[]; // Adjust the type based on your actual response structure
+  carStatusData: any[];
+  reservation?: boolean;
 }
 
-const CarStatusTable: React.FC<CarStatusTableProps> = ({ carStatusData }) => {
+const CarStatusTable: React.FC<CarStatusTableProps> = ({
+  carStatusData,
+  reservation,
+}) => {
   return (
     <MDBTable align="middle">
       <MDBTableHead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Brand</th>
-          <th scope="col">Status</th>
+          <th scope="col">Car Status</th>
+          {reservation && <th scope="col">Reservation Status</th>}
         </tr>
       </MDBTableHead>
       <MDBTableBody>
@@ -27,7 +32,7 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({ carStatusData }) => {
             <td>
               <div className="d-flex align-items-center">
                 <div className="ms-3">
-                  <p className="fw-bold mb-1">{data.id}</p>
+                  <p className="fw-bold mb-1">{data.car_id}</p>
                 </div>
               </div>
             </td>
@@ -36,22 +41,33 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({ carStatusData }) => {
               <p className="text-muted mb-0">{data.model}</p>
             </td>
             <td>
-              {data.status === "active" && (
+              {data.cars_status === "active" && (
                 <MDBBadge color="success" pill>
-                  {data.status}
+                  {data.cars_status}
                 </MDBBadge>
               )}
-              {data.status === "rented" && (
-                <MDBBadge color="warning" pill>
-                  {data.status}
-                </MDBBadge>
-              )}
-              {data.status === "out of service" && (
+              {data.cars_status === "out of service" && (
                 <MDBBadge color="danger" pill>
-                  {data.status}
+                  {data.cars_status}
                 </MDBBadge>
               )}
             </td>
+            {reservation && (
+              <td>
+                {(data.reservations_status === null ||
+                  data.reservations_status === "canceled") && (
+                  <MDBBadge color="success" pill>
+                    Available
+                  </MDBBadge>
+                )}
+                {((data.reservations_status = "reserved") ||
+                  (data.reservations_status = "confirmed")) && (
+                  <MDBBadge color="warning" pill>
+                    Reserved
+                  </MDBBadge>
+                )}
+              </td>
+            )}
           </tr>
         ))}
       </MDBTableBody>

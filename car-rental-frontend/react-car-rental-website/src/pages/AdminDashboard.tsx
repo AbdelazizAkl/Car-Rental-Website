@@ -68,9 +68,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
       }
     }
   }
-  useEffect(() => {
-    handleDate;
-  });
 
   const handleCarStatusClick = () => {
     setCarStatus(true);
@@ -90,6 +87,10 @@ const Dashboard: React.FC<DashboardProps> = () => {
     setDate(e.target.value);
     console.log("date changed", date);
   };
+
+  useEffect(() => {
+    handleCarStatusDateClick();
+  }, [date]);
 
   let adminInfo;
 

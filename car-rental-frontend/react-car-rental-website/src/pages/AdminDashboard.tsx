@@ -1,5 +1,6 @@
 import React from "react";
 import CarStatusTable from "../components/CarsStatusTable";
+import RevenueTable from "../components/RevenueTable";
 import "../css/AdminPage.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -19,14 +20,78 @@ const Dashboard: React.FC<DashboardProps> = () => {
     mileage: number;
     features: string;
   }
+  interface Revenue {
+    date: string;
+    revenue: string;
+  }
   const adminString = localStorage.getItem("AdminData");
   const [carStatus, setCarStatus] = useState(false);
   const [carStatusData, setCarStatusData] = useState<Car[]>([]);
-  const [date, setDate] = useState("");
+  const [carStatusDate, setCarStatusDate] = useState("");
   const [reservation, setReservation] = useState(false);
+  const [revenueState, setRevenueState] = useState(false);
+  const [revenueStartDate, setRevenueStartDate] = useState("");
+  const [revenueEndDate, setRevenueEndDate] = useState("");
+  const [revenueData, setRevenueData] = useState<Revenue[]>([]);
 
+  function getDatesBetween(startDate: Date, endDate: Date): string[] {
+    const dates = [];
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      dates.push(formattedDate);
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
+
+  async function handleRevenueDateClick() {
+    // if (revenueStartDate === "" || revenueEndDate === "") {
+    try {
+      const RStartDate = new Date(revenueStartDate as string);
+      const REndDate = new Date(revenueEndDate as string);
+      const days = getDatesBetween(RStartDate, REndDate);
+      let i;
+      const allRevenueData: Revenue[] = [];
+
+      for (i = 0; i < days.length; i++) {
+        const config = {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        };
+        await axios
+          .post(
+            "http://localhost:3000/admins/revenues",
+            { day: days[i] },
+            config
+          )
+          .then((response) => {
+            if (response.data.data) {
+              allRevenueData.push(response.data.data);
+            } else {
+              console.log(
+                "Error fetching revenue (response) :",
+                response.data.error
+              );
+            }
+          });
+      }
+      setRevenueData(allRevenueData);
+    } catch (error) {
+      console.log("Entered Period", revenueStartDate, revenueEndDate);
+      console.log("Error fetching revenue (catch) :", error);
+    }
+    // } else {
+    // }
+  }
   async function handleCarStatusDateClick() {
-    if (date === "") {
+    if (carStatusDate === "") {
       try {
         const config = {
           headers: { "Content-Type": "application/json" },
@@ -43,7 +108,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
             }
           });
       } catch (error) {
-        console.log("date", date);
+        console.log("date", carStatusDate);
         console.log("Error fetching cars status:", error);
       }
     } else {
@@ -55,7 +120,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         };
         await axios
           .post("http://localhost:3000/admins/getCarsStatus", {
-            date,
+            carStatusDate,
           })
           .then((response) => {
             if (response.data.data) {
@@ -76,26 +141,49 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   const handleCarStatusClick = () => {
     setCarStatus(true);
+    setRevenueState(false);
     handleCarStatusDateClick();
   };
   const handleReservationsClick = () => {
     setCarStatus(false);
+    setRevenueState(false);
   };
   const handleSearchClick = () => {
     setCarStatus(false);
+    setRevenueState(false);
   };
   const handleRevenueClick = () => {
     setCarStatus(false);
+    setRevenueState(true);
   };
 
-  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value);
-    console.log("date changed", date);
+  const handleCarStatusDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCarStatusDate(e.target.value);
+    console.log("date changed", carStatusDate);
+  };
+
+  const handleRevenueStartDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRevenueStartDate(e.target.value);
+    console.log("date changed", revenueStartDate);
+  };
+  const handleRevenueEndDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRevenueEndDate(e.target.value);
+    console.log("date changed", revenueEndDate);
   };
 
   useEffect(() => {
     handleCarStatusDateClick();
-  }, [date]);
+  }, [carStatusDate]);
+
+  useEffect(() => {
+    handleRevenueDateClick();
+  }, [revenueStartDate, revenueEndDate]);
 
   let adminInfo;
 
@@ -115,7 +203,11 @@ const Dashboard: React.FC<DashboardProps> = () => {
           <div className="AdminContainer">
             {carStatus && (
               <div className="tableContainer">
-                <input type="date" value={date} onChange={handleDate} />
+                <input
+                  type="date"
+                  value={carStatusDate}
+                  onChange={handleCarStatusDateChange}
+                />
 
                 {carStatus && carStatusData && (
                   <div>
@@ -125,6 +217,23 @@ const Dashboard: React.FC<DashboardProps> = () => {
                     ></CarStatusTable>
                   </div>
                 )}
+              </div>
+            )}
+            {revenueState && (
+              <div className="tableContainer">
+                Start Date:
+                <input
+                  type="date"
+                  value={revenueStartDate}
+                  onChange={handleRevenueStartDateChange}
+                />
+                End Date:
+                <input
+                  type="date"
+                  value={revenueEndDate}
+                  onChange={handleRevenueEndDateChange}
+                />
+                <RevenueTable revenueData={revenueData}></RevenueTable>
               </div>
             )}
 

@@ -83,19 +83,12 @@ router.get("/ReservationsByCar", async function (req, res) {
   }
 });
 
-router.get("/revenues", async function (req, res) {
+router.post("/revenues", async function (req, res) {
   try {
-    const reservation = await reservationsService.getRevenueByDate(
-      req.params.id
-    );
-    if (reservation) {
-      res.json(reservation);
-    } else {
-      res.status(404).json({ error: "reservation not found" });
-    }
+    await reservationsService.getRevenueByDate(req, res);
   } catch (error) {
     // Handle errors appropriately
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Failed to retrieve reservation" });
   }
 });

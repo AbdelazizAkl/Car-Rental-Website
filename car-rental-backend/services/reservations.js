@@ -53,18 +53,24 @@ async function getByCustomerID(req, res) {
   }
 }
 
-async function getRevenueByDate(startDate) {
+async function getRevenueByDate(req, res) {
+  const { day } = req.body;
   const row = await db.query(
-    `SELECT 
-    SUM(amountPaid) AS total_daily_payments
-    FROM reservations
-    WHERE startDate BETWEEN '?' AND '?'
-    GROUP BY startDate`[(startDate, startDate)]
+    `SELECT
+    COALESCE (SUM(
+        CASE
+            WHEN DATE('${day}') = reservations.ReservationDate THEN reservations.amountPaid
+            WHEN DATE('${day}') = reservations.EndDate THEN reservations.amountPaid
+            ELSE 0
+        END
+    ),0) AS DailyRevenue
+FROM
+    reservations
+WHERE
+    DATE('${day}') IN (reservations.ReservationDate, reservations.EndDate);`
   );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+  const dailyRevenue = row[0].DailyRevenue || "0.00";
+  res.json({ success: true, data: { date: day, revenue: dailyRevenue } });
 }
 
 async function getAllByDate(startDate) {

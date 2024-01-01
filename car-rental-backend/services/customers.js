@@ -101,6 +101,16 @@ async function create(req, res) {
       message: "Passwords do not match",
     });
   }
+  const pnValidation = await db.query(
+    `SELECT PassportNumber FROM customers WHERE PassportNumber = ${PassportNumber}`
+  );
+  console.log(pnValidation);
+  if (pnValidation === "") {
+    return res.json({
+      success: false,
+      message: "Passport Number Already Exists!",
+    });
+  }
   const row = await db.query("SELECT password FROM customers WHERE email = ?", [
     email,
   ]);

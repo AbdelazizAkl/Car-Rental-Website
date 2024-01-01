@@ -11,6 +11,62 @@ router.post("/login", async (req, res) => {
     console.log(error);
   }
 });
+router.post("/getById", async (req, res) => {
+  try {
+    await customersService.getById(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByFirstName", async (req, res) => {
+  try {
+    await customersService.getByFirstName(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByLastName", async (req, res) => {
+  try {
+    await customersService.getByLastName(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByEmail", async (req, res) => {
+  try {
+    await customersService.getByEmail(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByAddress", async (req, res) => {
+  try {
+    await customersService.getByAddress(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByPhone", async (req, res) => {
+  try {
+    await customersService.getByPhone(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByPassportNumber", async (req, res) => {
+  try {
+    await customersService.getByPassportNumber(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
 
 // GET a single car by ID
 router.get("/:id", async (req, res) => {

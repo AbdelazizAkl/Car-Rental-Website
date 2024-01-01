@@ -11,6 +11,87 @@ router.post("/search", async (req, res) => {
     return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });
+router.post("/getById", async (req, res) => {
+  try {
+    await carsService.getById(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.post("/getByBrand", async (req, res) => {
+  try {
+    await carsService.getByBrand(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByModel", async (req, res) => {
+  try {
+    await carsService.getByModel(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByYear", async (req, res) => {
+  try {
+    await carsService.getByYear(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByColor", async (req, res) => {
+  try {
+    await carsService.getByColor(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByPlateId", async (req, res) => {
+  try {
+    await carsService.getByPlateId(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByStatus", async (req, res) => {
+  try {
+    await carsService.getByStatus(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByOfficeId", async (req, res) => {
+  try {
+    await carsService.getByOfficeId(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByDailyPrice", async (req, res) => {
+  try {
+    await carsService.getByDailyPrice(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByWeeklyPrice", async (req, res) => {
+  try {
+    await carsService.getByWeeklyPrice(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
 
 router.get("/", async (req, res) => {
   try {

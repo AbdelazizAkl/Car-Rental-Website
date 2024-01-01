@@ -15,20 +15,203 @@ async function getAll(page = 1) {
     meta,
   };
 }
-async function getById(id) {
-  const row = await db.query(`SELECT * FROM reservations WHERE id = ?`, [id]);
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+async function getById(req, res) {
+  const { id } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE id = ?`,
+      [id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
 }
+async function getByCustomerId(req, res) {
+  const { customerId } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE customerId = ?`,
+      [customerId]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByCarId(req, res) {
+  const { carId } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE carId = ?`,
+      [carId]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByStartDate(req, res) {
+  const { startDate } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE startDate = ?`,
+      [startDate]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByReservationDate(req, res) {
+  const { ReservationDate } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE ReservationDate = ?`,
+      [ReservationDate]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByAmountPaid(req, res) {
+  const { amountPaid } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE amountPaid = ?`,
+      [amountPaid]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByTotalPrice(req, res) {
+  const { totalPrice } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE totalPrice = ?`,
+      [totalPrice]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByStatus(req, res) {
+  const { status } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE status = ?`,
+      [status]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+async function getByEndDate(req, res) {
+  const { endDate } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM reservations WHERE endDate = ?`,
+      [endDate]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "reservation not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve reservation" });
+  }
+}
+
 async function getByCustomerID(req, res) {
   const { id } = req.body;
   // console.log(req.body); // Get the customer ID from the request body
 
   try {
     const rows = await db.query(
-      `SELECT R.id, R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
+      `SELECT R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
       [id]
     );
 
@@ -46,28 +229,14 @@ async function getByCustomerID(req, res) {
 
     return res.json({ success: true, data: rows });
   } catch (error) {
-    console.log("Error fetching reservation data:", error);
+    console.error("Error fetching reservation data:", error);
     return res
       .status(500)
       .json({ success: false, error: "Internal Server Error" });
   }
 }
 
-async function getRevenueByDate(startDate) {
-  const row = await db.query(
-    `SELECT 
-    SUM(amountPaid) AS total_daily_payments
-    FROM reservations
-    WHERE startDate BETWEEN '?' AND '?'
-    GROUP BY startDate`[(startDate, startDate)]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
-}
-
-async function getAllByDate(startDate) {
+async function getAllByDate(req, res) {
   const row = await db.query(
     `SELECT *
     FROM reservations AS R
@@ -83,14 +252,12 @@ async function getAllByDate(startDate) {
   };
 }
 
-async function getAllByCarId(startDate, endDate) {
+async function getAllByCarId(req, res) {
   const rows = await db.query(
     `SELECT *
      FROM reservations AS R
      JOIN cars AS CA ON R.carId = CA.id
-     WHERE (R.startDate BETWEEN ? AND ?) OR (R.endDate BETWEEN ? AND ?);;`[
-      (startDate, startDate, startDate, startDate)
-    ]
+     WHERE R.startDate <= '?' AND R.endDate >= '?' `[(date, date)]
   );
   const data = helper.emptyOrRows(row);
   return {
@@ -98,9 +265,11 @@ async function getAllByCarId(startDate, endDate) {
   };
 }
 
-async function getReservationsByCustomer(customerId) {
-  const row = await db.query(
-    `SELECT
+async function getReservationsByCustomer(req, res) {
+  const { id } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT
     r.id AS reservation_id,
     r.carId,
     r.customerId,
@@ -121,34 +290,15 @@ async function getReservationsByCustomer(customerId) {
   JOIN customers c ON r.customerId = c.id
   JOIN cars car ON r.carId = car.id
   WHERE c.customerId = ?;`[customerId]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
-}
+    );
 
-async function advancedSearch() {
-  const row = await db.query(
-    `SELECT *
-     FROM Reservations
-     JOIN Cars ON Reservations.carId = Cars.id
-     JOIN Customers ON Reservations.customerId = Customers.id
-     WHERE
-     Cars.brand LIKE '?' OR
-     Cars.model LIKE '?' OR
-     Cars.color LIKE '?' OR
-     Cars.plateId LIKE '?' OR
-     Customers.fName LIKE '?' OR
-     Customers.lName LIKE '?' OR
-     Customers.email LIKE '?' OR
-     Reservations.startDate = '?' OR
-     Reservations.endDate = '?';`
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
 }
 
 async function create(req, res) {
@@ -236,6 +386,11 @@ async function create(req, res) {
      ("${customerId}", "${carId}", "${startDate}", "${endDate}",
      "${amountPaid}", "${totalPrice}", "${status}", "${cvc}", "${cardNumber}", "${cardOwner}")`
   );
+  await db.query(
+    `UPDATE cars
+    SET status = 'rented'
+    WHERE id = ${carId}`
+  );
   return res.json({
     success: true,
     message: "Car Successfully Reserved",
@@ -269,10 +424,17 @@ async function cancelReservation(req, res) {
 module.exports = {
   getAll,
   getById,
+  getByAmountPaid,
+  getByCarId,
+  getByCustomerId,
+  getByStartDate,
+  getByStatus,
+  getByTotalPrice,
+  getByReservationDate,
+  getByEndDate,
   getRevenueByDate,
   getAllByDate,
   getAllByCarId,
-  advancedSearch,
   getReservationsByCustomer,
   create,
   remove,

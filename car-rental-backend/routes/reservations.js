@@ -14,18 +14,113 @@ router.get("/", async (req, res) => {
 });
 
 // GET a single admin by ID
-router.get("/:id", async (req, res) => {
+
+router.post("/getById", async (req, res) => {
   try {
-    const reservation = await reservationsService.getById(req.params.id);
-    if (reservation) {
-      res.json(reservation);
-    } else {
-      res.status(404).json({ error: "reservation not found" });
-    }
+    await reservationsService.getById(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByCustomerId", async (req, res) => {
+  try {
+    await reservationsService.getByCustomerId(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByStartDate", async (req, res) => {
+  try {
+    await reservationsService.getByStartDate(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByEndDate", async (req, res) => {
+  try {
+    await reservationsService.getByEndDate(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByReservationDate", async (req, res) => {
+  try {
+    await reservationsService.getByReservationDate(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByAmountPaid", async (req, res) => {
+  try {
+    await reservationsService.getByAmountPaid(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByTotalPrice", async (req, res) => {
+  try {
+    await reservationsService.getByTotalPrice(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/getByStatus", async (req, res) => {
+  try {
+    await reservationsService.getByStatus(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.post("/getCarsStatus", async (req, res) => {
+  try {
+    await carsService.getStatus(req, res);
   } catch (error) {
     // Handle errors appropriately
-    console.error(error);
-    res.status(500).json({ error: "Failed to retrieve reservation" });
+  }
+});
+
+router.post("/getReservationsByCustomer", async (req, res) => {
+  try {
+    await reservationsService.getReservationsByCustomer(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.post("/getAllByDate", async (req, res) => {
+  try {
+    await reservationsService.getAllByDate(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.post("/getAllByCarId", async (req, res) => {
+  try {
+    await reservationsService.getAllByCarId(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+
+router.post("/getAllByCarId", async (req, res) => {
+  try {
+    await reservationsService.getAllByCarId(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });
 
@@ -39,26 +134,14 @@ router.post("/reserve", async (req, res) => {
   }
 });
 
-router.post("/getByCustomerId", async (req, res) => {
-  try {
-    await reservationsService.getByCustomerID(req, res);
-  } catch (error) {
-    console.log("Error in search route:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to retrieve reservations",
-    });
-  }
-});
-
-router.post("/cancel", async (req, res) => {
-  try {
-    await reservationsService.cancelReservation(req, res);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
-});
+router.post("/cancel"),
+  async (req, res) => {
+    try {
+      await reservationsService.cancelReservation(req.res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 // DELETE an admin
 router.delete("/:id", async (req, res) => {

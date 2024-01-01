@@ -62,11 +62,201 @@ async function getByYear(req, res) {
 }
 
 async function getById(req, res) {
+  const { id } = req.body;
   try {
     const row = await db.query(
       `SELECT *
       FROM cars WHERE id = ?`,
-      [req.params.id]
+      [id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByBrand(req, res) {
+  const { brand } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE brand = ?`,
+      [brand]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByModel(req, res) {
+  const { model } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE model = ?`,
+      [model]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByYear(req, res) {
+  const { year } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE year = ?`,
+      [year]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByColor(req, res) {
+  const { color } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE color = ?`,
+      [color]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByPlateId(req, res) {
+  const { plateId } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE plateId = ?`,
+      [plateId]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByStatus(req, res) {
+  const { status } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE status = ?`,
+      [status]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByOfficeId(req, res) {
+  const { office_id } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE office_id = ?`,
+      [office_id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByDailyPrice(req, res) {
+  const { dailyPrice } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE dailyPrice = ?`,
+      [dailyPrice]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "Car not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
+}
+async function getByWeeklyPrice(req, res) {
+  const { weeklyPrice } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM cars WHERE weeklyPrice = ?`,
+      [weeklyPrice]
     );
 
     if (!row.length) {
@@ -87,16 +277,16 @@ async function getStatus(req, res) {
     console.log(date);
     const row = await db.query(
       `SELECT
-        cars.id AS car_id,
-        cars.model,
-        cars.brand,
-        cars.status AS cars_status,
-        COALESCE(reservations.status, 'No Reservation') AS reservations_status
-      FROM
-        cars
-      LEFT JOIN
-        reservations ON cars.id = reservations.carId
-                      AND ? >= reservations.startDate
+    cars.id AS car_id,
+    cars.model,
+    cars.brand,
+    cars.status AS cars_status,
+    COALESCE(reservations.status, 'No Reservation') AS reservations_status
+  FROM
+    cars
+  LEFT JOIN
+    reservations ON cars.id = reservations.carId
+    AND ? >= reservations.startDate
                       AND ? <= reservations.endDate;`,
       [date, date]
     );
@@ -143,8 +333,16 @@ async function remove(id) {
 module.exports = {
   getAll,
   getById,
-  getStatus,
+  getByBrand,
+  getByColor,
+  getByDailyPrice,
+  getByModel,
+  getByOfficeId,
+  getByPlateId,
+  getByStatus,
   getByYear,
+  getStatus,
+  getByWeeklyPrice,
   getByFilters,
   create,
   remove,

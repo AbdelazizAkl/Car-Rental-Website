@@ -138,16 +138,152 @@ async function create(req, res) {
   });
 }
 
-async function getById(id) {
-  const row = await db.query(
-    `SELECT *
-    FROM customers WHERE id = ?`,
-    [id]
-  );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+async function getById(req, res) {
+  const { id } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE id = ?`,
+      [id]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByFirstName(req, res) {
+  const { fName } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE fName = ?`,
+      [fName]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByLastName(req, res) {
+  const { lName } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE lName = ?`,
+      [lName]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByEmail(req, res) {
+  const { email } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE email = ?`,
+      [email]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByAddress(req, res) {
+  const { address } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE address = ?`,
+      [address]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByPhone(req, res) {
+  const { phone } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE phone = ?`,
+      [phone]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
+}
+async function getByPassportNumber(req, res) {
+  const { PassportNumber } = req.body;
+  try {
+    const row = await db.query(
+      `SELECT *
+      FROM customers WHERE PassportNumber = ?`,
+      [PassportNumber]
+    );
+
+    if (!row.length) {
+      return res.json({ success: false, message: "customer not found" });
+    }
+
+    return res.json({ success: true, data: row });
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve customer" });
+  }
 }
 
 async function remove(id) {
@@ -160,6 +296,12 @@ async function remove(id) {
 module.exports = {
   getAll,
   getById,
+  getByFirstName,
+  getByLastName,
+  getByEmail,
+  getByAddress,
+  getByPhone,
+  getByPassportNumber,
   create,
   login,
   remove,

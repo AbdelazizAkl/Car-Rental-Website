@@ -81,6 +81,26 @@ async function getById(req, res) {
       .json({ success: false, message: "Failed to retrieve car" });
   }
 }
+async function getStatus(startDate) {
+  const row = await db.query(
+    `SELECT
+  cars.id AS car_id,
+  cars.model,
+  cars.brand
+  cars.status AS car_status,
+FROM
+  cars
+LEFT JOIN
+  reservations ON cars.id = reservations.carId
+  AND reservations.startDate <= '?'
+  AND reservations.endDate >= '?';
+`[startDate]
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
 
 async function create(
   model,
@@ -114,6 +134,7 @@ async function remove(id) {
 module.exports = {
   getAll,
   getById,
+  getStatus,
   getByYear,
   getByFilters,
   create,

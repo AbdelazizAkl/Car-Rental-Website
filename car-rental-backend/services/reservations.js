@@ -42,6 +42,104 @@ async function getByCustomerID(req, res) {
   }
 }
 
+async function getRevenueByDate(startDate) {
+  const row = await db.query(
+    `SELECT 
+    SUM(amountPaid) AS total_daily_payments
+    FROM reservations
+    WHERE startDate BETWEEN '?' AND '?'
+    GROUP BY startDate`[(startDate, startDate)]
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
+
+async function getAllByDate(startDate) {
+  const row = await db.query(
+    `SELECT *
+    FROM reservations AS R
+    JOIN customers AS C ON R.customerId = C.id
+    JOIN cars AS CA ON R.carId = CA.id
+    WHERE (R.startDate BETWEEN ? AND ?) OR (R.endDate BETWEEN ? AND ?);`[
+      (startDate, startDate, startDate, startDate)
+    ]
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
+
+async function getAllByCarId(startDate, endDate) {
+  const rows = await db.query(
+    `SELECT *
+     FROM reservations AS R
+     JOIN cars AS CA ON R.carId = CA.id
+     WHERE (R.startDate BETWEEN ? AND ?) OR (R.endDate BETWEEN ? AND ?);;`[
+      (startDate, startDate, startDate, startDate)
+    ]
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
+
+async function getReservationsByCustomer(customerId) {
+  const row = await db.query(
+    `SELECT
+    r.id AS reservation_id,
+    r.carId,
+    r.customerId,
+    r.startDate,
+    r.endDate,
+    r.amountPaid,
+    r.totalPrice,
+    r.status, 
+    c.fName,
+    c.lName,
+    c.email,
+    c.address,
+    c.phone,
+    c.PassportNumber,
+    car.model,
+    car.plateId
+  FROM Reservations r
+  JOIN customers c ON r.customerId = c.id
+  JOIN cars car ON r.carId = car.id
+  WHERE c.customerId = ?;`[customerId]
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
+
+async function advancedSearch() {
+  const row = await db.query(
+    `SELECT *
+     FROM Reservations
+     JOIN Cars ON Reservations.carId = Cars.id
+     JOIN Customers ON Reservations.customerId = Customers.id
+     WHERE
+     Cars.brand LIKE '?' OR
+     Cars.model LIKE '?' OR
+     Cars.color LIKE '?' OR
+     Cars.plateId LIKE '?' OR
+     Customers.fName LIKE '?' OR
+     Customers.lName LIKE '?' OR
+     Customers.email LIKE '?' OR
+     Reservations.startDate = '?' OR
+     Reservations.endDate = '?';`
+  );
+  const data = helper.emptyOrRows(row);
+  return {
+    data,
+  };
+}
+
 async function create(req, res) {
   const {
     customerId,
@@ -169,6 +267,11 @@ async function cancelReservation(req, res) {
 module.exports = {
   getAll,
   getById,
+  getRevenueByDate,
+  getAllByDate,
+  getAllByCarId,
+  advancedSearch,
+  getReservationsByCustomer,
   create,
   remove,
   getByCustomerID,

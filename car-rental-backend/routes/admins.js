@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const adminsService = require("../services/admins");
-
+const carsService = require("../services/cars");
+const reservationsService = require("../services/reservations");
 
 router.post("/login", async (req, res) => {
   try {
@@ -9,6 +10,95 @@ router.post("/login", async (req, res) => {
     await adminsService.login(req, res); // Call the login function
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.get("/getCarsStatus", async (req, res) => {
+  try {
+    const { data, meta } = await carsService.getStatus(req.query.page);
+    res.json({ data, meta });
+  } catch (error) {
+    // Handle errors appropriately
+    res.status(500).json({ error: "Failed to retrieve cars" });
+  }
+});
+
+router.get("/advancedSearch", async function (req, res) {
+  try {
+    const reservation = await reservationsService.advancedSearch(req.params.id);
+    if (reservation) {
+      res.json(reservation);
+    } else {
+      res.status(404).json({ error: "reservation not found" });
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve reservation" });
+  }
+});
+
+router.get("/getReservationsByCustomer", async function (req, res) {
+  try {
+    const reservation = await reservationsService.getReservationsByCustomer(
+      req.params.id
+    );
+    if (reservation) {
+      res.json(reservation);
+    } else {
+      res.status(404).json({ error: "reservation not found" });
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve reservation" });
+  }
+});
+
+router.get("/ReservationsByDate", async function (req, res) {
+  try {
+    const reservation = await reservationsService.getAllByDate(req.params.id);
+    if (reservation) {
+      res.json(reservation);
+    } else {
+      res.status(404).json({ error: "reservation not found" });
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve reservation" });
+  }
+});
+
+router.get("/ReservationsByCar", async function (req, res) {
+  try {
+    const reservation = await reservationsService.getAllByCarId(req.params.id);
+    if (reservation) {
+      res.json(reservation);
+    } else {
+      res.status(404).json({ error: "reservation not found" });
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve reservation" });
+  }
+});
+
+router.get("/revenues", async function (req, res) {
+  try {
+    const reservation = await reservationsService.getRevenueByDate(
+      req.params.id
+    );
+    if (reservation) {
+      res.json(reservation);
+    } else {
+      res.status(404).json({ error: "reservation not found" });
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve reservation" });
   }
 });
 

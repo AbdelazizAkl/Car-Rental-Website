@@ -3,6 +3,7 @@ import CarStatusTable from "../components/CarsStatusTable";
 import "../css/AdminPage.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import AdvancedSearchSidebar from "../components/SideBar";
 interface DashboardProps {}
 // zizo
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -24,6 +25,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [carStatusData, setCarStatusData] = useState<Car[]>([]);
   const [date, setDate] = useState("");
   const [reservation, setReservation] = useState(false);
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   async function handleCarStatusDateClick() {
     if (date === "") {
@@ -83,7 +85,9 @@ const Dashboard: React.FC<DashboardProps> = () => {
   };
   const handleSearchClick = () => {
     setCarStatus(false);
+    setShowAdvancedSearch(!showAdvancedSearch);
   };
+
   const handleRevenueClick = () => {
     setCarStatus(false);
   };
@@ -113,6 +117,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
       {adminInfo ? (
         <>
           <div className="AdminContainer">
+            {showAdvancedSearch && <AdvancedSearchSidebar />}
             {carStatus && (
               <div className="tableContainer">
                 <input type="date" value={date} onChange={handleDate} />

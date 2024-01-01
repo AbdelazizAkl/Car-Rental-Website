@@ -16,7 +16,7 @@ router.post("/login", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const customer = await customersService.getById(req.params.id);
-    if (car) {
+    if (e) {
       res.json(customer);
     } else {
       res.status(404).json({ error: "customer not found" });

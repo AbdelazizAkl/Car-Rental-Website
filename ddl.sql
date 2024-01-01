@@ -89,4 +89,4 @@ add
 
 Alter table Reservations add FOREIGN KEY (carId) REFERENCES Cars(id);
 
--- DROP DATABASE carrental_db;
+--DROP DATABASE carrental_db;

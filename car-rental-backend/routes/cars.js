@@ -23,15 +23,12 @@ router.get("/", async (req, res) => {
 });
 
 // GET a single car by ID
-router.get("/:id", async (req, res) => {
+router.post("/getById", async (req, res) => {
   try {
     await carsService.getById(req, res);
   } catch (error) {
-    // Handle errors appropriately
-    console.error("Error in route handler:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to retrieve cars" });
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });
 

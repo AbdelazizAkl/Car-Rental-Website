@@ -91,13 +91,15 @@ async function getStatus(req, res) {
         cars.model,
         cars.brand,
         cars.status AS cars_status,
-        COALESCE(reservations.status, 'No Reservation') AS reservations_status
+        COALESCE(MAX(CASE WHEN reservations.status = 'reserved' THEN 'reserved' END), 'No Reservation') AS reservations_status
       FROM
         cars
       LEFT JOIN
         reservations ON cars.id = reservations.carId
                       AND ? >= reservations.startDate
-                      AND ? <= reservations.endDate;`,
+                      AND ? <= reservations.endDate
+      GROUP BY
+      cars.id, cars.model, cars.brand, cars.status;`,
       [date, date]
     );
 

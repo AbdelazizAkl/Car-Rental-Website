@@ -4,7 +4,7 @@ import "../css/AdminPage.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 interface DashboardProps {}
-
+// zizo
 const Dashboard: React.FC<DashboardProps> = () => {
   interface Car {
     id: string;

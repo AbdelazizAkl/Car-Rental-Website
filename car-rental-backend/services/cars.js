@@ -283,12 +283,12 @@ async function getStatus(req, res) {
     cars.brand,
     cars.status AS cars_status,
     COALESCE(reservations.status, 'No Reservation') AS reservations_status
-  FROM
+    FROM
     cars
-  LEFT JOIN
+    LEFT JOIN
     reservations ON cars.id = reservations.carId
     AND ? >= reservations.startDate
-                      AND ? <= reservations.endDate;`,
+    AND ? <= reservations.endDate;`,
       [date, date]
     );
 

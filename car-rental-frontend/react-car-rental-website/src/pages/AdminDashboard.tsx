@@ -5,6 +5,7 @@ import "../css/AdminPage.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AdvancedSearchSidebar from "../components/SideBar";
+import AdminReservationsSideBar from "../components/AdminReservationsSideBar";
 interface DashboardProps {}
 // zizo
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -35,6 +36,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [revenueEndDate, setRevenueEndDate] = useState("");
   const [revenueData, setRevenueData] = useState<Revenue[]>([]);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [reservationOptionState, setReservationOptionState] = useState(false);
 
   function getDatesBetween(startDate: Date, endDate: Date): string[] {
     const dates = [];
@@ -122,7 +124,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         };
         await axios
           .post("http://localhost:3000/admins/getCarsStatus", {
-            carStatusDate,
+            date: carStatusDate,
           })
           .then((response) => {
             if (response.data.data) {
@@ -145,20 +147,28 @@ const Dashboard: React.FC<DashboardProps> = () => {
     setCarStatus(true);
     setRevenueState(false);
     handleCarStatusDateClick();
+    setShowAdvancedSearch(false);
+    setReservationOptionState(false);
   };
   const handleReservationsClick = () => {
     setCarStatus(false);
     setRevenueState(false);
+    setShowAdvancedSearch(false);
+    setReservationOptionState(true);
   };
   const handleSearchClick = () => {
     setCarStatus(false);
     setRevenueState(false);
     setShowAdvancedSearch(!showAdvancedSearch);
+    setReservationOptionState(false);
   };
 
   const handleRevenueClick = () => {
     setCarStatus(false);
     setRevenueState(true);
+    setReservationOptionState(false);
+    setShowAdvancedSearch(false);
+    setReservationOptionState(false);
   };
 
   const handleCarStatusDateChange = (
@@ -205,6 +215,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
       {adminInfo ? (
         <>
           <div className="AdminContainer">
+            {reservationOptionState && <AdminReservationsSideBar />}
             {showAdvancedSearch && <AdvancedSearchSidebar />}
             {carStatus && (
               <div className="tableContainer">

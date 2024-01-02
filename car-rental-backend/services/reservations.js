@@ -256,16 +256,54 @@ WHERE
   res.json({ success: true, data: { date: day, revenue: dailyRevenue } });
 }
 
-async function getAllByDate(startDate) {
+async function getAllByDate(req, res) {
+  const { startDate, endDate } = req.body;
   const row = await db.query(
-    `SELECT *
-    FROM reservations AS R
-    JOIN customers AS C ON R.customerId = C.id
-    JOIN cars AS CA ON R.carId = CA.id
-    WHERE (R.startDate BETWEEN ? AND ?) OR (R.endDate BETWEEN ? AND ?);`[
-      (startDate, startDate, startDate, startDate)
-    ]
+    `SELECT
+    r.id AS reservation_id,
+    r.carId,
+    r.customerId,
+    r.startDate,
+    r.endDate,
+    r.amountPaid,
+    r.totalPrice,
+    r.ReservationDate,
+    r.status, 
+    c.fName,
+    c.lName,
+    c.email,
+    c.address,
+    c.phone,
+    c.PassportNumber,
+    car.model,
+    car.brand,
+    car.year,
+    car.color,
+    car.office_id,
+    car.dailyPrice,
+    car.weeklyPrice,
+    car.mileage,
+    car.plateId
+    FROM reservations AS r
+    JOIN customers AS c ON r.customerId = c.id
+    JOIN cars AS car ON r.carId = car.id
+    WHERE (R.startDate BETWEEN DATE('${startDate}') AND DATE('${endDate}')) OR (R.endDate BETWEEN DATE('${startDate}') AND DATE('${endDate}'));`
   );
+  for (i = 0; i < row.length; i++) {
+    const dbStartString = row[i].startDate;
+    const dateObject1 = new Date(dbStartString);
+    const formattedStartDate = dateObject1.toLocaleDateString("en-US");
+    row[i].startDate = formattedStartDate;
+    const dbEndString = row[i].endDate;
+    const dateObject2 = new Date(dbEndString);
+    const formattedEndDate = dateObject2.toLocaleDateString("en-US");
+    row[i].endDate = formattedEndDate;
+    const dbReservationString = row[i].ReservationDate;
+    const dateObject3 = new Date(dbReservationString);
+    const formattedResDate = dateObject3.toLocaleDateString("en-US");
+    row[i].ReservationDate = formattedResDate;
+  }
+  console.log(row);
   const data = helper.emptyOrRows(row);
   return {
     data,
@@ -273,16 +311,45 @@ async function getAllByDate(startDate) {
 }
 
 async function getAllByCarId(req, res) {
-  const rows = await db.query(
-    `SELECT *
-     FROM reservations AS R
-     JOIN cars AS CA ON R.carId = CA.id
-     WHERE R.startDate <= '?' AND R.endDate >= '?' `[(date, date)]
+  const { startDate, endDate } = req.body;
+  const row = await db.query(
+    `SELECT r.id AS reservation_id,
+    r.carId,
+    r.customerId,
+    r.startDate,
+    r.endDate,
+    r.amountPaid,
+    r.totalPrice,
+    r.ReservationDate,
+    r.status,
+    car.model,
+    car.brand,
+    car.year,
+    car.color,
+    car.office_id,
+    car.dailyPrice,
+    car.weeklyPrice,
+    car.mileage,
+    car.plateId
+     FROM reservations AS r
+     JOIN cars AS car ON r.carId = car.id
+     WHERE (R.startDate BETWEEN DATE('${startDate}') AND DATE('${endDate}')) OR (R.endDate BETWEEN DATE('${startDate}') AND DATE('${endDate}'))`
   );
-  const data = helper.emptyOrRows(row);
-  return {
-    data,
-  };
+  for (i = 0; i < row.length; i++) {
+    const dbStartString = row[i].startDate;
+    const dateObject1 = new Date(dbStartString);
+    const formattedStartDate = dateObject1.toLocaleDateString("en-US");
+    row[i].startDate = formattedStartDate;
+    const dbEndString = row[i].endDate;
+    const dateObject2 = new Date(dbEndString);
+    const formattedEndDate = dateObject2.toLocaleDateString("en-US");
+    row[i].endDate = formattedEndDate;
+    const dbReservationString = row[i].ReservationDate;
+    const dateObject3 = new Date(dbReservationString);
+    const formattedResDate = dateObject3.toLocaleDateString("en-US");
+    row[i].ReservationDate = formattedResDate;
+  }
+  return res.json({ success: true, data: row });
 }
 
 async function getReservationsByCustomer(req, res) {
@@ -297,6 +364,7 @@ async function getReservationsByCustomer(req, res) {
     r.endDate,
     r.amountPaid,
     r.totalPrice,
+    r.ReservationDate,
     r.status, 
     c.fName,
     c.lName,
@@ -309,12 +377,12 @@ async function getReservationsByCustomer(req, res) {
   FROM Reservations r
   JOIN customers c ON r.customerId = c.id
   JOIN cars car ON r.carId = car.id
-  WHERE c.customerId = ?;`[customerId]
+  WHERE r.customerId = ${id};`
     );
 
     return res.json({ success: true, data: row });
   } catch (error) {
-    console.error("Error fetching car:", error);
+    console.log("Error fetching car:", error);
     return res
       .status(500)
       .json({ success: false, message: "Failed to retrieve car" });

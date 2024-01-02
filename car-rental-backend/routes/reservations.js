@@ -110,16 +110,7 @@ router.post("/getAllByCarId", async (req, res) => {
   try {
     await reservationsService.getAllByCarId(req, res);
   } catch (error) {
-    console.log("Error in search route:");
-    return res.json({ success: false, message: "Failed to retrieve cars" });
-  }
-});
-
-router.post("/getAllByCarId", async (req, res) => {
-  try {
-    await reservationsService.getAllByCarId(req, res);
-  } catch (error) {
-    console.log("Error in search route:");
+    console.log("Error in search route:", error);
     return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });

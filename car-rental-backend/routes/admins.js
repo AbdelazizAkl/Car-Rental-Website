@@ -36,34 +36,31 @@ router.get("/advancedSearch", async function (req, res) {
   }
 });
 
-router.get("/getReservationsByCustomer", async function (req, res) {
+router.post("/getReservationsByCustomer", async function (req, res) {
   try {
     const reservation = await reservationsService.getReservationsByCustomer(
-      req.params.id
+      req,
+      res
     );
     if (reservation) {
       res.json(reservation);
     } else {
       res.status(404).json({ error: "reservation not found" });
     }
-  } catch (error) {
-    // Handle errors appropriately
-    console.error(error);
-    res.status(500).json({ error: "Failed to retrieve reservation" });
-  }
+  } catch (error) {}
 });
 
-router.get("/ReservationsByDate", async function (req, res) {
+router.post("/ReservationsByDate", async function (req, res) {
   try {
-    const reservation = await reservationsService.getAllByDate(req.params.id);
+    const reservation = await reservationsService.getAllByDate(req, res);
     if (reservation) {
       res.json(reservation);
     } else {
-      res.status(404).json({ error: "reservation not found" });
+      res.status(400).json({ error: "reservation not found" });
     }
   } catch (error) {
     // Handle errors appropriately
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Failed to retrieve reservation" });
   }
 });

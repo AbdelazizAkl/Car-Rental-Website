@@ -128,21 +128,9 @@ router.get("/:year", async (req, res) => {
 // POST a new car
 router.post("/", async (req, res) => {
   try {
-    const car = await carsService.create(
-      req.body.model,
-      req.body.year,
-      req.body.plateId,
-      req.body.status,
-      req.body.office_id,
-      req.body.images,
-      req.body.dailyPrice,
-      req.body.weeklyPrice,
-      req.body.mileage,
-      req.body.features
-    );
-    res.status(201).json(car);
+    await carsService.create(req, res);
   } catch (error) {
-    // Handle errors appropriately
+    // Handle errors appropriatelys
     console.log(error);
     res.status(400).json({ error: "Failed to create car" });
   }

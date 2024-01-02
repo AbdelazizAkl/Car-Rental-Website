@@ -111,6 +111,81 @@
   margin-bottom: 10px;
   cursor: pointer;
 }
+.customer-search-sidebar {
+  position: fixed;
+  top: 0;
+  left: 340px; /* Adjust this value based on your main sidebar width */
+  width: 200px; /* Adjust the width as needed */
+  height: 90%;
+  background-color: #333;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  color: white;
+}
+
+.customer-search-sidebar ul {
+  list-style: circle;
+  padding: 50px;
+}
+
+.customer-search-sidebar li {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+/* Add this to your CSS file (e.g., SearchcustomersSidebar.css) */
+
+.customer-search-sidebar {
+  list-style: none;
+  padding: 0;
+}
+
+.customer-search-sidebar li {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.search-input-field {
+  position: fixed;
+  top: 0;
+  left: 540px; /* Adjust this value based on your main sidebar width */
+  width: 200px; /* Adjust the width as needed */
+  height: auto;
+  background-color: transparent;
+
+  z-index: 1000;
+  color: white;
+}
+
+.search-input-field input {
+  margin-right: 10px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.search-input-field button {
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.customersTableContainer {
+  position: fixed;
+  margin-top: 10%;
+  top: 30%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  background-color: white;
+  width: 50%;
+  min-height: 20%; /* You can adjust this value based on your design */
+  font-size: 17px;
+  font-style: italic;
+  font-family: emoji;
+  border-radius: 10px; /* Adjust the value for the desired border radius */
+}
 .car-search-sidebar {
   position: fixed;
   top: 0;
@@ -166,4 +241,23 @@
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
+}
+.carsTableContainer {
+  position: fixed;
+  margin-top: 10%;
+  top: 30%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  background-color: white;
+  width: 50%;
+  min-height: 20%; /* You can adjust this value based on your design */
+  font-size: 17px;
+  font-style: italic;
+  font-family: emoji;
+  border-radius: 10px; /* Adjust the value for the desired border radius */
 }

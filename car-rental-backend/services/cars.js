@@ -302,28 +302,36 @@ async function getStatus(req, res) {
   }
 }
 
-async function create(
-  model,
-  year,
-  plateId,
-  status,
-  office_id,
-  images,
-  dailyPrice,
-  weeklyPrice,
-  mileage,
-  features
-) {
-  // Hash the password before storing
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-  const rows = await db.query(
-    `INSERT INTO cars (model, year, plateId, status, office_id, images, dailyPrice, weeklyPrice, mileage, features) VALUES
-     ("${model}", "${year}", "${plateId}", "${status}",
-     "${office_id}", "${images}", "${dailyPrice}", "${weeklyPrice}",
+async function create(req, res) {
+  try {
+    const {
+      brand,
+      model,
+      color,
+      year,
+      plateId,
+      status,
+      office_id,
+      images,
+      dailyPrice,
+      weeklyPrice,
+      mileage,
+      features,
+    } = req.body;
+    const rows = await db.query(
+      `INSERT INTO cars (brand,model, year,color, plateId, status, office_id, images, dailyPrice, weeklyPrice, mileage, features) VALUES
+     ("${brand}","${model}", "${year}","${color}","${plateId}", "${status}",
+     "${office_id}", "${images}", "${dailyPrice}",
       "${weeklyPrice}", "${mileage}", "${features}")`
-  );
-  const data = helper.emptyOrRows(rows);
-  return data[0];
+    );
+
+    return res.json({ success: true, data: rows });
+  } catch (error) {
+    console.log("Error fetching car:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to retrieve car" });
+  }
 }
 
 async function remove(id) {

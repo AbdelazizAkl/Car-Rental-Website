@@ -90,6 +90,16 @@ async function getByStartDate(req, res) {
     if (!row.length) {
       return res.json({ success: false, message: "reservation not found" });
     }
+    for (i = 0; i < row.length; i++) {
+      const dbStartString = row[i].startDate;
+      const dateObject1 = new Date(dbStartString);
+      const formattedStartDate = dateObject1.toLocaleDateString("en-US");
+      row[i].startDate = formattedStartDate;
+      const dbEndString = row[i].endDate;
+      const dateObject2 = new Date(dbEndString);
+      const formattedEndDate = dateObject2.toLocaleDateString("en-US");
+      row[i].endDate = formattedEndDate;
+    }
 
     return res.json({ success: true, data: row });
   } catch (error) {

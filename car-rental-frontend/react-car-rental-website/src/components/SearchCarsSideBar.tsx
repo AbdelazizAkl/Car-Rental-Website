@@ -36,7 +36,6 @@ const SearchCarsSidebar: React.FC = () => {
   };
 
   async function handleSearch() {
-    // Implement your search functionality based on the selected option and its respective state
     switch (searchOption) {
       case "carId":
         console.log(carId);
@@ -52,6 +51,7 @@ const SearchCarsSidebar: React.FC = () => {
                 setCarsData(response.data.data);
                 console.log(response.data.data);
               } else {
+                setCarsData([]);
                 console.log("Error fetching cars :", response.data.error);
               }
             });
@@ -60,51 +60,206 @@ const SearchCarsSidebar: React.FC = () => {
         }
         break;
       case "carColor":
-        // Implement search by carColor
-        console.log("Searching by Car Color:", carColor);
-        // Add your specific search logic for Car Color here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByColor",
+              { color: carColor },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
+
       case "carModel":
-        // Implement search by carModel
-        console.log("Searching by Car Model:", carModel);
-        // Add your specific search logic for Car Model here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByModel",
+              { model: carModel },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "carYear":
-        // Implement search by carYear
-        console.log("Searching by Car Year:", carYear);
-        // Add your specific search logic for Car Year here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByYear",
+              { year: carYear },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "carBrand":
-        // Implement search by carBrand
-        console.log("Searching by Car Brand:", carBrand);
-        // Add your specific search logic for Car Brand here
-        break;
-      case "plateId":
-        // Implement search by plateId
-        console.log("Searching by Plate ID:", plateId);
-        // Add your specific search logic for Plate ID here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByBrand",
+              { brand: carBrand },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "dailyPrice":
-        // Implement search by dailyPrice
-        console.log("Searching by Daily Price:", dailyPrice);
-        // Add your specific search logic for Daily Price here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByDailyPrice",
+              { dailyPrice: dailyPrice },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "weeklyPrice":
-        // Implement search by weeklyPrice
-        console.log("Searching by Weekly Price:", weeklyPrice);
-        // Add your specific search logic for Weekly Price here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByWeeklyPrice",
+              { weeklyPrice: weeklyPrice },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "officeId":
-        // Implement search by officeId
-        console.log("Searching by Office ID:", officeId);
-        // Add your specific search logic for Office ID here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByOfficeId",
+              { office_id: officeId },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
       case "carStatus":
-        // Implement search by carStatus
-        console.log("Searching by Car Status:", carStatus);
-        // Add your specific search logic for Car Status here
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByStatus",
+              { status: carStatus },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
         break;
-      // Add cases for other search options as needed
       default:
         break;
     }
@@ -240,7 +395,9 @@ const SearchCarsSidebar: React.FC = () => {
 
   return (
     <>
-      {carsData && <CarsSearchTable cars={carsData}></CarsSearchTable>}
+      <div className="carsTableContainer">
+        {carsData && <CarsSearchTable cars={carsData}></CarsSearchTable>}
+      </div>
       <div className="car-search-sidebar">
         <ul>
           <li onClick={() => handleSearchOption("carId")}>Search by Car ID</li>

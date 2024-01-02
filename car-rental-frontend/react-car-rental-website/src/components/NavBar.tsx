@@ -43,10 +43,6 @@ const Navbar: React.FC<NavbarProps> = ({ home, cars }: NavbarProps) => {
           Search
         </a>
       )}
-
-      <a className="nav-link" href="/pricingPage">
-        Pricing
-      </a>
       {cars && (
         <a className="nav-link" href="#cars-section">
           Cars

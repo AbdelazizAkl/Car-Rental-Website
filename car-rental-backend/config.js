@@ -7,7 +7,7 @@ const config = {
     database: "carrental_db",
     connectTimeout: 60000,
   },
-  listPerPage: 10,
+  listPerPage: 100,
 };
 
 module.exports = config;

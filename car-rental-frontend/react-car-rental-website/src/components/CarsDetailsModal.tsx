@@ -42,9 +42,9 @@ const CarDetailsModal: React.FC<CarDetailsModalProps> = ({ car, onClose }) => {
               {car.status}
             </MDBBadge>
           )}
-          {car.status === "out of service" && (
+          {car.status === "outOfService" && (
             <MDBBadge color="danger" pill>
-              {car.status}
+              Out Of Service
             </MDBBadge>
           )}
         </h3>

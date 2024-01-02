@@ -383,6 +383,7 @@ async function getReservationsByCustomer(req, res) {
     c.phone,
     c.PassportNumber,
     car.model,
+    car.brand,
     car.plateId
   FROM Reservations r
   JOIN customers c ON r.customerId = c.id

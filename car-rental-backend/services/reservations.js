@@ -484,11 +484,6 @@ async function create(req, res) {
      ("${customerId}", "${carId}", "${startDate}", "${endDate}",
      "${amountPaid}", "${totalPrice}", "${status}", "${cvc}", "${cardNumber}", "${cardOwner}")`
   );
-  await db.query(
-    `UPDATE cars
-    SET status = 'rented'
-    WHERE id = ${carId}`
-  );
   return res.json({
     success: true,
     message: "Car Successfully Reserved",

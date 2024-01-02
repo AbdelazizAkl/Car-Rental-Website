@@ -37,12 +37,12 @@ async function getById(req, res) {
   }
 }
 async function getByCustomerId(req, res) {
-  const { customerId } = req.body;
+  const { id } = req.body;
   try {
     const row = await db.query(
       `SELECT *
       FROM reservations WHERE customerId = ?`,
-      [customerId]
+      [id]
     );
 
     if (!row.length) {
@@ -217,11 +217,11 @@ async function getByEndDate(req, res) {
 
 async function getByCustomerID(req, res) {
   const { id } = req.body;
-  // console.log(req.body); // Get the customer ID from the request body
+  // console.log(req.body);
 
   try {
     const rows = await db.query(
-      `SELECT R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, C.brand, C.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
+      `SELECT R.id, R.startDate, R.endDate, R.customerId, R.carId, R.amountPaid, R.totalPrice, R.status, c.brand, c.model FROM reservations as R JOIN cars as c on r.carId = c.id WHERE customerId = ?`,
       [id]
     );
 
@@ -434,43 +434,30 @@ async function create(req, res) {
     return res.json({ success: false, message: "Car is out of service" });
 
   const row = await db.query(
-    `SELECT * FROM cars as c JOIN reservations as r on c.id = r.carId where c.id = ${carId} AND (r.status = 'reserved' OR r.status = 'confirmed')`
+    `SELECT *
+      FROM reservations
+      WHERE carId = ? AND (
+        (? BETWEEN startDate AND endDate) OR
+        (? BETWEEN startDate AND endDate) OR
+        (? <= startDate AND ? >= endDate)
+      ) AND (status = 'reserved' OR status = 'confirmed');`,
+    [carId, startDate, endDate, startDate, endDate]
   );
-  for (i = 0; i < row.length; i++) {
-    const dbStartString = row[i].startDate;
+
+  if (row.length) {
+    const dbStartString = row[0].startDate;
     const dateObject1 = new Date(dbStartString);
     const formattedStartDate = dateObject1.toLocaleDateString("en-US");
-    console.log(formattedStartDate);
-    const dbEndString = row[i].endDate;
+    // console.log(formattedStartDate);
+    const dbEndString = row[0].endDate;
     const dateObject2 = new Date(dbEndString);
     const formattedEndDate = dateObject2.toLocaleDateString("en-US");
-    console.log(formattedEndDate);
-    const inputStartString = startDate;
-    const dateObject3 = new Date(inputStartString);
-    const formattedInputStartDate = dateObject3.toLocaleDateString("en-US");
-    console.log(formattedInputStartDate);
-    const inputEndString = endDate;
-    const dateObject4 = new Date(inputEndString);
-    const formattedInputEndDate = dateObject4.toLocaleDateString("en-US");
-    console.log(formattedInputEndDate);
-    if (
-      (formattedStartDate < formattedInputEndDate &&
-        formattedEndDate > formattedInputEndDate) ||
-      (formattedStartDate > formattedInputStartDate &&
-        formattedEndDate < formattedInputEndDate) ||
-      (formattedStartDate < formattedInputStartDate &&
-        formattedEndDate > formattedInputEndDate) ||
-      (formattedStartDate < formattedInputStartDate &&
-        formattedEndDate < formattedInputEndDate) ||
-      (formattedStartDate === formattedInputStartDate &&
-        formattedEndDate === formattedInputEndDate)
-    )
-      return res.json({
-        success: false,
-        message: `Car is Reserved from ${formattedStartDate} to ${formattedEndDate}`,
-      });
+    return res.json({
+      success: false,
+      message: `Car is Reserved from ${formattedStartDate} to ${formattedEndDate}`,
+    });
   }
-  const result = await db.query(
+  await db.query(
     `INSERT INTO reservations (customerId,
       carId,
       startDate,
@@ -498,20 +485,14 @@ async function remove(id) {
 }
 
 async function cancelReservation(req, res) {
-  const { customerId, carId, id } = req.body;
-  const q1 = await db.query(
-    `Select * From Reservations Where customerId = ${customerId} And carId = ${carId} And id = ${id} `
-  );
-  if (q1) {
-    const row = await db.query(`UPDATE Reservations
+  const { id } = req.body;
+  const row = await db.query(`UPDATE Reservations
     SET status = 'canceled'
     WHERE id = ${id};`);
-    return res.json({
-      success: true,
-      message: "Reservation Canceled successfully",
-    });
-  }
-  return res.json({ success: false, message: "Reservation Doesn't Exist" });
+  return res.json({
+    success: true,
+    message: "Reservation Canceled successfully",
+  });
 }
 
 module.exports = {

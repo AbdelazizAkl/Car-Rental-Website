@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import AdvancedSearchSidebar from "../components/SideBar";
 import AdminReservationsSideBar from "../components/AdminReservationsSideBar";
 import Button from "../components/Button";
+import Alert from "../components/Alert";
+import CarModifyModal from "../components/CarModifyModal";
+
 interface DashboardProps {}
 // zizo
 const Dashboard: React.FC<DashboardProps> = () => {
@@ -52,6 +55,10 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [createForm, setCreateForm] = useState(false);
   const [reservationOptionState, setReservationOptionState] = useState(false);
+  const [changeStateForm, setChangeStateForm] = useState(false);
+  const [alertVisible, setAlertVisibility] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isCarModifyModalOpen, setCarModifyModalOpen] = useState(false);
 
   async function registrationHandler() {
     try {
@@ -82,10 +89,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
           if (response.data.data) {
             setCreateForm(false);
           } else {
-            console.log(
-              "Error fetching revenue (response) :",
-              response.data.error
-            );
+            setAlertVisibility(true);
+            setAlertMessage(response.data.message);
           }
         });
     } catch (error) {
@@ -199,6 +204,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
     setShowAdvancedSearch(false);
     setRevenueState(false);
     setCarStatus(false);
+    setChangeStateForm(false);
     setReservationOptionState(false);
   }
   const handleCarStatusClick = () => {
@@ -207,26 +213,41 @@ const Dashboard: React.FC<DashboardProps> = () => {
     handleCarStatusDateClick();
     setShowAdvancedSearch(false);
     setReservationOptionState(false);
+    setCreateForm(false);
+    setChangeStateForm(false);
   };
   const handleReservationsClick = () => {
     setCarStatus(false);
     setRevenueState(false);
     setShowAdvancedSearch(false);
     setReservationOptionState(true);
+    setCreateForm(false);
+    setChangeStateForm(false);
   };
   const handleSearchClick = () => {
     setCarStatus(false);
     setRevenueState(false);
     setShowAdvancedSearch(!showAdvancedSearch);
     setReservationOptionState(false);
+    setCreateForm(false);
+    setChangeStateForm(false);
   };
-
   const handleRevenueClick = () => {
     setCarStatus(false);
     setRevenueState(true);
     setReservationOptionState(false);
     setShowAdvancedSearch(false);
+    setCreateForm(false);
+    setChangeStateForm(false);
+  };
+  const handleModifyClick = () => {
+    setCarStatus(false);
+    setRevenueState(false);
     setReservationOptionState(false);
+    setShowAdvancedSearch(false);
+    setCreateForm(false);
+    setChangeStateForm(true);
+    setCarModifyModalOpen(true);
   };
 
   const handleCarStatusDateChange = (
@@ -275,6 +296,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
           <div className="AdminContainer">
             {reservationOptionState && <AdminReservationsSideBar />}
             {showAdvancedSearch && <AdvancedSearchSidebar />}
+            {changeStateForm && (
+              <CarModifyModal
+                isOpen={isCarModifyModalOpen}
+                onClose={() => setCarModifyModalOpen(false)}
+              />
+            )}
             {createForm && (
               <div className="homePage">
                 <div className="RegisterContainer">
@@ -419,11 +446,11 @@ const Dashboard: React.FC<DashboardProps> = () => {
                           </div>
                           <div className="button">
                             <Button color="primary">Register</Button>
-                            {/* {alertVisible && (
-                        <Alert onClose={() => setAlertVisibility(false)}>
-                          {alertMessage}
-                        </Alert>
-                      )} */}
+                            {alertVisible && (
+                              <Alert onClose={() => setAlertVisibility(false)}>
+                                {alertMessage}
+                              </Alert>
+                            )}
                           </div>
                         </form>
 
@@ -504,6 +531,12 @@ const Dashboard: React.FC<DashboardProps> = () => {
                   <i className="fa fa-shopping-cart"></i>
                 </span>
                 <span>Add car</span>
+              </li>
+              <li onClick={handleModifyClick}>
+                <span>
+                  <i className="fa fa-shopping-cart"></i>
+                </span>
+                <span>Modify Car State</span>
               </li>
               <li>
                 <span>

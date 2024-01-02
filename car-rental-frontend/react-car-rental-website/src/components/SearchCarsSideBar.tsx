@@ -160,6 +160,31 @@ const SearchCarsSidebar: React.FC = () => {
           console.log("Error fetching cars status:", error);
         }
         break;
+      case "plateId":
+        try {
+          const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          };
+          await axios
+            .post(
+              "http://localhost:3000/cars/getByPlateId",
+              { plateId: plateId },
+              config
+            )
+            .then((response) => {
+              if (response.data.data) {
+                setCarsData(response.data.data);
+                console.log(response.data.data);
+              } else {
+                setCarsData([]);
+                console.log("Error fetching cars :", response.data.error);
+              }
+            });
+        } catch (error) {
+          console.log("Error fetching cars status:", error);
+        }
+        break;
       case "dailyPrice":
         try {
           const config = {

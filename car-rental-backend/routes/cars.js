@@ -131,8 +131,7 @@ router.post("/", async (req, res) => {
     await carsService.create(req, res);
   } catch (error) {
     // Handle errors appropriatelys
-    console.log(error);
-    res.status(400).json({ error: "Failed to create car" });
+    res.json({ success: false, message: "Failed to create car (router)" });
   }
 });
 
@@ -149,6 +148,22 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     // Handle errors appropriately
     res.status(400).json({ error: "Failed to delete car" });
+  }
+});
+router.post("/active", async (req, res) => {
+  try {
+    await carsService.setActive(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
+  }
+});
+router.post("/OutOfService", async (req, res) => {
+  try {
+    await carsService.setOutService(req, res);
+  } catch (error) {
+    console.log("Error in search route:");
+    return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });
 

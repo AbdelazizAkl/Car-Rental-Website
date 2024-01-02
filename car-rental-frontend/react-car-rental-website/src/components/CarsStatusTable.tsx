@@ -46,8 +46,8 @@ const CarStatusTable: React.FC<CarStatusTableProps> = ({
                   {data.cars_status || data.status}
                 </MDBBadge>
               )}
-              {(data.cars_status === "out of service" ||
-                data.status === "out of service") && (
+              {(data.cars_status === "outOfService" ||
+                data.status === "outOfService") && (
                 <MDBBadge color="danger" pill>
                   {data.cars_status || data.status}
                 </MDBBadge>

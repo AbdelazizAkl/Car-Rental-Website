@@ -101,11 +101,19 @@ async function create(req, res) {
       message: "Passwords do not match",
     });
   }
+  const phoneValidation = await db.query(
+    `SELECT phone FROM customers WHERE phone = ${phone}`
+  );
+  if (phoneValidation.length) {
+    return res.json({
+      success: false,
+      message: "Phone Number Already Exists!",
+    });
+  }
   const pnValidation = await db.query(
     `SELECT PassportNumber FROM customers WHERE PassportNumber = ${PassportNumber}`
   );
-  console.log(pnValidation);
-  if (pnValidation === "") {
+  if (pnValidation.length) {
     return res.json({
       success: false,
       message: "Passport Number Already Exists!",

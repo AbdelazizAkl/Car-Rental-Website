@@ -278,17 +278,20 @@ async function getStatus(req, res) {
     console.log(date);
     const row = await db.query(
       `SELECT
-    cars.id AS car_id,
-    cars.model,
-    cars.brand,
-    cars.status AS cars_status,
-    COALESCE(reservations.status, 'No Reservation') AS reservations_status
-    FROM
-    cars
-    LEFT JOIN
-    reservations ON cars.id = reservations.carId
-    AND ? >= reservations.startDate
-    AND ? <= reservations.endDate;`,
+      cars.id AS car_id,
+      cars.model,
+      cars.brand,
+      cars.status AS cars_status,
+      COALESCE(MAX(CASE WHEN reservations.status = 'reserved' THEN 'reserved' END), 'No Reservation') AS reservations_status
+  FROM
+      cars
+  LEFT JOIN
+      reservations ON cars.id = reservations.carId
+                    AND ? >= reservations.startDate
+                    AND ? <= reservations.endDate
+  GROUP BY
+      cars.id, cars.model, cars.brand, cars.status;
+  `,
       [date, date]
     );
 
@@ -318,6 +321,31 @@ async function create(req, res) {
       mileage,
       features,
     } = req.body;
+    if (
+      brand === "" ||
+      model === "" ||
+      color === "" ||
+      year === "" ||
+      plateId === "" ||
+      status === "" ||
+      office_id === "" ||
+      images === "" ||
+      dailyPrice === "" ||
+      weeklyPrice === "" ||
+      mileage === "" ||
+      features === ""
+    )
+      return res.json({ success: false, message: "Please Enter All Fields" });
+    const q1 = await db.query(`select * from cars where plateId = ${plateId}`);
+    if (q1.length) {
+      return res.json({ success: false, message: "PlateId already exists" });
+    }
+    if (!(status === "active" || status === "outOfService"))
+      return res.json({
+        success: false,
+        message: "Please enter a valid status (active / outOfService)",
+      });
+
     const rows = await db.query(
       `INSERT INTO cars (brand,model, year,color, plateId, status, office_id, images, dailyPrice, weeklyPrice, mileage, features) VALUES
      ("${brand}","${model}", "${year}","${color}","${plateId}", "${status}",
@@ -327,16 +355,32 @@ async function create(req, res) {
 
     return res.json({ success: true, data: rows });
   } catch (error) {
-    console.log("Error fetching car:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Failed to retrieve car" });
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Failed to create car (service)",
+    });
   }
 }
 
 async function remove(id) {
   const rowsDeleted = await db.query(`DELETE FROM cars WHERE id = "${id}"`);
   return rowsDeleted.affectedRows === 1; // Check if deletion occurred
+}
+
+async function setActive(req, res) {
+  const { id } = req.body;
+  await db.query(`UPDATE cars
+  SET status = 'active'
+  WHERE id = ${id} AND status = 'outOfService';`);
+  return res.json({ success: true, message: "status set as active" });
+}
+async function setOutService(req, res) {
+  const { id } = req.body;
+  await db.query(`UPDATE cars
+  SET status = 'outOfService'
+  WHERE id = ${id} AND status = 'active';`);
+  return res.json({ success: true, message: "status set as active" });
 }
 
 module.exports = {
@@ -355,4 +399,6 @@ module.exports = {
   getByFilters,
   create,
   remove,
+  setActive,
+  setOutService,
 };

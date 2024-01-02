@@ -20,6 +20,11 @@ interface ReserveCarModalProps {
   };
   onClose: () => void;
 }
+interface UserInfo {
+  id: string;
+  email: string;
+  // Add other properties as needed
+}
 
 const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
   car,
@@ -35,6 +40,15 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
   const [cvc, setCVC] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardOwner, setCardOwner] = useState("");
+  const userString = localStorage.getItem("UserData");
+
+  let userInfo: UserInfo | null = null;
+
+  if (userString !== null) {
+    userInfo = JSON.parse(userString);
+  } else {
+    console.error("userInfoString is null. Unable to parse.");
+  }
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -82,7 +96,7 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
         setAlertMessage("Card number must be a 16-digit number");
         return;
       }
-
+      const customerId = userInfo?.id;
       if (cvc.length !== 3 || !/^\d+$/.test(cvc)) {
         setAlertVisibility(true);
         setAlertMessage("CVC must be a 3-digit number");
@@ -92,11 +106,12 @@ const ReserveCarModal: React.FC<ReserveCarModalProps> = ({
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       };
-      const loginResponse = await axios
+      console.log(startDate, endDate);
+      await axios
         .post(
           "http://localhost:3000/reservations/reserve",
           {
-            customerId: 1,
+            customerId,
             carId: car.id,
             startDate,
             endDate,

@@ -225,28 +225,28 @@ const AdminReservationsSideBar: React.FC = () => {
   return (
     <>
       {searchOption === "customerId" && (
-        <div className="tableContainer">
+        <div className="reservationSeachContainer">
           <AdminReservationsTableCustomer
             specificCustomer={specificCustomer}
           ></AdminReservationsTableCustomer>
         </div>
       )}
       {searchOption === "ReservationWithPeriod" && (
-        <div className="tableContainer">
+        <div className="reservationSeachContainer">
           <AdminReservationsTableDate
             specificDate={specificDate}
           ></AdminReservationsTableDate>
         </div>
       )}
       {searchOption === "ReservationWithPeriodAndCar" && (
-        <div className="tableContainer">
+        <div className="reservationSeachContainer">
           <AdminReservationsTableCar
             specificCar={specificCar}
           ></AdminReservationsTableCar>
         </div>
       )}
 
-      <div className="advanced-search-sidebar">
+      <div className="reservation-search-sidebar">
         <ul>
           <li onClick={() => handleSearchOption("customerId")}>
             Get Reservations By Customer ID

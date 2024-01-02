@@ -18,9 +18,7 @@ const ReservationsModal: React.FC<ReservationsModalProps> = ({
   onClose,
   userId,
 }) => {
-  const [reservationData, setReservationData] = useState<Reservation[] | null>(
-    null
-  );
+  const [reservationData, setReservationData] = useState<Reservation[]>([]);
 
   useEffect(() => {
     // Fetch reservation data based on userId and update state
@@ -31,7 +29,7 @@ const ReservationsModal: React.FC<ReservationsModalProps> = ({
           withCredentials: true,
         };
         const response = await axios.post(
-          "http://localhost:3000/reservations/getByCustomerId",
+          "http://localhost:3000/reservations/getByCustomerID",
           { id: userId }, // Send the customer ID in the request body
           config
         );

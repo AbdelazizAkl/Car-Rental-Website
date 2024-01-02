@@ -30,7 +30,6 @@
   font-family: emoji;
   border-radius: 10px; /* Adjust the value for the desired border radius */
 }
-/* Add any additional styling you need */
 
 .AdminContainer .sidebar {
   position: fixed;
@@ -91,23 +90,23 @@
   padding-left: 75px;
 }
 /* Add this CSS to position the advanced search sidebar */
-.advanced-search-sidebar {
+.reservation-search-sidebar {
   position: fixed;
   top: 0;
   left: 140px; /* Adjust this value based on your main sidebar width */
   width: 200px; /* Adjust the width as needed */
-  height: 35%;
+  height: 25%;
   background-color: #f0f0f0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-.advanced-search-sidebar ul {
+.reservarion-search-sidebar ul {
   list-style: circle;
   padding: 50px;
 }
 
-.advanced-search-sidebar li {
+.reservarion-search-sidebar li {
   margin-bottom: 10px;
   cursor: pointer;
 }
@@ -260,4 +259,49 @@
   font-style: italic;
   font-family: emoji;
   border-radius: 10px; /* Adjust the value for the desired border radius */
+}
+.reservationSeachContainer {
+  position: fixed;
+  margin-top: 10%;
+  top: 20%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  background-color: white;
+  width: 90%;
+  min-height: 20%; /* You can adjust this value based on your design */
+  font-size: 17px;
+  font-style: italic;
+  font-family: emoji;
+  border-radius: 10px; /* Adjust the value for the desired border radius */
+}
+.advanced-search-sidebar {
+  position: fixed;
+  top: 0;
+  left: 140px; /* Adjust this value based on your main sidebar width */
+  width: 200px; /* Adjust the width as needed */
+  height: 35%;
+  background-color: #f0f0f0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.advanced-search-sidebar ul {
+  list-style: circle;
+  padding: 50px;
+}
+
+.advanced-search-sidebar li {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.adminRegisterContainer {
+  margin-left: 10%;
+  margin-right: 10%;
+  min-height: 30vh !important;
 }

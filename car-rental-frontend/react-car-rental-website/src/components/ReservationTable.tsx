@@ -18,11 +18,6 @@ const ReservationsTable: React.FC<ReservationsTableProps> = ({
   const [reservationsState, setReservations] = useState(reservations);
   const handleCancelReservation = async (index: number) => {
     try {
-      // Assuming reservationsState is a state variable
-      const updatedReservations = [...reservationsState];
-
-      // Update the status of the reservation to "canceled"
-
       const config = {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -31,22 +26,20 @@ const ReservationsTable: React.FC<ReservationsTableProps> = ({
         .post(
           "http://localhost:3000/reservations/cancel",
           {
-            customerId: updatedReservations[index].customerId,
-            carId: updatedReservations[index].carId,
-            id: updatedReservations[index].id, // Pass any necessary data for your API request
+            id: reservations[index].id, // Pass any necessary data for your API request
           },
           config
         )
         .then((response) => {
           if (response.data.success) {
-            updatedReservations[index].status = "canceled";
-            setReservations(updatedReservations);
+            reservations[index].status = "canceled";
+            setReservations(reservations);
           }
         });
 
       // Update the state to reflect the changes
     } catch (error) {
-      console.log("Error cancelling reservation:", error);
+      console.log("Error cancelling reservation: ", error);
       // Handle errors appropriately, e.g., show an error message to the user
     }
   };

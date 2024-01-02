@@ -23,9 +23,9 @@ router.post("/getById", async (req, res) => {
     return res.json({ success: false, message: "Failed to retrieve cars" });
   }
 });
-router.post("/getByCustomerId", async (req, res) => {
+router.post("/getByCustomerID", async (req, res) => {
   try {
-    await reservationsService.getByCustomerId(req, res);
+    await reservationsService.getByCustomerID(req, res);
   } catch (error) {
     console.log("Error in search route:");
     return res.json({ success: false, message: "Failed to retrieve cars" });
@@ -125,14 +125,13 @@ router.post("/reserve", async (req, res) => {
   }
 });
 
-router.post("/cancel"),
-  async (req, res) => {
-    try {
-      await reservationsService.cancelReservation(req.res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+router.post("/cancel", async (req, res) => {
+  try {
+    await reservationsService.cancelReservation(req, res);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // DELETE an admin
 router.delete("/:id", async (req, res) => {
